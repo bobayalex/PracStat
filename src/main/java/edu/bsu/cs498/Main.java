@@ -1,8 +1,5 @@
 package edu.bsu.cs498;
 
-import edu.cmu.sphinx.api.Configuration;
-import edu.cmu.sphinx.api.LiveSpeechRecognizer;
-import edu.cmu.sphinx.api.SpeechResult;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,9 +10,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        String fxmlPath = "/fxml/startPage.fxml";
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+        primaryStage.setTitle("PracStat");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
