@@ -1,4 +1,4 @@
-package sample;
+package edu.bsu.cs498;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,9 +10,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        String fxmlPath = "/fxml/startPage.fxml";
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+        primaryStage.setTitle("PracStat");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
@@ -21,3 +23,5 @@ public class Main extends Application {
         launch(args);
     }
 }
+
+
