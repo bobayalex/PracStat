@@ -1,0 +1,6 @@
+.separator *.line {
+    -fx-border-style: solid;
+    -fx-padding: 0 -50 0 0;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: black;
+}
