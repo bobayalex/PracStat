@@ -8,20 +8,23 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.StartPageController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.121"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.StartPageController">
     <columnConstraints>
-        <ColumnConstraints />
+        <ColumnConstraints/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints />
-        <RowConstraints />
+        <RowConstraints/>
+        <RowConstraints/>
     </rowConstraints>
     <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" GridPane.rowIndex="1">
-        <Button fx:id="startButton" layoutX="653.0" layoutY="424.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="195.0" text="Start">
+        <Button fx:id="startButton" layoutX="653.0" layoutY="424.0" mnemonicParsing="false" prefHeight="61.0"
+                prefWidth="195.0" text="Start">
             <font>
-                <Font name="System Bold" size="35.0" />
+                <Font name="System Bold" size="35.0"/>
             </font>
         </Button>
-      <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="200.0" layoutX="650.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="200.0" layoutX="650.0" layoutY="200.0"
+                   pickOnBounds="true" preserveRatio="true"/>
     </AnchorPane>
 </GridPane>
