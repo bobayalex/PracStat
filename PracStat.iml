@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -14,5 +14,24 @@
     <orderEntry type="library" name="Maven: edu.cmu.sphinx:sphinx4-core:5prealpha-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-math3:3.2" level="project" />
     <orderEntry type="library" name="Maven: edu.cmu.sphinx:sphinx4-data:5prealpha-SNAPSHOT" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/src/main/resources/libraries/sphinx4-core-5prealpha-20160628.232526-10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/src/main/resources/libraries/sphinx4-data-5prealpha-20160628.232535-10.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="jar://$MODULE_DIR$/src/main/resources/libraries/sphinx4-data-5prealpha-20160628.232535-10.jar!/" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
