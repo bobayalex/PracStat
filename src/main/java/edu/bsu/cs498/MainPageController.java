@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,10 @@ public class MainPageController implements Initializable {
 
     private void printNodeFromGridPane(){
         Spinner<?> spinner = getSpinner(0,1);
-        int foo = (Integer) spinner.getValue();
+        int foo = -1;
+        if (spinner != null) {
+            foo = (Integer) spinner.getValue();
+        }
         System.out.println("Value is " + foo);
     }
 
