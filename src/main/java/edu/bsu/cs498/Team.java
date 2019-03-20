@@ -1,17 +1,15 @@
 package edu.bsu.cs498;
 
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Team {
     private String teamName;
-    private int numberOfPlayers;
-    private ArrayList<Player> playerList = new ArrayList<Player>();
+    private ObservableList<Player> playerList = FXCollections.observableArrayList();
+    private XMLFileReader reader = new XMLFileReader();
 
-    private void addTeam(){
-
-    }
-
-    private void addPlayer(String playerName, int playerNumber, String position){
+    private void addPlayer(String playerName, String playerNumber, String position){
         Player newPlayer = new Player(playerName, playerNumber, position);
         playerList.add(newPlayer);
     }
@@ -25,19 +23,21 @@ public class Team {
     }
 
     public String getTeamInfo(){
-        return ("Team Name: " + teamName + "\n" + "Number of Players: " + numberOfPlayers);
+        return ("Team Name: " + teamName + "\n");
     }
 
     public void getTeamStats(){
 
     }
 
-    private ArrayList<Player> getPlayers(){
+    private ObservableList<Player> getPlayers(){
         return playerList;
     }
 
-    public Team(String teamName, int numberOfPlayers) {
+    public Team(String teamName, ObservableList<Player> playerList) {
         this.teamName = teamName;
-        this.numberOfPlayers = numberOfPlayers;
+        this.playerList = playerList;
+        reader.addTeam(teamName, playerList);
+
     }
 }
