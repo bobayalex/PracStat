@@ -6,8 +6,15 @@ import javafx.scene.Node;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
+
+import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -20,6 +27,17 @@ public class MainPageController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 //        setUpMenuBar();
         setUpGridPane();
+        writeFile();
+    }
+
+    private void writeFile() {
+        List<String> lines = Arrays.asList("The first line", "The second line");
+        Path file = Paths.get("the-file-name.txt");
+        try {
+            Files.write(file, lines, Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void printSpinnerVals() {
