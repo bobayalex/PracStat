@@ -55,7 +55,7 @@ public class StartPageController implements Initializable {
         if(!isConfigured){
             return "/fxml/newTeam.fxml";
         }
-        return "/fxml/newTeam.fxml";
+        return "/fxml/newPractice.fxml";
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {

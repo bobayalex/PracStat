@@ -1,5 +1,6 @@
 package edu.bsu.cs498;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,13 +19,13 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 class XMLFileReader {
     private URL url = getClass().getResource("/config/config.xml");
     private File configFile = new File(url.getPath());
     private DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     private Document doc;
-
     XMLFileReader(){
         parseFile();
     }
@@ -43,7 +44,7 @@ class XMLFileReader {
         return teams.getLength() > 0;
     }
 
-    private String printXML() {
+    public String printXML() {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -71,9 +72,11 @@ class XMLFileReader {
             Node playerNameNode = doc.createElement("Name");
             Node playerNumberNode = doc.createElement("Number");
             Node playerPositionNode = doc.createElement("Position");
+            Node playerStatisticsNode = doc.createElement("PlayerStatistics");
             playerNode.appendChild(playerNameNode);
             playerNode.appendChild(playerNumberNode);
             playerNode.appendChild(playerPositionNode);
+            playerNode.appendChild(playerStatisticsNode);
             playerNameNode.appendChild(doc.createTextNode(currentPlayer.getPlayerName()));
             playerNumberNode.appendChild(doc.createTextNode(currentPlayer.getPlayerNumber()));
             playerPositionNode.appendChild(doc.createTextNode(currentPlayer.getPlayerPosition()));
@@ -85,6 +88,19 @@ class XMLFileReader {
         System.out.println(printXML());
         updateXML(doc);
     }
+
+    public ObservableList<String> getAllTeams(){
+        ObservableList<String> teamList = FXCollections.observableArrayList();;
+        NodeList teams = doc.getElementsByTagName("TeamName");
+        for (int i = 0; i < teams.getLength(); i++) {
+            Node currentTeam = teams.item(i);
+            String teamName = currentTeam.getTextContent();
+            teamList.add(teamName);
+            }
+        return teamList;
+    }
+
+
 
     public void updateXML(Document doc){
         try{

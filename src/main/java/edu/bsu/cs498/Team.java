@@ -1,12 +1,11 @@
 package edu.bsu.cs498;
 
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Team {
     private String teamName;
-    private ObservableList<Player> playerList = FXCollections.observableArrayList();
+    private ObservableList<Player> playerList;
     private XMLFileReader reader = new XMLFileReader();
 
     private void addPlayer(String playerName, String playerNumber, String position){
@@ -30,7 +29,7 @@ public class Team {
 
     }
 
-    private ObservableList<Player> getPlayers(){
+    public ObservableList<Player> getPlayers(){
         return playerList;
     }
 
@@ -38,6 +37,6 @@ public class Team {
         this.teamName = teamName;
         this.playerList = playerList;
         reader.addTeam(teamName, playerList);
-
+        System.out.println(reader.isConfigured());
     }
 }
