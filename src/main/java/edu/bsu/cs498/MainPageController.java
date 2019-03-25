@@ -1,77 +1,96 @@
 package edu.bsu.cs498;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
+import org.w3c.dom.Document;
 
-import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainPageController implements Initializable {
-    @FXML private MenuBar menuBar;
-    @FXML private GridPane statGrid;
-    @FXML private List<Spinner<Integer>> statSpinners = new ArrayList<>();
+    @FXML
+    private MenuBar menuBar;
+    @FXML
+    private GridPane statGrid;
+    @FXML
+    private List<Spinner<Integer>> statSpinners = new ArrayList<>();
+    @FXML
+    private Button testBtn;
+    private XMLFileHandler handler = new XMLFileHandler();
+    private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
+    private HashMap<Integer,String> spinnerIDs = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //        setUpMenuBar();
+        initializeHashMap();
+        setButtonActions();
         setUpGridPane();
-        writeFile();
     }
 
-    private void writeFile() {
-        List<String> lines = Arrays.asList("The first line", "The second line");
-        Path file = Paths.get("the-file-name.txt");
-        try {
-            Files.write(file, lines, Charset.forName("UTF-8"));
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    private void initializeHashMap() {
+        for (int i = 0; i < statNames.size(); i++){
+            spinnerIDs.put(i, statNames.get(i));
         }
     }
 
+    private void setButtonActions() {
+        setTestButtonAction();
+    }
+
+    private void setTestButtonAction() {
+        testBtn.setOnAction(this::testButtonAction);
+    }
+
+    private void testButtonAction(ActionEvent event) {
+        getPlayerStats();
+    }
+
+    private void getPlayerStats() {
+        Document doc = handler.getDoc();
+        int numStats = statNames.size();
+        int playerIndex = 0;
+        for (int i = playerIndex; i < numStats; i++) {
+            String idName = spinnerIDs.get(i);
+            int statValue = getSpinner(0, i).getValue();
+            //System.out.println(idName + ": " + Integer.toString(statValue));
+        }
+    }
+
+    private void updateFile(Document doc) {
+        handler.updateXML(doc);
+    }
+
     private void printSpinnerVals() {
-        for (Spinner<Integer> spinner: statSpinners) {
+        for (Spinner<Integer> spinner : statSpinners) {
             System.out.println("Value is " + spinner.getValue());
         }
     }
 
-    private void printNodeFromGridPane(){
-        Spinner<?> spinner = getSpinner(0,1);
-        int foo = -1;
-        if (spinner != null) {
-            foo = (Integer) spinner.getValue();
-        }
-        System.out.println("Value is " + foo);
-    }
-
     private void setUpGridPane() {
-        for(int i = 0; i < 12; i++){
-            for(int j = 0; j < 16; j++){
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 16; j++) {
                 Spinner<Integer> spinner = new Spinner<>(0, 10000, 0, 1);
                 spinner.setPrefWidth(100);
                 spinner.setPrefHeight(30);
                 statSpinners.add(spinner);
-                statGrid.add(spinner,i,j);
+                statGrid.add(spinner, i, j);
             }
         }
 
     }
 
-    private Spinner<Integer> getSpinner(int row, int col){
-        for(Node child: statGrid.getChildren()){
-            if(GridPane.getColumnIndex(child) != null && GridPane.getRowIndex(child) != null && GridPane.getColumnIndex(child) == col && GridPane.getRowIndex(child) == row){
-                return (Spinner<Integer>)child;
+    private Spinner<Integer> getSpinner(int row, int col) {
+        for (Node child : statGrid.getChildren()) {
+            if (GridPane.getColumnIndex(child) != null && GridPane.getRowIndex(child) != null && GridPane.getColumnIndex(child) == col && GridPane.getRowIndex(child) == row) {
+                return (Spinner<Integer>) child;
             }
         }
         return null;

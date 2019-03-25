@@ -22,8 +22,8 @@ public class StartPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        XMLFileReader reader = new XMLFileReader();
-        isConfigured = reader.isConfigured();
+        XMLFileHandler handler = new XMLFileHandler();
+        isConfigured = handler.isConfigured();
         loadImage();
         setButtonActions();
     }
