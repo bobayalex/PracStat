@@ -6,25 +6,43 @@ import model.SpeechRecognizerMain;
 public class Controller {
 
     private boolean firstRun = true;
-    private boolean recognitionStarted = false;
     private SpeechRecognizerMain mySpeechRecognizer;
 
     @FXML
     private void handleButtonAction() {
-        // button was clicked.. do something
-        if(firstRun = true) {
+        if(firstRun) {
             mySpeechRecognizer = new SpeechRecognizerMain();
             mySpeechRecognizer.SpeechRecognizerMain();
             firstRun = false;
-            recognitionStarted = true;
         }
-        else if(firstRun = false) {
-            if(recognitionStarted = true) {
+        else if(!firstRun) {
+            if(!mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
                 mySpeechRecognizer.ignoreSpeechRecognitionResults();
+                System.out.println("ignoring speech recognition results");
             }
-            else if(recognitionStarted = false) {
+            else if(mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
                 mySpeechRecognizer.stopIgnoreSpeechRecognitionResults();
+                System.out.println("listening to speech recognition results");
             }
         }
+    }
+
+    @FXML
+    private void handleSpeechRecOnBtn() {
+        if(firstRun) {
+            mySpeechRecognizer = new SpeechRecognizerMain();
+            mySpeechRecognizer.SpeechRecognizerMain();
+            firstRun = false;
+        }
+        else if(!firstRun) {
+            mySpeechRecognizer.stopIgnoreSpeechRecognitionResults();
+            System.out.println("listening to speech recognition results");
+        }
+    }
+
+    @FXML
+    private void handleSpeechRecOffBtn() {
+        mySpeechRecognizer.ignoreSpeechRecognitionResults();
+        System.out.println("ignoring speech recognition results");
     }
 }
