@@ -23,6 +23,7 @@ public class MainPageController implements Initializable {
     @FXML
     private Button testBtn;
     private XMLFileHandler handler = new XMLFileHandler();
+    private List<String> players = new ArrayList<>();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
     private HashMap<Integer,String> spinnerIDs = new HashMap<>();
 
@@ -32,7 +33,12 @@ public class MainPageController implements Initializable {
         initializeHashMap();
         setButtonActions();
         setUpGridPane();
+//        readConfigData();
     }
+
+//    private void readConfigData() {
+//
+//    }
 
 
     private void initializeHashMap() {
@@ -54,7 +60,6 @@ public class MainPageController implements Initializable {
     }
 
     private void getPlayerStats() {
-        Document doc = handler.getDoc();
         int numStats = statNames.size();
         int playerIndex = 0;
         for (int i = playerIndex; i < numStats; i++) {

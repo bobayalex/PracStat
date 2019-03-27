@@ -30,7 +30,7 @@
     <Label layoutX="211.0" layoutY="69.0" text="Practice Name + Date" />
     <Label layoutX="25.0" layoutY="118.0" prefHeight="17.0" prefWidth="71.0" text="Player Num" />
     <Rectangle arcHeight="5.0" arcWidth="5.0" height="96.0" layoutX="408.0" layoutY="30.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
-    <GridPane gridLinesVisible="true" layoutX="16.0" layoutY="151.0" prefWidth="200.0">
+    <GridPane gridLinesVisible="true" layoutX="14.0" layoutY="135.0" prefWidth="200.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -55,7 +55,7 @@
         </rowConstraints>
     </GridPane>
     <Label layoutX="129.0" layoutY="118.0" prefHeight="17.0" prefWidth="71.0" text="Player Name" />
-    <GridPane fx:id="statGrid" gridLinesVisible="true" layoutX="434.0" layoutY="124.0" prefHeight="535.0" prefWidth="854.0">
+    <GridPane fx:id="statGrid" gridLinesVisible="true" layoutX="435.0" layoutY="126.0" prefHeight="535.0" prefWidth="854.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
