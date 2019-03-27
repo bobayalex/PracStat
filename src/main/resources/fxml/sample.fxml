@@ -19,6 +19,7 @@
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
+      <RowConstraints />
    </rowConstraints>
    <children>
       <Button fx:id="speechRecBtn" mnemonicParsing="false" onAction="#handleButtonAction" text="Click to Start Speech Recognition" GridPane.rowIndex="4" />
@@ -33,5 +34,6 @@
          </toggleGroup>
       </RadioButton>
       <Label text="Speech Recognition:" />
+      <Label fx:id="statusLabel" GridPane.rowIndex="5" />
    </children>
 </GridPane>
