@@ -19,6 +19,7 @@ public class Controller {
             mySpeechRecognizer.SpeechRecognizerMain();
             firstRun = false;
             speechRecBtn.setStyle("-fx-background-color: Green");
+            speechRecBtn.setText("Speech Recognition");
         }
         else if(!firstRun) {
             if(!mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
