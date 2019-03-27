@@ -21,7 +21,7 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <Button fx:id="speechRecBtn" mnemonicParsing="false" onAction="#handleButtonAction" text="Start Speech Recognition" GridPane.rowIndex="4" />
+      <Button fx:id="speechRecBtn" mnemonicParsing="false" onAction="#handleButtonAction" text="Speech Recognition" GridPane.rowIndex="4" />
       <RadioButton fx:id="speechRecONBtn" mnemonicParsing="false" onAction="#handleSpeechRecOnBtn" text="ON" GridPane.halignment="LEFT" GridPane.rowIndex="1">
          <toggleGroup>
              <ToggleGroup fx:id="group" />
