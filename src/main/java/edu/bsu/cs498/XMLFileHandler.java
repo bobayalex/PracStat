@@ -67,6 +67,26 @@ class XMLFileHandler {
         return players;
     }
 
+    private List<Player> getPlayersByTeam(){
+        List<Player> players = new ArrayList<>();
+        String name;
+        int number;
+        Node statNode;
+        List<String> stats;
+        NodeList playerNodes = doc.getElementsByTagName("Player");
+        for(int i = 0; i < playerNodes.getLength(); i++){
+            Node playerNode = playerNodes.item(i);
+            NodeList childNodes = playerNode.getChildNodes();
+            name = getChildElement(childNodes, "PlayerName").getTextContent();
+            number = Integer.parseInt(getChildElement(childNodes, "PlayerNumber").getTextContent());
+            statNode = getChildElement(childNodes, "PlayerStats");
+            stats = getPlayerStatList(statNode);
+            players.add(new Player(name, number, stats));
+        }
+        System.out.println(players.size());
+        return players;
+    }
+
     private List<String> getPlayerStatList(Node statNode){
         NodeList playerStats = statNode.getChildNodes();
         List<String> stats = new ArrayList<>();
@@ -87,7 +107,7 @@ class XMLFileHandler {
     }
 
     void test(){
-        getPlayers();
+        getPlayersByTeam();
     }
 
     //////////
