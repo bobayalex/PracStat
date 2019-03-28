@@ -29,7 +29,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/sample.fxml"));
         primaryStage.setTitle("PracStat Speech Recognizer");
-        primaryStage.setScene(new Scene(root, 575, 500));
+        primaryStage.setScene(new Scene(root, 500, 250));
         primaryStage.show();
 
 
