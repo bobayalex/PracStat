@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,18 +21,25 @@ public class Controller {
     @FXML Label statusLabel;
 
     @FXML
-    private void handleButtonAction(){
+    private void handleButtonAction() {
         Media sound = new Media(new File(soundFile).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
         if(firstRun) {
             statusLabel.setText("Loading Speech Recognizer...");
-            mySpeechRecognizer = new SpeechRecognizerMain();
-            mySpeechRecognizer.SpeechRecognizerMain();
-            firstRun = false;
-            speechRecBtn.setStyle("-fx-background-color: Green");
-            speechRecBtn.setText("Speech Recognition");
-            statusLabel.setText("You can start to speak...");
-            mediaPlayer.play();
+
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    mySpeechRecognizer = new SpeechRecognizerMain();
+                    mySpeechRecognizer.SpeechRecognizerMain();
+                    firstRun = false;
+                    speechRecBtn.setStyle("-fx-background-color: Green");
+                    speechRecBtn.setText("Speech Recognition");
+                    statusLabel.setText("You can start to speak...");
+                    mediaPlayer.play();
+                }
+            });
+
         }
         else if(!firstRun) {
             if(!mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
