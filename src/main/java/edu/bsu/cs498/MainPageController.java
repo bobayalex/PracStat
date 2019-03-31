@@ -56,10 +56,10 @@ public class MainPageController implements Initializable {
     }
 
     private void testButtonAction(ActionEvent event) {
-        getPlayerStats();
+        getSpinnerValues();
     }
 
-    private void getPlayerStats() {
+    private void getSpinnerValues() {
         int numStats = statNames.size();
         int playerIndex = 0;
         for (int i = playerIndex; i < numStats; i++) {

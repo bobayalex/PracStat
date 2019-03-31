@@ -73,6 +73,7 @@ class XMLFileHandler {
         int number;
         Node statNode;
         List<String> stats;
+        NodeList teamNodes = doc.getElementsByTagName("Team");
         NodeList playerNodes = doc.getElementsByTagName("Player");
         for(int i = 0; i < playerNodes.getLength(); i++){
             Node playerNode = playerNodes.item(i);
@@ -83,7 +84,7 @@ class XMLFileHandler {
             stats = getPlayerStatList(statNode);
             players.add(new Player(name, number, stats));
         }
-        System.out.println(players.size());
+        System.out.println(teamNodes.getLength());
         return players;
     }
 
