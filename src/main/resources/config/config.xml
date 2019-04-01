@@ -42,4 +42,46 @@
             <BallHandlingErrors>12</BallHandlingErrors>
         </TeamStats>
     </Team>
+    <Team>
+        <TeamName>Team 2</TeamName>
+        <Practices>
+            <Practice>
+                <PracticeName>Practice 1</PracticeName>
+                <Players>
+                    <Player>
+                        <PlayerName>Mr. Foo</PlayerName>
+                        <PlayerNumber>5</PlayerNumber>
+                        <PlayerStats>
+                            <Kills>1</Kills>
+                            <Errors>2</Errors>
+                            <TotalAttempts>3</TotalAttempts>
+                            <Assists>4</Assists>
+                            <ServiceAces>5</ServiceAces>
+                            <ServiceErrors>6</ServiceErrors>
+                            <ReceptionErrors>7</ReceptionErrors>
+                            <Digs>8</Digs>
+                            <SoloBlocks>9</SoloBlocks>
+                            <BlockAssists>10</BlockAssists>
+                            <BlockingErrors>11</BlockingErrors>
+                            <BallHandlingErrors>12</BallHandlingErrors>
+                        </PlayerStats>
+                    </Player>
+                </Players>
+            </Practice>
+        </Practices>
+        <TeamStats>
+            <Kills>1</Kills>
+            <Errors>2</Errors>
+            <TotalAttempts>3</TotalAttempts>
+            <Assists>4</Assists>
+            <ServiceAces>5</ServiceAces>
+            <ServiceErrors>6</ServiceErrors>
+            <ReceptionErrors>7</ReceptionErrors>
+            <Digs>8</Digs>
+            <SoloBlocks>9</SoloBlocks>
+            <BlockAssists>10</BlockAssists>
+            <BlockingErrors>11</BlockingErrors>
+            <BallHandlingErrors>12</BallHandlingErrors>
+        </TeamStats>
+    </Team>
 </Data>

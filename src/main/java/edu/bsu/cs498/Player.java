@@ -5,9 +5,9 @@ import java.util.List;
 public class Player {
     private String name;
     private int number;
-    private List<String> stats;
+    private List<Integer> stats;
 
-    public Player(String pName, int pNumber, List<String> pStats){
+    public Player(String pName, int pNumber, List<Integer> pStats){
         name = pName;
         number = pNumber;
         stats = pStats;
@@ -21,7 +21,7 @@ public class Player {
         return number;
     }
 
-    public List<String> getStats(){
+    public List<Integer> getStats(){
         return stats;
     }
 }

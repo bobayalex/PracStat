@@ -47,68 +47,110 @@ class XMLFileHandler {
         return doc;
     }
 
-    private List<Player> getPlayers(){
+    private List<Player> getPlayersByTeam(String teamName, String practiceName){
         List<Player> players = new ArrayList<>();
-        String name;
-        int number;
-        Node statNode;
-        List<String> stats;
-        NodeList playerNodes = doc.getElementsByTagName("Player");
-        for(int i = 0; i < playerNodes.getLength(); i++){
-            Node playerNode = playerNodes.item(i);
-            NodeList childNodes = playerNode.getChildNodes();
-            name = getChildElement(childNodes, "PlayerName").getTextContent();
-            number = Integer.parseInt(getChildElement(childNodes, "PlayerNumber").getTextContent());
-            statNode = getChildElement(childNodes, "PlayerStats");
-            stats = getPlayerStatList(statNode);
-            players.add(new Player(name, number, stats));
+        List<Node> elements = getNodeList();
+        Node playersNode = getPlayersNode(elements, teamName, practiceName);
+        NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
+
+        for(int i = 0; i < playerList.getLength(); i++){
+            Node currentNode = playerList.item(i);
+            if(currentNode.getNodeType() == Node.ELEMENT_NODE){ // elements = players
+                addPlayer(currentNode, players);
+            }
         }
-        System.out.println(players.size());
         return players;
     }
 
-    private List<Player> getPlayersByTeam(){
-        List<Player> players = new ArrayList<>();
-        String name;
-        int number;
-        Node statNode;
-        List<String> stats;
-        NodeList teamNodes = doc.getElementsByTagName("Team");
-        NodeList playerNodes = doc.getElementsByTagName("Player");
-        for(int i = 0; i < playerNodes.getLength(); i++){
-            Node playerNode = playerNodes.item(i);
-            NodeList childNodes = playerNode.getChildNodes();
-            name = getChildElement(childNodes, "PlayerName").getTextContent();
-            number = Integer.parseInt(getChildElement(childNodes, "PlayerNumber").getTextContent());
-            statNode = getChildElement(childNodes, "PlayerStats");
-            stats = getPlayerStatList(statNode);
-            players.add(new Player(name, number, stats));
+    private void addPlayer(Node playerNode, List<Player> players) {
+        NodeList children = playerNode.getChildNodes();
+        String name = "";
+        int number = -1;
+        List<Integer> stats = new ArrayList<>();
+        for(int i = 0; i < children.getLength(); i++){
+            Node currentNode = children.item(i);
+            if(currentNode.getNodeName().equals("PlayerName")){
+                name = currentNode.getTextContent();
+            }
+            if(currentNode.getNodeName().equals("PlayerNumber")){
+                number = Integer.parseInt(currentNode.getTextContent());
+            }
+            if(currentNode.getNodeName().equals("PlayerStats")){
+                stats = getStatsFromNode(currentNode);
+            }
         }
-        System.out.println(teamNodes.getLength());
-        return players;
+        players.add(new Player(name, number, stats));
     }
 
-    private List<String> getPlayerStatList(Node statNode){
-        NodeList playerStats = statNode.getChildNodes();
-        List<String> stats = new ArrayList<>();
-        for(int i = 0; i < playerStats.getLength(); i++){
-            if(playerStats.item(i).getNodeType() == Node.ELEMENT_NODE){
-                stats.add(playerStats.item(i).getTextContent());            }
+    private List<Integer> getStatsFromNode(Node statsNode){
+        List<Integer> stats = new ArrayList<>();
+        NodeList children = statsNode.getChildNodes();
+        for(int i = 0; i < children.getLength(); i++){
+            Node currentNode = children.item(i);
+            if(currentNode.getNodeType() == Node.ELEMENT_NODE){
+                stats.add(Integer.parseInt(currentNode.getTextContent()));
+            }
         }
         return stats;
     }
 
-    private Node getChildElement(NodeList childNodes, String childElementName) {
-        for(int i = 0; i < childNodes.getLength(); i++){
-            if(childNodes.item(i).getNodeName().equals(childElementName)){
-                return childNodes.item(i);
+    private void printNodes(NodeList children) {
+        for(int i = 0; i < children.getLength(); i++){
+            System.out.println(children.item(i).getNodeName());
+        }
+    }
+
+    private Node getPlayersNode(List<Node> elements, String teamName, String practiceName) {
+        Node currentNode = null;
+        for (int i = 0; i < elements.size(); i++) {
+            currentNode = elements.get(i);
+            if(currentNode.getTextContent().equals(teamName)){
+                currentNode = elements.get(i+3);
+                if(currentNode.getTextContent().equals(practiceName)){
+                    currentNode = elements.get(i+4); // players element
+                    return currentNode;
+                }
             }
         }
-        return null;
+        return currentNode;
+    }
+
+    private List<Node> getNodeList(){
+        Node node = doc.getDocumentElement();
+        List<Node> nodes = new ArrayList<>();
+        return getAllNodes(node, nodes);
+    }
+
+    private List<Node> getAllNodes(Node node, List<Node> nodes){
+        nodes.add(node);
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node currentNode = nodeList.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                getAllNodes(currentNode, nodes);
+            }
+        }
+        return nodes;
     }
 
     void test(){
-        getPlayersByTeam();
+        List<Player> players = getPlayersByTeam("Team 1", "Practice 1");
+        printPlayers(players);
+    }
+
+    private void printPlayers(List<Player> players) {
+        for (Player player:players) {
+            System.out.println(player.getName());
+            System.out.println(player.getNumber());
+            printStats(player.getStats());
+        }
+    }
+
+    private void printStats(List<Integer> stats) {
+        System.out.println("Stats:");
+        for (int stat:stats) {
+            System.out.println(stat);
+        }
     }
 
     //////////
