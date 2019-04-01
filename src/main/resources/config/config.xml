@@ -7,7 +7,7 @@
                 <PracticeName>Practice 1</PracticeName>
                 <Players>
                     <Player>
-                        <PlayerName>Mr. Foo</PlayerName>
+                        <PlayerName>Foo</PlayerName>
                         <PlayerNumber>5</PlayerNumber>
                         <PlayerStats>
                             <Kills>1</Kills>
@@ -49,7 +49,7 @@
                 <PracticeName>Practice 1</PracticeName>
                 <Players>
                     <Player>
-                        <PlayerName>Mr. Foo</PlayerName>
+                        <PlayerName>Test</PlayerName>
                         <PlayerNumber>5</PlayerNumber>
                         <PlayerStats>
                             <Kills>1</Kills>
