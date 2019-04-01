@@ -1,7 +1,6 @@
 package edu.bsu.cs498;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -9,12 +8,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -154,53 +149,53 @@ class XMLFileHandler {
     }
 
     //////////
-    private String printXML() {
-        try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            StreamResult result = new StreamResult(new StringWriter());
-            DOMSource source = new DOMSource(doc);
-            transformer.transform(source, result);
-            String xmlString = result.getWriter().toString();
-            return xmlString;
-        } catch (TransformerException e) {
-            System.out.println("Error");
-        }
-        return "Error";
-    }
-
-    public void addTeam(String teamName) {
-        Element root = doc.getDocumentElement();
-        Element elementRoot = doc.createElement("Team");
-        Node teamNameNode = doc.createElement("TeamName");
-        teamNameNode.appendChild(doc.createTextNode(teamName));
-        elementRoot.appendChild(teamNameNode);
-        Node playerNode = doc.createElement("Player");
-        Node playerNameNode = doc.createElement("Name");
-        Node playerNumberNode = doc.createElement("Number");
-        Node playerPositionNode = doc.createElement("Position");
-        playerNode.appendChild(playerNameNode);
-        playerNode.appendChild(playerNumberNode);
-        playerNode.appendChild(playerPositionNode);
-        elementRoot.appendChild(playerNode);
-
-        Node statisticsNode = doc.createElement("Statistics");
-        elementRoot.appendChild(statisticsNode);
-        root.appendChild(elementRoot);
-        //System.out.println(printXML());
-        updateXML(doc);
-    }
-
-    public void updateXML(Document doc) {
-        try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            Result output = new StreamResult(configFile);
-            Source input = new DOMSource(doc);
-            transformer.transform(input, output);
-        } catch (TransformerException e) {
-            System.out.println("Error");
-        }
-
-    }
+//    private String printXML() {
+//        try {
+//            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+//            StreamResult result = new StreamResult(new StringWriter());
+//            DOMSource source = new DOMSource(doc);
+//            transformer.transform(source, result);
+//            String xmlString = result.getWriter().toString();
+//            return xmlString;
+//        } catch (TransformerException e) {
+//            System.out.println("Error");
+//        }
+//        return "Error";
+//    }
+//
+//    public void addTeam(String teamName) {
+//        Element root = doc.getDocumentElement();
+//        Element elementRoot = doc.createElement("Team");
+//        Node teamNameNode = doc.createElement("TeamName");
+//        teamNameNode.appendChild(doc.createTextNode(teamName));
+//        elementRoot.appendChild(teamNameNode);
+//        Node playerNode = doc.createElement("Player");
+//        Node playerNameNode = doc.createElement("Name");
+//        Node playerNumberNode = doc.createElement("Number");
+//        Node playerPositionNode = doc.createElement("Position");
+//        playerNode.appendChild(playerNameNode);
+//        playerNode.appendChild(playerNumberNode);
+//        playerNode.appendChild(playerPositionNode);
+//        elementRoot.appendChild(playerNode);
+//
+//        Node statisticsNode = doc.createElement("Statistics");
+//        elementRoot.appendChild(statisticsNode);
+//        root.appendChild(elementRoot);
+//        //System.out.println(printXML());
+//        updateXML(doc);
+//    }
+//
+//    public void updateXML(Document doc) {
+//        try {
+//            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+//            Result output = new StreamResult(configFile);
+//            Source input = new DOMSource(doc);
+//            transformer.transform(input, output);
+//        } catch (TransformerException e) {
+//            System.out.println("Error");
+//        }
+//
+//    }
 }

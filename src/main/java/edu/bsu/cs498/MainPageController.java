@@ -69,9 +69,9 @@ public class MainPageController implements Initializable {
         }
     }
 
-    private void updateFile(Document doc) {
-        handler.updateXML(doc);
-    }
+//    private void updateFile(Document doc) {
+//        handler.updateXML(doc);
+//    }
 
     private void printSpinnerVals() {
         for (Spinner<Integer> spinner : statSpinners) {
