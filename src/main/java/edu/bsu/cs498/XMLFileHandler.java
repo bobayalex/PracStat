@@ -42,7 +42,7 @@ class XMLFileHandler {
         return doc;
     }
 
-    private List<Player> getPlayersByTeam(String teamName, String practiceName){
+    List<Player> getPlayersByTeam(String teamName, String practiceName){
         List<Player> players = new ArrayList<>();
         List<Node> elements = getNodeList();
         Node playersNode = getPlayersNode(elements, teamName, practiceName);

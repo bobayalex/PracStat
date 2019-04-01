@@ -10,9 +10,9 @@
                         <PlayerName>Foo</PlayerName>
                         <PlayerNumber>5</PlayerNumber>
                         <PlayerStats>
-                            <Kills>1</Kills>
-                            <Errors>2</Errors>
-                            <TotalAttempts>3</TotalAttempts>
+                            <Kills>3</Kills>
+                            <Errors>3</Errors>
+                            <TotalAttempts>15</TotalAttempts>
                             <Assists>4</Assists>
                             <ServiceAces>5</ServiceAces>
                             <ServiceErrors>6</ServiceErrors>

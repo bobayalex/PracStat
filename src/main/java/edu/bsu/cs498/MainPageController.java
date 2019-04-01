@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
-import org.w3c.dom.Document;
 
 import java.net.URL;
 import java.util.*;
@@ -56,17 +55,36 @@ public class MainPageController implements Initializable {
     }
 
     private void testButtonAction(ActionEvent event) {
-        getSpinnerValues();
+        generateCSVFile();
     }
 
-    private void getSpinnerValues() {
+    List<Integer> getSpinnerValues() {
+        List<Integer> spinnerVals = new ArrayList<>();
         int numStats = statNames.size();
-        int playerIndex = 0;
-        for (int i = playerIndex; i < numStats; i++) {
-            String idName = spinnerIDs.get(i);
-            int statValue = getSpinner(0, i).getValue();
-            //System.out.println(idName + ": " + Integer.toString(statValue));
+        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        int numPlayers = players.size();
+        for (int i = 0; i < numPlayers; i++) {
+            for(int j = 0; j < numStats; j++){
+                String idName = spinnerIDs.get(j);
+                int statValue = getSpinner(i, j).getValue();
+                spinnerVals.add(statValue);
+//                System.out.println(idName + ": " + Integer.toString(statValue));
+            }
+//            System.out.println("------------------");
         }
+        return spinnerVals;
+    }
+
+    private void generateCSVFile(){
+        List<Integer> spinnerVals = getSpinnerValues();
+        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");
+        // statNames
+        String teamName = "Team 1";
+        String practiceName = "Practice 1";
+
+        CSVFileMaker csvFileMaker = new CSVFileMaker(spinnerVals, players, statNames, teamName, practiceName);
+        //csvFileMaker.generateCSVFile();
+        csvFileMaker.calculatePCT(players.get(0));
     }
 
 //    private void updateFile(Document doc) {
