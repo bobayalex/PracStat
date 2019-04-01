@@ -7,10 +7,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -18,8 +18,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 class XMLFileReader {
     private URL url = getClass().getResource("/config/config.xml");
@@ -69,6 +67,7 @@ class XMLFileReader {
         for (int i=0; i<playerList.size(); i++){
             Player currentPlayer = playerList.get(i);
             Node playerNode = doc.createElement("Player");
+            ((Element) playerNode).setAttribute("id", teamName);
             Node playerNameNode = doc.createElement("Name");
             Node playerNumberNode = doc.createElement("Number");
             Node playerPositionNode = doc.createElement("Position");
@@ -100,7 +99,28 @@ class XMLFileReader {
         return teamList;
     }
 
+    public ObservableList<String> getTeamPlayers(String teamName){
+        ObservableList<String> playerList = FXCollections.observableArrayList();
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        NodeList teamNode = null;
 
+        try{XPathExpression expr = xPath.compile("//*[@id='" + teamName + "']");
+            Object result = expr.evaluate(doc, XPathConstants.NODESET);
+            teamNode = (NodeList) result;
+        }
+        catch (XPathExpressionException e){ }
+
+        for (int i = 0; i < teamNode.getLength(); i++) {
+            Node currentPlayerNode = teamNode.item(i);
+            NodeList currentPlayerInfo = currentPlayerNode.getChildNodes();
+            String playerName = currentPlayerInfo.item(0).getTextContent();
+            String playerNumber = currentPlayerInfo.item(1).getTextContent();
+            String playerPosition = currentPlayerInfo.item(2).getTextContent();
+            String playerInfo = playerName + "," + playerNumber + "," + playerPosition;
+            playerList.add(playerInfo);
+        }
+        return playerList;
+    }
 
     public void updateXML(Document doc){
         try{

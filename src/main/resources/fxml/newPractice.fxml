@@ -22,7 +22,7 @@
         </Label>
         <Button layoutX="701.0" layoutY="894.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="200.0" text="Create Practice" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="700.0" AnchorPane.topAnchor="894.0" />
         <TextArea fx:id="output" editable="false" layoutX="601.0" layoutY="789.0" prefHeight="85.0" prefWidth="200.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="789.0" />
-        <TableView fx:id="playerTable" layoutX="600.0" layoutY="362.0" prefHeight="350.0" prefWidth="400.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0">
+        <TableView fx:id="playerTable" layoutX="600.0" layoutY="362.0" prefHeight="350.0" prefWidth="400.0" tableMenuButtonVisible="true" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0">
             <columns>
                 <TableColumn fx:id="nameColumn" prefWidth="135.0" text="Name" />
                 <TableColumn fx:id="numberColumn" minWidth="0.0" prefWidth="117.0" text="Number" />
