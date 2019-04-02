@@ -10,14 +10,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        String fxmlPath = "/fxml/newPractice.fxml";
+        String fxmlPath = "/fxml/startPage.fxml";
         Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         primaryStage.setTitle("PracStat");
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);

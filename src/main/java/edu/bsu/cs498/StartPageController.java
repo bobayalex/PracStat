@@ -22,7 +22,7 @@ public class StartPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        XMLFileReader reader = new XMLFileReader();
+        XMLFileHandler reader = new XMLFileHandler();
         isConfigured = reader.isConfigured();
         loadImage();
         setButtonActions();
@@ -55,7 +55,7 @@ public class StartPageController implements Initializable {
         if(!isConfigured){
             return "/fxml/newTeam.fxml";
         }
-        return "/fxml/newPractice.fxml";
+        return "/fxml/menuPage.fxml";
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {

@@ -19,12 +19,12 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 
-class XMLFileReader {
+class XMLFileHandler {
     private URL url = getClass().getResource("/config/config.xml");
     private File configFile = new File(url.getPath());
     private DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     private Document doc;
-    XMLFileReader(){
+    XMLFileHandler(){
         parseFile();
     }
 
@@ -65,27 +65,31 @@ class XMLFileReader {
         teamNameNode.appendChild(doc.createTextNode(teamName));
         elementRoot.appendChild(teamNameNode);
         for (int i=0; i<playerList.size(); i++){
-            Player currentPlayer = playerList.get(i);
-            Node playerNode = doc.createElement("Player");
-            ((Element) playerNode).setAttribute("id", teamName);
-            Node playerNameNode = doc.createElement("Name");
-            Node playerNumberNode = doc.createElement("Number");
-            Node playerPositionNode = doc.createElement("Position");
-            Node playerStatisticsNode = doc.createElement("PlayerStatistics");
-            playerNode.appendChild(playerNameNode);
-            playerNode.appendChild(playerNumberNode);
-            playerNode.appendChild(playerPositionNode);
-            playerNode.appendChild(playerStatisticsNode);
-            playerNameNode.appendChild(doc.createTextNode(currentPlayer.getPlayerName()));
-            playerNumberNode.appendChild(doc.createTextNode(currentPlayer.getPlayerNumber()));
-            playerPositionNode.appendChild(doc.createTextNode(currentPlayer.getPlayerPosition()));
-            elementRoot.appendChild(playerNode);
+            addPlayer(elementRoot, teamName, playerList.get(i));
         }
         Node statisticsNode = doc.createElement("Statistics");
         elementRoot.appendChild(statisticsNode);
         root.appendChild(elementRoot);
         System.out.println(printXML());
         updateXML(doc);
+    }
+
+    public Node addPlayer(Node teamNode, String teamName, Player player){
+        Node playerNode = doc.createElement("Player");
+        ((Element) playerNode).setAttribute("id", teamName);
+        Node playerNameNode = doc.createElement("Name");
+        Node playerNumberNode = doc.createElement("Number");
+        Node playerPositionNode = doc.createElement("Position");
+        Node playerStatisticsNode = doc.createElement("PlayerStatistics");
+        playerNode.appendChild(playerNameNode);
+        playerNode.appendChild(playerNumberNode);
+        playerNode.appendChild(playerPositionNode);
+        playerNode.appendChild(playerStatisticsNode);
+        playerNameNode.appendChild(doc.createTextNode(player.getPlayerName()));
+        playerNumberNode.appendChild(doc.createTextNode(player.getPlayerNumber()));
+        playerPositionNode.appendChild(doc.createTextNode(player.getPlayerPosition()));
+        teamNode.appendChild(playerNode);
+        return teamNode;
     }
 
     public ObservableList<String> getAllTeams(){
@@ -103,23 +107,25 @@ class XMLFileReader {
         ObservableList<String> playerList = FXCollections.observableArrayList();
         XPath xPath = XPathFactory.newInstance().newXPath();
         NodeList teamNode = null;
-
         try{XPathExpression expr = xPath.compile("//*[@id='" + teamName + "']");
             Object result = expr.evaluate(doc, XPathConstants.NODESET);
             teamNode = (NodeList) result;
         }
         catch (XPathExpressionException e){ }
-
         for (int i = 0; i < teamNode.getLength(); i++) {
             Node currentPlayerNode = teamNode.item(i);
             NodeList currentPlayerInfo = currentPlayerNode.getChildNodes();
-            String playerName = currentPlayerInfo.item(0).getTextContent();
-            String playerNumber = currentPlayerInfo.item(1).getTextContent();
-            String playerPosition = currentPlayerInfo.item(2).getTextContent();
+            String playerName = currentPlayerInfo.item(1).getTextContent();
+            String playerNumber = currentPlayerInfo.item(3).getTextContent();
+            String playerPosition = currentPlayerInfo.item(5).getTextContent();
             String playerInfo = playerName + "," + playerNumber + "," + playerPosition;
             playerList.add(playerInfo);
         }
         return playerList;
+    }
+
+    public void editPlayer(String playerName){
+
     }
 
     public void updateXML(Document doc){

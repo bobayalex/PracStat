@@ -1,11 +1,18 @@
 package edu.bsu.cs498;
 
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class NewTeamController {
     private ObservableList<Player> playerList = FXCollections.observableArrayList();
@@ -14,6 +21,8 @@ public class NewTeamController {
     @FXML private TextField playerNameInput;
     @FXML private TextField playerNumberInput;
     @FXML private TextArea output;
+    @FXML private Button mainMenuButton;
+    @FXML private Button createTeamButton;
     @FXML private ComboBox positionOptions;
     @FXML private TableView<Player> playerTable;
     @FXML private TableColumn<Player, String> nameColumn;
@@ -21,6 +30,7 @@ public class NewTeamController {
     @FXML private TableColumn<Player, String> positionColumn;
 
     public void initialize(){
+        setButtonActions();
         nameColumn.setCellValueFactory(new PropertyValueFactory("playerName"));
         numberColumn.setCellValueFactory(new PropertyValueFactory("playerNumber"));
         positionColumn.setCellValueFactory(new PropertyValueFactory("playerPosition"));
@@ -39,10 +49,10 @@ public class NewTeamController {
         }
     }
 
-    public void createTeam(){
+    public void createTeamButtonAction(ActionEvent event){
         if (teamInfoEntered() == true){
             Team newTeam = new Team(teamNameInput.getText(), playerList);
-            output.setText(newTeam.getTeamInfo());
+            output.setText(newTeam.getTeamName() + " has been created.");
 
         } else {
             output.setText("Error Adding Team");
@@ -63,6 +73,21 @@ public class NewTeamController {
 
     public ObservableList<Player> getPlayerList(){
         return playerList;
+    }
+
+    private void setButtonActions() {
+        mainMenuButton.setOnAction(this::mainMenuButtonAction);
+        createTeamButton.setOnAction(this::createTeamButtonAction);
+    }
+
+    private void mainMenuButtonAction(ActionEvent event) {
+        try {
+            Parent updatedRoot = FXMLLoader.load(getClass().getResource("/fxml/menuPage.fxml"));
+            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            currentStage.getScene().setRoot(updatedRoot);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

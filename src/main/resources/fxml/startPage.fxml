@@ -16,12 +16,12 @@
         <RowConstraints />
         <RowConstraints />
     </rowConstraints>
-    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1500.0" style="-fx-background-color: dimgray;" GridPane.rowIndex="1">
-        <Button fx:id="startButton" layoutX="653.0" layoutY="424.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="195.0" text="Start">
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: dimgray;" GridPane.rowIndex="1">
+        <Button fx:id="startButton" layoutX="748.0" layoutY="424.0" mnemonicParsing="false" prefHeight="75.0" prefWidth="272.0" text="Start" AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="800.0">
             <font>
                 <Font name="System Bold" size="35.0" />
             </font>
         </Button>
-        <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="200.0" layoutX="650.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="320.0" layoutX="800.0" layoutY="200.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="865.0" AnchorPane.rightAnchor="865.0" />
     </AnchorPane>
 </GridPane>
