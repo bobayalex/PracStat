@@ -42,7 +42,7 @@ public class NewPracticeController {
 
     public void loadPlayerTable(){
         playerObjectList.clear();
-        playerStringList = reader.getTeamPlayers(teamOptionsSelection.getValue().toString());
+        playerStringList = reader.getAllPlayersString(teamOptionsSelection.getValue().toString());
         ListIterator<String> teamIterator = playerStringList.listIterator();
         while (teamIterator.hasNext()){
             playerInfo = teamIterator.next().split(",");

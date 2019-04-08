@@ -24,7 +24,7 @@
     </rowConstraints>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: dimgray;" GridPane.rowIndex="1">
       <children>
-         <ComboBox fx:id="teamOptionsSelection" layoutX="500.0" layoutY="172.0" onAction="#loadPlayerTable" prefHeight="31.0" prefWidth="515.0" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="700.0" AnchorPane.topAnchor="170.0" />
+         <ComboBox fx:id="teamOptions" layoutX="500.0" layoutY="172.0" onAction="#loadPlayerTable" prefHeight="31.0" prefWidth="515.0" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="700.0" AnchorPane.topAnchor="170.0" />
          <Label alignment="CENTER" layoutY="34.0" text="Edit Team" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
             <font>
                <Font name="System Bold" size="35.0" />
@@ -40,7 +40,7 @@
                <Font size="22.0" />
             </font>
          </Label>
-         <ComboBox fx:id="playerSelection" layoutX="220.0" layoutY="270.0" onAction="#loadPlayerTable" prefHeight="31.0" prefWidth="515.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="1180.0" AnchorPane.topAnchor="270.0" />
+         <ComboBox fx:id="playerSelection" layoutX="220.0" layoutY="270.0" onAction="#selectPlayerToEdit" prefHeight="31.0" prefWidth="515.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="1180.0" AnchorPane.topAnchor="270.0" />
          <Label alignment="CENTER" layoutX="10.0" layoutY="235.0" text="New Information" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="960.0" AnchorPane.topAnchor="330.0">
             <font>
                <Font name="System Bold" size="22.0" />
@@ -74,7 +74,7 @@
                </FXCollections>
             </items>
          </ComboBox>
-         <Button fx:id="submitEditButton" layoutX="270.0" layoutY="615.0" mnemonicParsing="false" text="Submit Edit" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="1230.0" AnchorPane.topAnchor="620.0" />
+         <Button fx:id="submitEditButton" layoutX="270.0" layoutY="615.0" mnemonicParsing="false" onAction="#editPlayer" text="Submit Edit" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="1230.0" AnchorPane.topAnchor="620.0" />
          <Button fx:id="mainMenuButton" layoutX="760.0" layoutY="665.0" mnemonicParsing="false" text="Main Menu" AnchorPane.leftAnchor="760.0" AnchorPane.rightAnchor="760.0" AnchorPane.topAnchor="800.0" />
          <TableView fx:id="playerTable" layoutX="-460.0" layoutY="41.0" prefHeight="200.0" prefWidth="747.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="1000.0" AnchorPane.rightAnchor="270.0" AnchorPane.topAnchor="230.0">
             <columns>
@@ -88,12 +88,12 @@
                <Font size="22.0" />
             </font>
          </Label>
-         <Button fx:id="addPlayerButton" layoutX="432.0" layoutY="688.0" mnemonicParsing="false" text="Add as New Player" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="1230.0" AnchorPane.topAnchor="700.0" />
+         <Button fx:id="addPlayerButton" layoutX="432.0" layoutY="688.0" mnemonicParsing="false" onAction="#addNewPlayer" text="Add as New Player" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="1230.0" AnchorPane.topAnchor="700.0" />
          <Label alignment="CENTER" layoutX="10.0" layoutY="670.0" text="OR" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="960.0" AnchorPane.topAnchor="740.0">
             <font>
                <Font size="22.0" />
             </font>
          </Label>
-         <Button fx:id="deletePlayerButton" layoutX="280.0" layoutY="710.0" mnemonicParsing="false" text="Delete Player" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="1230.0" AnchorPane.topAnchor="780.0" />
+         <Button fx:id="deletePlayerButton" layoutX="280.0" layoutY="710.0" mnemonicParsing="false" onAction="#deletePlayer" text="Delete Player" AnchorPane.leftAnchor="270.0" AnchorPane.rightAnchor="1230.0" AnchorPane.topAnchor="780.0" />
       </children></AnchorPane>
 </GridPane>

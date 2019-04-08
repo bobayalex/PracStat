@@ -2,10 +2,7 @@ package edu.bsu.cs498;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -65,7 +62,7 @@ class XMLFileHandler {
         teamNameNode.appendChild(doc.createTextNode(teamName));
         elementRoot.appendChild(teamNameNode);
         for (int i=0; i<playerList.size(); i++){
-            addPlayer(elementRoot, teamName, playerList.get(i));
+            addPlayer(teamName, playerList.get(i));
         }
         Node statisticsNode = doc.createElement("Statistics");
         elementRoot.appendChild(statisticsNode);
@@ -74,7 +71,8 @@ class XMLFileHandler {
         updateXML(doc);
     }
 
-    public Node addPlayer(Node teamNode, String teamName, Player player){
+    public Node addPlayer(String teamName, Player player){
+        Node teamNode = getTeamNode(teamName);
         Node playerNode = doc.createElement("Player");
         ((Element) playerNode).setAttribute("id", teamName);
         Node playerNameNode = doc.createElement("Name");
@@ -89,7 +87,34 @@ class XMLFileHandler {
         playerNumberNode.appendChild(doc.createTextNode(player.getPlayerNumber()));
         playerPositionNode.appendChild(doc.createTextNode(player.getPlayerPosition()));
         teamNode.appendChild(playerNode);
+        updateXML(doc);
         return teamNode;
+    }
+
+    public void editPlayer(String oldName, String newName, String newNumber, String newPosition){
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        Node selectedPlayer = null;
+        Node selectedName;
+        try{XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + oldName + "')]]");
+            Object result = expr.evaluate(doc, XPathConstants.NODE);
+            selectedName = (Node) result;
+            selectedPlayer = selectedName.getParentNode();
+        }catch (XPathExpressionException e){}
+        NodeList playerInfo = selectedPlayer.getChildNodes();
+        for (int i = 0; i < playerInfo.getLength(); i++){
+            Node node = playerInfo.item(i);
+            if ("Name".equals(node.getNodeName())){node.setTextContent(newName);}
+            if ("Number".equals(node.getNodeName())){node.setTextContent(newNumber);}
+            if ("Position".equals(node.getNodeName())){node.setTextContent(newPosition);}
+        }
+        System.out.println(playerInfo.getLength());
+        updateXML(doc);
+    }
+
+    public void deletePlayer(String playerName){
+        Node selectedPlayer = getIndividualPlayerNode(playerName);
+        selectedPlayer.getParentNode().removeChild(selectedPlayer);
+        updateXML(doc);
     }
 
     public ObservableList<String> getAllTeams(){
@@ -103,29 +128,59 @@ class XMLFileHandler {
         return teamList;
     }
 
-    public ObservableList<String> getTeamPlayers(String teamName){
-        ObservableList<String> playerList = FXCollections.observableArrayList();
+    public Node getTeamNode(String teamName){
+        Node teamNode = null;
+        Node teamNameNode;
         XPath xPath = XPathFactory.newInstance().newXPath();
-        NodeList teamNode = null;
+        try{XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + teamName + "')]]");
+            Object result = expr.evaluate(doc, XPathConstants.NODE);
+            teamNameNode = (Node) result;
+            teamNode = teamNameNode.getParentNode();
+        }catch (XPathExpressionException e){}
+        return teamNode;
+    }
+
+    public NodeList getAllPlayerNodes(String teamName){
+        NodeList playerNodes = null;
+        XPath xPath = XPathFactory.newInstance().newXPath();
         try{XPathExpression expr = xPath.compile("//*[@id='" + teamName + "']");
             Object result = expr.evaluate(doc, XPathConstants.NODESET);
-            teamNode = (NodeList) result;
-        }
-        catch (XPathExpressionException e){ }
-        for (int i = 0; i < teamNode.getLength(); i++) {
-            Node currentPlayerNode = teamNode.item(i);
+            playerNodes = (NodeList) result;
+        }catch (XPathExpressionException e){ }
+        return playerNodes;
+    }
+
+    public Node getIndividualPlayerNode(String playerName){
+        Node playerNode = null;
+        Node playerNameNode;
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        try{XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + playerName + "')]]");
+            Object result = expr.evaluate(doc, XPathConstants.NODE);
+            playerNameNode = (Node) result;
+            playerNode = playerNameNode.getParentNode();
+        }catch (XPathExpressionException e){}
+        return playerNode;
+    }
+
+    public ObservableList<String> getAllPlayersString(String teamName){
+        String playerName = "";
+        String playerNumber = "";
+        String playerPosition = "";
+        ObservableList<String> playerList = FXCollections.observableArrayList();
+        NodeList playerNodes = getAllPlayerNodes(teamName);
+        for (int i = 0; i < playerNodes.getLength(); i++) {
+            Node currentPlayerNode = playerNodes.item(i);
             NodeList currentPlayerInfo = currentPlayerNode.getChildNodes();
-            String playerName = currentPlayerInfo.item(1).getTextContent();
-            String playerNumber = currentPlayerInfo.item(3).getTextContent();
-            String playerPosition = currentPlayerInfo.item(5).getTextContent();
+            for (int j = 0; j < currentPlayerInfo.getLength(); j++){
+                Node node = currentPlayerInfo.item(j);
+                if ("Name".equals(node.getNodeName())){playerName = node.getTextContent();}
+                if ("Number".equals(node.getNodeName())){playerNumber = node.getTextContent();}
+                if ("Position".equals(node.getNodeName())){playerPosition = node.getTextContent();}
+            }
             String playerInfo = playerName + "," + playerNumber + "," + playerPosition;
             playerList.add(playerInfo);
         }
         return playerList;
-    }
-
-    public void editPlayer(String playerName){
-
     }
 
     public void updateXML(Document doc){

@@ -85,9 +85,7 @@ public class NewTeamController {
             Parent updatedRoot = FXMLLoader.load(getClass().getResource("/fxml/menuPage.fxml"));
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             currentStage.getScene().setRoot(updatedRoot);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {e.printStackTrace();}
     }
 
 }
