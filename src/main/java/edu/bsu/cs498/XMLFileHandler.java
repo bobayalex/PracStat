@@ -161,7 +161,7 @@ class XMLFileHandler {
             currentNode = elements.get(i);
             if (currentNode.getTextContent().equals(teamName)) {
                 currentNode = currentNode.getNextSibling();
-                while (!(currentNode.getNodeName().equals("TeamStats"))){
+                while (!(currentNode.getNodeName().equals("TeamStats"))) {
                     currentNode = currentNode.getNextSibling();
                 }
                 return currentNode;
@@ -170,7 +170,26 @@ class XMLFileHandler {
         return currentNode;
     }
 
-    //////////
+    void updatePlayerStats(List<Integer> spinnerVals, String teamName, String practiceName) {
+        // each player should have 12 stats, process spinnerVals 12 elements at a time
+
+        List<Node> elements = getNodeList();
+        Node playersNode = getPlayersNode(elements, teamName, practiceName);
+        NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
+        for (int i = 0; i < playerList.getLength(); i++) {
+            Node currentPlayerNode = playerList.item(i);
+            if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
+                NodeList statNodes = getStatNodes(currentPlayerNode);
+                // process statNodes here, may need to check spinner vals at this time as well
+            }
+
+            // check for a single player
+            if (spinnerVals.size() == 12) {
+
+            }
+        }
+
+        //////////
 //    private String printXML() {
 //        try {
 //            Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -220,4 +239,16 @@ class XMLFileHandler {
 //        }
 //
 //    }
+    }
+
+    private NodeList getStatNodes(Node currentPlayerNode) {
+        NodeList children = currentPlayerNode.getChildNodes();
+        for (int j = 0; j < children.getLength(); j++) {
+            Node currentNode = children.item(j);
+            if (currentNode.getNodeName().equals("PlayerStats")) {
+                return currentNode.getChildNodes();
+            }
+        }
+        return null;
+    }
 }
