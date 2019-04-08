@@ -78,13 +78,14 @@ public class MainPageController implements Initializable {
     private void generateCSVFile(){
         List<Integer> spinnerVals = getSpinnerValues();
         List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");
+        List<String> teamStats = handler.getTeamStats("Team 1");
         // statNames
         String teamName = "Team 1";
         String practiceName = "Practice 1";
 
         CSVFileMaker csvFileMaker = new CSVFileMaker(spinnerVals, players, statNames, teamName, practiceName);
         //csvFileMaker.generateCSVFile();
-        csvFileMaker.calculatePCT(players.get(0));
+        csvFileMaker.generateCSVFile();
     }
 
 //    private void updateFile(Document doc) {

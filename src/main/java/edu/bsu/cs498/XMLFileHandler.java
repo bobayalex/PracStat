@@ -148,6 +148,10 @@ class XMLFileHandler {
         }
     }
 
+    public List<String> getTeamStats(String teamName) {
+        return null;
+    }
+
     //////////
 //    private String printXML() {
 //        try {

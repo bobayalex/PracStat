@@ -10,16 +10,16 @@
                         <PlayerName>Foo</PlayerName>
                         <PlayerNumber>5</PlayerNumber>
                         <PlayerStats>
-                            <Kills>3</Kills>
-                            <Errors>3</Errors>
-                            <TotalAttempts>15</TotalAttempts>
+                            <Kills>0</Kills>
+                            <Errors>1</Errors>
+                            <TotalAttempts>3</TotalAttempts>
                             <Assists>4</Assists>
-                            <ServiceAces>5</ServiceAces>
-                            <ServiceErrors>6</ServiceErrors>
+                            <ServiceAces>0</ServiceAces>
+                            <ServiceErrors>1</ServiceErrors>
                             <ReceptionErrors>7</ReceptionErrors>
                             <Digs>8</Digs>
-                            <SoloBlocks>9</SoloBlocks>
-                            <BlockAssists>10</BlockAssists>
+                            <SoloBlocks>0</SoloBlocks>
+                            <BlockAssists>1</BlockAssists>
                             <BlockingErrors>11</BlockingErrors>
                             <BallHandlingErrors>12</BallHandlingErrors>
                         </PlayerStats>
