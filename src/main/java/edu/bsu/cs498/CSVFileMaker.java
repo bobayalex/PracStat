@@ -10,13 +10,15 @@ class CSVFileMaker {
     private List<Player> players;
     private List<String> statNames;
     private String teamName;
+    private List<Integer> teamStats;
     private String practiceName;
 
-    CSVFileMaker(List<Integer> sVals, List<Player> playerList, List<String> statList, String team, String practice){
+    CSVFileMaker(List<Integer> sVals, List<Player> playerList, List<String> statList, String team, List<Integer> teamStatList, String practice){
         spinnerVals = sVals;
         players = playerList;
         statNames = statList;
         teamName = team;
+        teamStats = teamStatList;
         practiceName = practice;
     }
 
@@ -25,13 +27,14 @@ class CSVFileMaker {
                 new FileOutputStream("testCSVFile.csv"), "utf-8"))) {
             writer.write(teamName + "\n" + practiceName + "\n");
             writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
+            StringBuilder data;
             for(Player player: players){
                 // calculate PCT and PTS for player
                 String pct = calculatePCT(player);
                 String pts = calculatePTS(player);
                 writer.write(player.getNumber() + "," + player.getName() + ",");
                 List<Integer> stats = player.getStats();
-                StringBuilder data = new StringBuilder();
+                data = new StringBuilder();
 
                 // calculate pct and pts before loop starts and then add based on index
                 for(int i = 0; i < stats.size(); i++){
@@ -43,6 +46,14 @@ class CSVFileMaker {
                 data.append(pts); // pts is the last value
                 writer.write(data.toString());
             }
+            // write total team stats here
+//            data = new StringBuilder();
+//            for(int i = 0; i < teamStats.size(); i++){
+//                data.append(String.valueOf(teamStats.get(i)) + ",");
+//                if(i == 2){// PCT
+//                    // calculate total PCT
+//                }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
