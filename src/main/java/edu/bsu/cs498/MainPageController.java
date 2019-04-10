@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
-
 import java.net.URL;
 import java.util.*;
 
@@ -101,6 +100,7 @@ public class MainPageController implements Initializable {
     }
 
     private void setUpGridPane() {
+        // column constraints are for stats, row constraints are for players
         List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
         int numStats = statNames.size();
         int playerCounter = 0;
