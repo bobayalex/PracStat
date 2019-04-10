@@ -30,6 +30,7 @@ public class NewTeamController {
     @FXML private TableColumn<Player, String> positionColumn;
 
     public void initialize(){
+        XMLFileHandler reader = new XMLFileHandler();
         setButtonActions();
         nameColumn.setCellValueFactory(new PropertyValueFactory("playerName"));
         numberColumn.setCellValueFactory(new PropertyValueFactory("playerNumber"));
@@ -37,44 +38,36 @@ public class NewTeamController {
     }
 
     public void addPlayer(){
-        if (playerInfoEntered() == true){
+        if (playerInfoEntered()){
             playerTable.setItems(playerList);
             playerList.add(new Player(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString()));
             output.setText("Player " + playerCount + " Added");
             playerCount++;
             playerNameInput.clear();
             playerNumberInput.clear();
-        } else {
-            output.setText("Error adding player");
-        }
+            positionOptions.setValue(null);
+        } else {popupMessage("Error", "Error adding player");}
     }
 
-    public void createTeamButtonAction(ActionEvent event){
-        if (teamInfoEntered() == true){
-            Team newTeam = new Team(teamNameInput.getText(), playerList);
-            output.setText(newTeam.getTeamName() + " has been created.");
-
-        } else {
-            output.setText("Error Adding Team");
-        }
+    private void createTeamButtonAction(ActionEvent event){
+        if (teamInfoEntered()){
+            try {Team newTeam = new Team(teamNameInput.getText(), playerList);
+                popupMessage("Message",newTeam.getTeamName() + " has been created.");
+            }catch (IllegalArgumentException e){popupMessage("Error", "Team already exists");}
+        } else {popupMessage("Error","Error adding team");}
     }
 
-    public boolean playerInfoEntered(){
+    private boolean playerInfoEntered(){
         if (playerNameInput.getText().equals("") | playerNumberInput.getText().equals("")){
             return false;
         } return true;
     }
 
-    public boolean teamInfoEntered(){
+    private boolean teamInfoEntered(){
         if (teamNameInput.getText().equals("")){
             return false;
         } return true;
     }
-
-    public ObservableList<Player> getPlayerList(){
-        return playerList;
-    }
-
     private void setButtonActions() {
         mainMenuButton.setOnAction(this::mainMenuButtonAction);
         createTeamButton.setOnAction(this::createTeamButtonAction);
@@ -88,5 +81,12 @@ public class NewTeamController {
         } catch (IOException e) {e.printStackTrace();}
     }
 
+    private void popupMessage(String type, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("PracStat");
+        alert.setHeaderText(type);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }
 

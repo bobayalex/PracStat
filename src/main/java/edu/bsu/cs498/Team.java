@@ -33,9 +33,14 @@ public class Team {
     }
 
     public Team(String teamName, ObservableList<Player> playerList) {
-        this.teamName = teamName;
-        this.playerList = playerList;
-        reader.addTeam(teamName, playerList);
-        System.out.println(reader.isConfigured());
+        if (reader.doesTeamExist(teamName)){
+            System.out.println("Team already exists");
+            throw new IllegalArgumentException();
+        }else{
+            this.teamName = teamName;
+            this.playerList = playerList;
+            reader.addTeam(teamName, playerList);
+            System.out.println(reader.isConfigured());
+        }
     }
 }

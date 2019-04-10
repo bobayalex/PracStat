@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
 
+
 class XMLFileHandler {
     private URL url = getClass().getResource("/config/config.xml");
     private File configFile = new File(url.getPath());
@@ -39,7 +40,7 @@ class XMLFileHandler {
         return teams.getLength() > 0;
     }
 
-    public String printXML() {
+    private String printXML() {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -47,34 +48,37 @@ class XMLFileHandler {
             StreamResult result = new StreamResult(new StringWriter());
             DOMSource source = new DOMSource(doc);
             transformer.transform(source, result);
-            String xmlString = result.getWriter().toString();
-            return xmlString;
+            return result.getWriter().toString();
         } catch (TransformerException e) {
             System.out.println("Error");
         }
         return "Error";
     }
 
-    public void addTeam(String teamName, ObservableList<Player>playerList){
-        Element root = doc.getDocumentElement();
-        Element elementRoot = doc.createElement("Team");
+    private Node createTeamNode(String teamName){
+        Element teamRoot = doc.createElement("Team");
         Node teamNameNode = doc.createElement("TeamName");
         teamNameNode.appendChild(doc.createTextNode(teamName));
-        elementRoot.appendChild(teamNameNode);
+        teamRoot.appendChild(teamNameNode);
+        return teamRoot;
+    }
+
+    public void addTeam(String teamName, ObservableList<Player>playerList){
+        Element root = doc.getDocumentElement();
+        Node teamRoot = createTeamNode(teamName);
         for (int i=0; i<playerList.size(); i++){
-            addPlayer(teamName, playerList.get(i));
+            addPlayer(teamName, playerList.get(i), teamRoot);
         }
         Node statisticsNode = doc.createElement("Statistics");
-        elementRoot.appendChild(statisticsNode);
-        root.appendChild(elementRoot);
+        teamRoot.appendChild(statisticsNode);
+        root.appendChild(teamRoot);
         System.out.println(printXML());
         updateXML(doc);
     }
 
-    public Node addPlayer(String teamName, Player player){
-        Node teamNode = getTeamNode(teamName);
-        Node playerNode = doc.createElement("Player");
-        ((Element) playerNode).setAttribute("id", teamName);
+    public void addPlayer(String teamName, Player player, Node teamNode){
+        Element playerNode = doc.createElement("Player");
+        playerNode.setAttribute("id", teamName);
         Node playerNameNode = doc.createElement("Name");
         Node playerNumberNode = doc.createElement("Number");
         Node playerPositionNode = doc.createElement("Position");
@@ -88,7 +92,6 @@ class XMLFileHandler {
         playerPositionNode.appendChild(doc.createTextNode(player.getPlayerPosition()));
         teamNode.appendChild(playerNode);
         updateXML(doc);
-        return teamNode;
     }
 
     public void editPlayer(String oldName, String newName, String newNumber, String newPosition){
@@ -118,7 +121,7 @@ class XMLFileHandler {
     }
 
     public ObservableList<String> getAllTeams(){
-        ObservableList<String> teamList = FXCollections.observableArrayList();;
+        ObservableList<String> teamList = FXCollections.observableArrayList();
         NodeList teams = doc.getElementsByTagName("TeamName");
         for (int i = 0; i < teams.getLength(); i++) {
             Node currentTeam = teams.item(i);
@@ -135,7 +138,8 @@ class XMLFileHandler {
         try{XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + teamName + "')]]");
             Object result = expr.evaluate(doc, XPathConstants.NODE);
             teamNameNode = (Node) result;
-            teamNode = teamNameNode.getParentNode();
+            if (teamNameNode == null){teamNode = createTeamNode(teamName);}
+            else {teamNode = teamNameNode.getParentNode();}
         }catch (XPathExpressionException e){}
         return teamNode;
     }
@@ -181,6 +185,17 @@ class XMLFileHandler {
             playerList.add(playerInfo);
         }
         return playerList;
+    }
+
+    public boolean doesTeamExist(String teamName){
+        Node teamNameNode;
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        try{XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + teamName + "')]]");
+            Object result = expr.evaluate(doc, XPathConstants.NODE);
+            teamNameNode = (Node) result;
+            if (teamNameNode == null){return false;}
+        }catch (XPathExpressionException e){}
+        return true;
     }
 
     public void updateXML(Document doc){

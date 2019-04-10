@@ -75,32 +75,63 @@ public class EditTeamController {
         }
     }
 
+    public boolean isAPlayerSelected(){
+        if (playerSelection.getValue() == null){return false;}
+        return true;
+    }
+
+    public boolean missingInfo(){
+        if (playerNameInput.getText().length() == 0){
+            return true;
+        } if (playerNumberInput.getText().length() == 0){
+            return true;
+        } if (positionOptions.getValue() == null){
+            return true;
+        }else{return false;}
+    }
+
     public void editPlayer(){
-        String playerInfo = playerSelection.getValue().toString();
-        String[] playerInfoSplit = playerInfo.split(",");
-        String playerName = playerInfoSplit[0];
-        reader.editPlayer(playerName, playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
-        refreshPage();
+        if (missingInfo() == false && isAPlayerSelected() == true){
+            String playerInfo = playerSelection.getValue().toString();
+            String[] playerInfoSplit = playerInfo.split(",");
+            String playerName = playerInfoSplit[0];
+            reader.editPlayer(playerName, playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
+            refreshPage();}
+        else{errorPopup("Error editing player. Please make sure all necessary information has been entered.");}
     }
 
     public void addNewPlayer(){
-        Player newPlayer = new Player(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
-        reader.addPlayer(teamOptions.getValue().toString(), newPlayer);
-        refreshPage();
+        if (missingInfo() == false) {
+            Player newPlayer = new Player(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
+            reader.addPlayer(teamOptions.getValue().toString(), newPlayer, reader.getTeamNode(teamOptions.getValue().toString()));
+            refreshPage();
+        } else {errorPopup("Error adding player. Please make sure all necessary information has been entered.");}
     }
 
     public void deletePlayer(){
-        playerStringList.add(playerSelection.getValue().toString());
-        playerInfo = playerStringList.get(0).split(",");
-        String playerName = playerInfo[0];
-        reader.deletePlayer(playerName);
-        refreshPage();
+        if (playerSelection.getValue() == null){
+            errorPopup("Please select a player to delete");
+        }else{
+            playerStringList.add(playerSelection.getValue().toString());
+            playerInfo = playerStringList.get(0).split(",");
+            String playerName = playerInfo[0];
+            reader.deletePlayer(playerName);
+            refreshPage();}
     }
 
     public void refreshPage(){
         playerNameInput.clear();
         playerNumberInput.clear();
+        positionOptions.setValue(null);
         loadPlayerTable();
+    }
+
+    private void errorPopup(String errorMessage) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("PracStat");
+        alert.setHeaderText("Error");
+        alert.setContentText(errorMessage);
+        alert.showAndWait();
     }
 
     private void setButtonActions() {
