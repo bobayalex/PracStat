@@ -1,5 +1,6 @@
 package edu.bsu.cs498;
 
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_GREENPeer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class MainPageController implements Initializable {
 
@@ -178,6 +180,10 @@ public class MainPageController implements Initializable {
                     int newIdx = (idx + steps) % statSpinners.size();
                     Spinner<Integer> newInt = statSpinners.get(newIdx);
                     this.setValue(newInt.getValue());
+
+                    //newInt.setStyle("-fx-body-color: green");
+                    newInt.setId("incremented");
+                    newInt.getStylesheets().add("css/mainpage.css");
                 }
 
             };

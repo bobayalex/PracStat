@@ -33,7 +33,9 @@ public class Main extends Application {
         mainPageController = (MainPageController)loader.getController();
 
         primaryStage.setTitle("PracStat");
-        primaryStage.setScene(new Scene(root1));
+        Scene scene = new Scene(root1);
+        scene.getStylesheets().add("css/startpage.css");
+        primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
         XMLFileHandler handler = new XMLFileHandler();
