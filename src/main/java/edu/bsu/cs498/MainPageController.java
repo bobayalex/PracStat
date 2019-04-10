@@ -1,19 +1,66 @@
 package edu.bsu.cs498;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import org.w3c.dom.Document;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 import java.net.URL;
 import java.util.*;
 
 public class MainPageController implements Initializable {
+
+    private SpeechRecognizerMain mySpeechRecognizer = new SpeechRecognizerMain();
+    private String soundFile = "chime.mp3";
+    private MediaPlayer mediaPlayer;
+
+    @FXML Button speechRecBtn;
+    @FXML
+    Label statusLabel;
+
+    @FXML
+    private void handleButtonAction() {
+        Media sound = new Media(new File(soundFile).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        if(!mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
+            statusLabel.setText("Loading Speech Recognizer...");
+
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    mySpeechRecognizer.SpeechRecognizerMain();
+                    speechRecBtn.setStyle("-fx-background-color: Green");
+                    speechRecBtn.setText("Speech Recognition");
+                    statusLabel.setText("You can start to speak...");
+                    mediaPlayer.play();
+                }
+            });
+        }
+        else if(mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
+            if(!mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
+                mySpeechRecognizer.ignoreSpeechRecognitionResults();
+                System.out.println("ignoring speech recognition results");
+                speechRecBtn.setStyle("-fx-background-color: Red");
+                statusLabel.setText("Ignoring speech recognition results...");
+            }
+            else if(mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
+                mySpeechRecognizer.stopIgnoreSpeechRecognitionResults();
+                System.out.println("listening to speech recognition results");
+                speechRecBtn.setStyle("-fx-background-color: Green");
+                statusLabel.setText("Listening to speech recognition results...");
+                mediaPlayer.play();
+            }
+        }
+    }
+
+
+
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -22,7 +69,7 @@ public class MainPageController implements Initializable {
     private List<Spinner<Integer>> statSpinners = new ArrayList<>();
     @FXML
     private Button testBtn;
-    private XMLFileHandler handler = new XMLFileHandler();
+    //private XMLFileHandler handler = new XMLFileHandler();
     private List<String> players = new ArrayList<>();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
     private HashMap<Integer,String> spinnerIDs = new HashMap<>();
@@ -82,14 +129,20 @@ public class MainPageController implements Initializable {
     private void setUpGridPane() {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 16; j++) {
-                Spinner<Integer> spinner = new Spinner<>(0, 10000, 0, 1);
+                int initialValue = 0;
+                SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, initialValue);
+                //Spinner<Integer> spinner = new Spinner<>(0, 10000, 0, 1);
+                Spinner<Integer> spinner = new Spinner<Integer>();
+                spinner.setValueFactory(valueFactory);
+                //USE THE BELOW COMMENTED OUT CODE TO INCREMENT A SPECIFIED SPINNER!
+                //spinner.getValueFactory().increment(1);
+                //valueFactory.setValue(0);
                 spinner.setPrefWidth(100);
                 spinner.setPrefHeight(30);
                 statSpinners.add(spinner);
                 statGrid.add(spinner, i, j);
             }
         }
-
     }
 
     private Spinner<Integer> getSpinner(int row, int col) {
@@ -100,6 +153,36 @@ public class MainPageController implements Initializable {
         }
         return null;
     }
+
+    //Use this method to get a specific spinner and increment it by 1
+    public void incrementSpinner(int row, int col) {
+        getSpinner(row, col).getValueFactory().increment(1);
+    }
+
+    // Value factory.
+    SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory<Integer>() {
+
+                @Override
+                public void decrement(int steps) {
+                    Integer current = this.getValue();
+                    int idx = statSpinners.indexOf(current);
+                    int newIdx = (statSpinners.size() + idx - steps) % statSpinners.size();
+                    Spinner<Integer> newInt = statSpinners.get(newIdx);
+                    this.setValue(newInt.getValue());
+                }
+
+                @Override
+                public void increment(int steps) {
+                    Integer current = this.getValue();
+                    int idx = statSpinners.indexOf(current);
+                    int newIdx = (idx + steps) % statSpinners.size();
+                    Spinner<Integer> newInt = statSpinners.get(newIdx);
+                    this.setValue(newInt.getValue());
+                }
+
+            };
+
+
 
 //    private void setUpMenuBar() {
 //

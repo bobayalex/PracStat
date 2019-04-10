@@ -20,6 +20,8 @@ public class StartPageController implements Initializable {
     @FXML private ImageView imageView;
     private boolean isConfigured;
 
+    static MainPageController mainPageController1;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         XMLFileHandler handler = new XMLFileHandler();
@@ -59,7 +61,13 @@ public class StartPageController implements Initializable {
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {
-        Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
+        //Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
+        //Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        //currentStage.getScene().setRoot(updatedRoot);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceName));
+        Parent updatedRoot = loader.load();
+        mainPageController1 = (MainPageController)loader.getController();
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.getScene().setRoot(updatedRoot);
     }

@@ -102,4 +102,6 @@
    <Label layoutX="1164.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BE" />
    <Label layoutX="1243.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BH" />
    <Button fx:id="testBtn" layoutX="429.0" layoutY="35.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="785.0" text="Test" />
+   <Button fx:id="speechRecBtn" layoutX="25.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Click to Start Speech Recognition" />
+   <Label fx:id="statusLabel" layoutX="179.0" layoutY="741.0" />
 </AnchorPane>
