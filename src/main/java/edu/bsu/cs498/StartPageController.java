@@ -7,8 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,6 +21,8 @@ import java.util.ResourceBundle;
 public class StartPageController implements Initializable {
     @FXML private Button startButton;
     @FXML private ImageView imageView;
+    @FXML private PasswordField pwordField;
+    @FXML private Label label1;
     private boolean isConfigured;
 
     static MainPageController mainPageController1;
@@ -44,13 +49,21 @@ public class StartPageController implements Initializable {
     }
 
     private void startButtonAction(ActionEvent event) {
-        String path = choosePath();
+        if (!pwordField.getText().equals("CorrectPassword")) {
+            label1.setText("Your password is incorrect!");
+            label1.setTextFill(Color.rgb(210, 39, 30));
+        } else {
+            //label1.setText("Your password has been confirmed");
+            //label1.setTextFill(Color.rgb(21, 117, 84));
+            String path = choosePath();
 
-        try {
-            switchRoot(event, path);
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                switchRoot(event, path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        pwordField.clear();
     }
 
     private String choosePath() {
