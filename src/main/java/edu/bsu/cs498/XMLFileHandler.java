@@ -9,6 +9,9 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -172,7 +175,6 @@ class XMLFileHandler {
 
     void updatePlayerStats(List<Integer> spinnerVals, String teamName, String practiceName) {
         // each player should have 12 stats, process spinnerVals 12 elements at a time
-
         List<Node> elements = getNodeList();
         Node playersNode = getPlayersNode(elements, teamName, practiceName);
         NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
@@ -180,14 +182,12 @@ class XMLFileHandler {
             Node currentPlayerNode = playerList.item(i);
             if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
                 NodeList statNodes = getStatNodes(currentPlayerNode);
-                // process statNodes here, may need to check spinner vals at this time as well
-            }
-
-            // check for a single player
-            if (spinnerVals.size() == 12) {
-
+                updateNodes(statNodes, spinnerVals);
             }
         }
+    }
+
+
 
         //////////
 //    private String printXML() {
@@ -228,17 +228,31 @@ class XMLFileHandler {
 //        updateXML(doc);
 //    }
 //
-//    public void updateXML(Document doc) {
-//        try {
-//            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-//            Result output = new StreamResult(configFile);
-//            Source input = new DOMSource(doc);
-//            transformer.transform(input, output);
-//        } catch (TransformerException e) {
-//            System.out.println("Error");
-//        }
-//
-//    }
+
+    public void updateXML(Document doc) {
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            Result output = new StreamResult(configFile);
+            Source input = new DOMSource(doc);
+            transformer.transform(input, output);
+        } catch (TransformerException e) {
+            System.out.println("Error");
+        }
+
+    }
+
+
+    private void updateNodes(NodeList statNodes, List<Integer> spinnerVals) {
+        // statNodes could contain non-elements
+        for(int i = 0; i < statNodes.getLength(); i++){
+            Node currentNode = statNodes.item(i);
+            if(currentNode.getNodeType() == Node.ELEMENT_NODE){
+                int currentValue = Integer.parseInt(currentNode.getTextContent());
+                currentNode.setTextContent(String.valueOf(currentValue + spinnerVals.get(0)));
+                spinnerVals.remove(0);
+            }
+        }
+        updateXML(doc);
     }
 
     private NodeList getStatNodes(Node currentPlayerNode) {

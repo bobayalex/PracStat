@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-// currently working on XMLFileHandler.updatePlayerStats();
     @Override
     public void start(Stage primaryStage) throws Exception{
 //        String fxmlPath = "/fxml/startPage.fxml";
