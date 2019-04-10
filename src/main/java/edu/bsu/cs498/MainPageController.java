@@ -23,8 +23,8 @@ public class MainPageController implements Initializable {
     private MediaPlayer mediaPlayer;
 
     @FXML Button speechRecBtn;
-    @FXML
-    Label statusLabel;
+    @FXML Label statusLabel;
+    @FXML Label voiceLabel;
 
     @FXML
     private void handleButtonAction() {
@@ -187,6 +187,10 @@ public class MainPageController implements Initializable {
                 }
 
             };
+
+    public void setVoiceLabelText(String str) {
+        voiceLabel.setText(str);
+    }
 
 
 
