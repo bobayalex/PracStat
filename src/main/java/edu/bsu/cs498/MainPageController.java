@@ -79,8 +79,6 @@ public class MainPageController implements Initializable {
         List<Integer> spinnerVals = getSpinnerValues();
         String teamName = "Team 1";
         String practiceName = "Practice 1";
-
-        // need handler to update xml based on spinner values
         handler.updatePlayerStats(spinnerVals, teamName, practiceName);
 
 //        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");
@@ -103,16 +101,20 @@ public class MainPageController implements Initializable {
     }
 
     private void setUpGridPane() {
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 16; j++) {
-                Spinner<Integer> spinner = new Spinner<>(0, 10000, 0, 1);
+        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        int numStats = statNames.size();
+        int playerCounter = 0;
+        for(Player player : players){
+            List<Integer> stats = player.getStats();
+            for(int i = 0; i < numStats; i++){
+                Spinner<Integer> spinner = new Spinner<>(0, 10000, stats.get(i), 1);
                 spinner.setPrefWidth(100);
                 spinner.setPrefHeight(30);
                 statSpinners.add(spinner);
-                statGrid.add(spinner, i, j);
+                statGrid.add(spinner, i, playerCounter);
             }
+            playerCounter++;
         }
-
     }
 
     private Spinner<Integer> getSpinner(int row, int col) {

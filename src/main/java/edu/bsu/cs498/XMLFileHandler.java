@@ -87,7 +87,12 @@ class XMLFileHandler {
         for (int i = 0; i < children.getLength(); i++) {
             Node currentNode = children.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-                stats.add(Integer.parseInt(currentNode.getTextContent()));
+                String currentText = currentNode.getTextContent();
+                if(currentText.equals("")){
+                    stats.add(0);
+                } else{
+                    stats.add(Integer.parseInt(currentNode.getTextContent()));
+                }
             }
         }
         return stats;
