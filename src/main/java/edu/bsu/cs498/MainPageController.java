@@ -7,11 +7,14 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.util.*;
 
 public class MainPageController implements Initializable {
+    @FXML
+    private GridPane playerGrid;
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -29,7 +32,7 @@ public class MainPageController implements Initializable {
 //        setUpMenuBar();
         initializeHashMap();
         setButtonActions();
-        setUpGridPane();
+        setUpGridPanes();
 //        readConfigData();
     }
 
@@ -53,7 +56,7 @@ public class MainPageController implements Initializable {
     }
 
     private void testButtonAction(ActionEvent event) {
-        generateCSVFile();
+//        generateCSVFile();
     }
 
     private List<Integer> getSpinnerValues() {
@@ -87,10 +90,27 @@ public class MainPageController implements Initializable {
 //        handler.updateXML(doc);
 //    }
 
-    private void setUpGridPane() {
+    private void setUpGridPanes(){
+        setUpPlayerGrid();
+//        setUpStatGrid();
+    }
+
+    private void setUpPlayerGrid() {
+        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        TextField field = new TextField();
+        for(int i = 0; i < players.size(); i++){
+            Player player = players.get(i);
+            String name = player.getName();
+            field.setText(name);
+            int number = player.getNumber();
+            playerGrid.addRow(i, field);
+        }
+    }
+
+    private void setUpStatGrid() {
         // column constraints are for stats, row constraints are for players
         List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
-        int numStats = statNames.size();
+        int numStats = statNames.size(); // should be 12
         int playerCounter = 0;
         for(Player player : players){
             List<Integer> stats = player.getStats();
