@@ -158,7 +158,12 @@ public class MainPageController implements Initializable {
 
     //Use this method to get a specific spinner and increment it by 1
     public void incrementSpinner(int row, int col) {
-        getSpinner(row, col).getValueFactory().increment(1);
+        Spinner spinner = getSpinner(row, col);
+        //getSpinner(row, col).getValueFactory().increment(1);
+        spinner.getValueFactory().increment(1);
+        //spinner.getStyleClass().clear();
+        spinner.getStyleClass().add("incremented");
+        System.out.println("The style class of newInt is: " + spinner.getStyleClass());
     }
 
     // Value factory.
@@ -180,10 +185,6 @@ public class MainPageController implements Initializable {
                     int newIdx = (idx + steps) % statSpinners.size();
                     Spinner<Integer> newInt = statSpinners.get(newIdx);
                     this.setValue(newInt.getValue());
-
-                    //newInt.setStyle("-fx-body-color: green");
-                    newInt.setId("incremented");
-                    newInt.getStylesheets().add("css/mainpage.css");
                 }
 
             };

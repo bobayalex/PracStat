@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -49,7 +50,7 @@ public class StartPageController implements Initializable {
     }
 
     private void startButtonAction(ActionEvent event) {
-        if (!pwordField.getText().equals("CorrectPassword")) {
+        if (!pwordField.getText().equals("pword")) {
             label1.setText("Your password is incorrect!");
             label1.setTextFill(Color.rgb(210, 39, 30));
         } else {
@@ -80,8 +81,14 @@ public class StartPageController implements Initializable {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceName));
         Parent updatedRoot = loader.load();
+        //updatedRoot.getScene().getStylesheets().add("css/mainpage.css");
         mainPageController1 = (MainPageController)loader.getController();
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        currentScene.getStylesheets().add("css/mainpage.css");
+        Stage currentStage = (Stage) currentScene.getWindow();
+
+        //Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.getScene().setRoot(updatedRoot);
     }
 }
