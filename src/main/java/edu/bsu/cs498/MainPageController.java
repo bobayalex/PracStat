@@ -157,13 +157,16 @@ public class MainPageController implements Initializable {
     }
 
     //Use this method to get a specific spinner and increment it by 1
-    public void incrementSpinner(int row, int col) {
+    public void incrementSpinner(int row, int col) throws InterruptedException {
         Spinner spinner = getSpinner(row, col);
         //getSpinner(row, col).getValueFactory().increment(1);
         spinner.getValueFactory().increment(1);
         //spinner.getStyleClass().clear();
+        System.out.println("The OLD style class is: " + spinner.getStyleClass());
         spinner.getStyleClass().add("incremented");
-        System.out.println("The style class of newInt is: " + spinner.getStyleClass());
+        System.out.println("The NEW style class is: " + spinner.getStyleClass());
+        TimeUnit.SECONDS.sleep(1);
+        spinner.getStyleClass().add("tonormal");
     }
 
     // Value factory.
