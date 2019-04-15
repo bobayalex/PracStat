@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 class XMLFileHandler {
     private URL url = getClass().getResource("/config/config.xml");
@@ -41,9 +42,9 @@ class XMLFileHandler {
         return teams.getLength() > 0;
     }
 
-    Document getDoc() {
-        return doc;
-    }
+//    Document getDoc() {
+//        return doc;
+//    }
 
     List<Player> getPlayersByTeam(String teamName, String practiceName) {
         List<Player> players = new ArrayList<>();
@@ -97,11 +98,11 @@ class XMLFileHandler {
         return stats;
     }
 
-    private void printNodes(NodeList children) {
-        for (int i = 0; i < children.getLength(); i++) {
-            System.out.println(children.item(i).getNodeName());
-        }
-    }
+//    private void printNodes(NodeList children) {
+//        for (int i = 0; i < children.getLength(); i++) {
+//            System.out.println(children.item(i).getNodeName());
+//        }
+//    }
 
     private Node getPlayersNode(List<Node> elements, String teamName, String practiceName) {
         Node currentNode = null;
@@ -136,36 +137,35 @@ class XMLFileHandler {
         return nodes;
     }
 
-    void test() {
-        getTeamStats("Team 1");
-    }
+//    void test() {
+//        getTeamStats("Team 1");
+//    }
 
-    private void printPlayers(List<Player> players) {
-        for (Player player : players) {
-            System.out.println(player.getName());
-            System.out.println(player.getNumber());
-            printStats(player.getStats());
-        }
-    }
+//    private void printPlayers(List<Player> players) {
+//        for (Player player : players) {
+//            System.out.println(player.getName());
+//            System.out.println(player.getNumber());
+//            printStats(player.getStats());
+//        }
+//    }
 
-    private void printStats(List<Integer> stats) {
-        System.out.println("Stats:");
-        for (int stat : stats) {
-            System.out.println(stat);
-        }
-    }
+//    private void printStats(List<Integer> stats) {
+//        System.out.println("Stats:");
+//        for (int stat : stats) {
+//            System.out.println(stat);
+//        }
+//    }
 
-    public List<Integer> getTeamStats(String teamName) {
+    List<Integer> getTeamStats(String teamName) {
         List<Node> elements = getNodeList();
         Node teamStatsNode = getTeamStatNode(elements, teamName);
-        List<Integer> teamStats = getStatsFromNode(teamStatsNode);
-        return teamStats;
+        return getStatsFromNode(teamStatsNode);
     }
 
     private Node getTeamStatNode(List<Node> elements, String teamName) {
         Node currentNode = null;
-        for (int i = 0; i < elements.size(); i++) {
-            currentNode = elements.get(i);
+        for (Node element : elements) {
+            currentNode = element;
             if (currentNode.getTextContent().equals(teamName)) {
                 currentNode = currentNode.getNextSibling();
                 while (!(currentNode.getNodeName().equals("TeamStats"))) {
@@ -186,7 +186,7 @@ class XMLFileHandler {
             Node currentPlayerNode = playerList.item(i);
             if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
                 NodeList statNodes = getStatNodes(currentPlayerNode);
-                updateNodes(statNodes, spinnerVals);
+                updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
             }
         }
     }
@@ -233,7 +233,7 @@ class XMLFileHandler {
 //    }
 //
 
-    public void updateXML(Document doc) {
+    private void updateXML(Document doc) {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             Result output = new StreamResult(configFile);
@@ -255,7 +255,6 @@ class XMLFileHandler {
                     currentNode.setTextContent("0");
                 }
                 if(!currentNode.getTextContent().equals(String.valueOf(spinnerVals.get(0)))){
-                    int currentValue = Integer.parseInt(currentNode.getTextContent());
                     currentNode.setTextContent(String.valueOf(spinnerVals.get(0)));
                 }
                 spinnerVals.remove(0);

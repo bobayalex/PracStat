@@ -21,7 +21,6 @@ public class MainPageController implements Initializable {
     @FXML
     private Button testBtn;
     private XMLFileHandler handler = new XMLFileHandler();
-    private List<String> players = new ArrayList<>();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
     private HashMap<Integer,String> spinnerIDs = new HashMap<>();
 
@@ -57,14 +56,14 @@ public class MainPageController implements Initializable {
         generateCSVFile();
     }
 
-    List<Integer> getSpinnerValues() {
+    private List<Integer> getSpinnerValues() {
         List<Integer> spinnerVals = new ArrayList<>();
         int numStats = statNames.size();
         List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
         int numPlayers = players.size();
         for (int i = 0; i < numPlayers; i++) {
             for(int j = 0; j < numStats; j++){// there should be 12 stats
-                int statValue = getSpinner(i, j).getValue();
+                int statValue = Objects.requireNonNull(getSpinner(i, j)).getValue();
                 spinnerVals.add(statValue);
             }
         }
@@ -87,12 +86,6 @@ public class MainPageController implements Initializable {
 //    private void updateFile(Document doc) {
 //        handler.updateXML(doc);
 //    }
-
-    private void printSpinnerVals() {
-        for (Spinner<Integer> spinner : statSpinners) {
-            System.out.println("Value is " + spinner.getValue());
-        }
-    }
 
     private void setUpGridPane() {
         // column constraints are for stats, row constraints are for players

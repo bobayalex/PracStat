@@ -13,15 +13,15 @@ public class Player {
         stats = pStats;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public int getNumber(){
+    int getNumber(){
         return number;
     }
 
-    public List<Integer> getStats(){
+    List<Integer> getStats(){
         return stats;
     }
 }
