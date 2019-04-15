@@ -7,8 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    // Currently working on CSV section for entire set of team stats, reading in player names and numbers to main page
-    // updateTeam stats: teamStats list should be updated now, still need to calculate pct and pts for it
+    // Currently working on reading in player names and numbers to main page
     @Override
     public void start(Stage primaryStage) throws Exception{
 //        String fxmlPath = "/fxml/startPage.fxml";

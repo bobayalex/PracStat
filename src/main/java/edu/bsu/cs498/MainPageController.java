@@ -64,12 +64,9 @@ public class MainPageController implements Initializable {
         int numPlayers = players.size();
         for (int i = 0; i < numPlayers; i++) {
             for(int j = 0; j < numStats; j++){// there should be 12 stats
-                String idName = spinnerIDs.get(j);
                 int statValue = getSpinner(i, j).getValue();
                 spinnerVals.add(statValue);
-//                System.out.println(idName + ": " + Integer.toString(statValue));
             }
-//            System.out.println("------------------");
         }
         return spinnerVals;
     }
@@ -82,10 +79,8 @@ public class MainPageController implements Initializable {
 
         List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");
         List<Integer> teamStats = handler.getTeamStats("Team 1");
-        // statNames
 
-        CSVFileMaker csvFileMaker = new CSVFileMaker(spinnerVals, players, statNames, teamName, teamStats, practiceName);
-        //csvFileMaker.generateCSVFile();
+        CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practiceName);
         csvFileMaker.generateCSVFile();
     }
 

@@ -1,7 +1,6 @@
 package edu.bsu.cs498;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -257,7 +256,7 @@ class XMLFileHandler {
                 }
                 if(!currentNode.getTextContent().equals(String.valueOf(spinnerVals.get(0)))){
                     int currentValue = Integer.parseInt(currentNode.getTextContent());
-                    currentNode.setTextContent(String.valueOf(currentValue + spinnerVals.get(0)));
+                    currentNode.setTextContent(String.valueOf(spinnerVals.get(0)));
                 }
                 spinnerVals.remove(0);
             }

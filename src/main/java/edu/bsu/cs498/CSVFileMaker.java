@@ -3,29 +3,24 @@ package edu.bsu.cs498;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Arrays;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 class CSVFileMaker {
-    private List<Integer> spinnerVals;
     private List<Player> players;
-    private List<String> statNames;
     private String teamName;
     private List<Integer> teamStats;
     private String practiceName;
-
-    CSVFileMaker(List<Integer> sVals, List<Player> playerList, List<String> statList, String team, List<Integer> teamStatList, String practice){
-        spinnerVals = sVals;
+    CSVFileMaker(List<Player> playerList, String team, List<Integer> teamStatList, String practice){
         players = playerList;
-        statNames = statList;
         teamName = team;
         teamStats = teamStatList;
         practiceName = practice;
     }
 
-    public void generateCSVFile() {
+    void generateCSVFile() {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream("testCSVFile.csv"), "utf-8"))) {
+                new FileOutputStream("testCSVFile.csv"), StandardCharsets.UTF_8))) {
             writer.write(teamName + "," + practiceName + "\n");
             writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
             StringBuilder data;
@@ -60,36 +55,22 @@ class CSVFileMaker {
             // write total team stats here
             writer.write("," + "\n" + ",Totals,");
             data = new StringBuilder();
+            String pct = calculateTeamPCT(teamStats);
+            String pts = calculateTeamPTS(teamStats);
             for(int k = 0; k < teamStats.size(); k++){
+                data.append(String.valueOf(teamStats.get(k))).append(",");
                 if(k == 2){// PCT
-                    data.append(String.valueOf(teamStats.get(k))).append(",");
-                    data.append(String.valueOf(teamStats.get(teamStats.size()))).append(",");
-                } else {
-                    data.append(String.valueOf(teamStats.get(k))).append(",");
+                    data.append(pct).append(",");
                 }
             }
-            data.append(teamStats.get(teamStats.size() - 1)); // pts is the last value
+            data.append(pts); // pts is the last value
             writer.write(data.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-//    private void updateTeamStats(List<Integer> teamStats, List<Integer> stats) {
-//        int lastIndex = teamStats.size() - 1;
-//        int secondToLastIndex = lastIndex - 2;
-//
-//        int currentPct = teamStats.get(secondToLastIndex);
-//        currentPct += stats.get(2);
-//
-//        int currentPts = teamStats.get(lastIndex);
-//        currentPts += stats.get(stats.size() - 1);
-//
-//        teamStats.set(secondToLastIndex, currentPct);
-//        teamStats.set(lastIndex, currentPts);
-//    }
-
-    String calculatePTS(Player player) {
+    private String calculatePTS(Player player) {
         List<Integer> stats = player.getStats();
         BigDecimal kills = BigDecimal.valueOf(stats.get(0));
         BigDecimal soloBlocks = BigDecimal.valueOf(stats.get(8));
@@ -99,8 +80,26 @@ class CSVFileMaker {
         return pts.toString();
     }
 
-    String calculatePCT(Player player) {
+    private String calculateTeamPTS(List<Integer> stats) {
+        BigDecimal kills = BigDecimal.valueOf(stats.get(0));
+        BigDecimal soloBlocks = BigDecimal.valueOf(stats.get(8));
+        BigDecimal serviceAces = BigDecimal.valueOf(stats.get(4));
+        BigDecimal blockAssists = BigDecimal.valueOf(stats.get(9));
+        BigDecimal pts = (blockAssists.multiply(new BigDecimal(.5)).add(kills).add(soloBlocks).add(serviceAces));
+        return pts.toString();
+    }
+
+    private String calculatePCT(Player player) {
         List<Integer> stats = player.getStats();
+        BigDecimal kills = BigDecimal.valueOf(stats.get(0));
+        BigDecimal errors = BigDecimal.valueOf(stats.get(1));
+        BigDecimal totalAttempts = BigDecimal.valueOf(stats.get(2));
+        BigDecimal pct = (kills.subtract(errors)).divide(totalAttempts, 3, RoundingMode.CEILING);
+        String pctString = pct.toString();
+        return formatPCT(pctString);
+    }
+
+    private String calculateTeamPCT(List<Integer> stats) {
         BigDecimal kills = BigDecimal.valueOf(stats.get(0));
         BigDecimal errors = BigDecimal.valueOf(stats.get(1));
         BigDecimal totalAttempts = BigDecimal.valueOf(stats.get(2));
@@ -124,7 +123,4 @@ class CSVFileMaker {
         }
         return pctString;
     }
-
-
-
 }
