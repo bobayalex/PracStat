@@ -10,18 +10,18 @@
                         <PlayerName>Foo</PlayerName>
                         <PlayerNumber>5</PlayerNumber>
                         <PlayerStats>
-                            <Kills></Kills>
+                            <Kills>0</Kills>
                             <Errors>1</Errors>
-                            <TotalAttempts>0</TotalAttempts>
-                            <Assists>0</Assists>
+                            <TotalAttempts>1</TotalAttempts>
+                            <Assists>31</Assists>
                             <ServiceAces>0</ServiceAces>
                             <ServiceErrors>0</ServiceErrors>
                             <ReceptionErrors>0</ReceptionErrors>
-                            <Digs>0</Digs>
+                            <Digs>2</Digs>
                             <SoloBlocks>0</SoloBlocks>
-                            <BlockAssists>0</BlockAssists>
+                            <BlockAssists>2</BlockAssists>
                             <BlockingErrors>0</BlockingErrors>
-                            <BallHandlingErrors>15</BallHandlingErrors>
+                            <BallHandlingErrors>0</BallHandlingErrors>
                         </PlayerStats>
                     </Player>
                     <Player>
@@ -45,19 +45,33 @@
                 </Players>
             </Practice>
         </Practices>
+        <!--<TeamStats>-->
+            <!--<Kills>1</Kills>-->
+            <!--<Errors>2</Errors>-->
+            <!--<TotalAttempts>3</TotalAttempts>-->
+            <!--<Assists>4</Assists>-->
+            <!--<ServiceAces>5</ServiceAces>-->
+            <!--<ServiceErrors>6</ServiceErrors>-->
+            <!--<ReceptionErrors>7</ReceptionErrors>-->
+            <!--<Digs>8</Digs>-->
+            <!--<SoloBlocks>9</SoloBlocks>-->
+            <!--<BlockAssists>10</BlockAssists>-->
+            <!--<BlockingErrors>11</BlockingErrors>-->
+            <!--<BallHandlingErrors>12</BallHandlingErrors>-->
+        <!--</TeamStats>-->
         <TeamStats>
-            <Kills>1</Kills>
-            <Errors>2</Errors>
-            <TotalAttempts>3</TotalAttempts>
-            <Assists>4</Assists>
-            <ServiceAces>5</ServiceAces>
-            <ServiceErrors>6</ServiceErrors>
-            <ReceptionErrors>7</ReceptionErrors>
-            <Digs>8</Digs>
-            <SoloBlocks>9</SoloBlocks>
-            <BlockAssists>10</BlockAssists>
-            <BlockingErrors>11</BlockingErrors>
-            <BallHandlingErrors>12</BallHandlingErrors>
+            <Kills>0</Kills>
+            <Errors>0</Errors>
+            <TotalAttempts>0</TotalAttempts>
+            <Assists>0</Assists>
+            <ServiceAces>0</ServiceAces>
+            <ServiceErrors>0</ServiceErrors>
+            <ReceptionErrors>0</ReceptionErrors>
+            <Digs>0</Digs>
+            <SoloBlocks>0</SoloBlocks>
+            <BlockAssists>0</BlockAssists>
+            <BlockingErrors>0</BlockingErrors>
+            <BallHandlingErrors>0</BallHandlingErrors>
         </TeamStats>
     </Team>
     <Team>

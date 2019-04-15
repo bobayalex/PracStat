@@ -252,8 +252,13 @@ class XMLFileHandler {
         for(int i = 0; i < statNodes.getLength(); i++){
             Node currentNode = statNodes.item(i);
             if(currentNode.getNodeType() == Node.ELEMENT_NODE){
-                int currentValue = Integer.parseInt(currentNode.getTextContent());
-                currentNode.setTextContent(String.valueOf(currentValue + spinnerVals.get(0)));
+                if(currentNode.getTextContent().equals("")){
+                    currentNode.setTextContent("0");
+                }
+                if(!currentNode.getTextContent().equals(String.valueOf(spinnerVals.get(0)))){
+                    int currentValue = Integer.parseInt(currentNode.getTextContent());
+                    currentNode.setTextContent(String.valueOf(currentValue + spinnerVals.get(0)));
+                }
                 spinnerVals.remove(0);
             }
         }
