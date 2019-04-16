@@ -162,11 +162,14 @@ public class MainPageController implements Initializable {
         //getSpinner(row, col).getValueFactory().increment(1);
         spinner.getValueFactory().increment(1);
         //spinner.getStyleClass().clear();
+        //spinner.getStyleClass().removeIf(style -> style.equals("spinner incremented tonormal"));
         System.out.println("The OLD style class is: " + spinner.getStyleClass());
         spinner.getStyleClass().add("incremented");
         System.out.println("The NEW style class is: " + spinner.getStyleClass());
         TimeUnit.SECONDS.sleep(1);
-        spinner.getStyleClass().add("tonormal");
+        //spinner.getStyleClass().add("tonormal");
+        spinner.getStyleClass().remove("incremented");
+        System.out.println("The go-back style class is: " + spinner.getStyleClass());
     }
 
     // Value factory.
