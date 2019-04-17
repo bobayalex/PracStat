@@ -38,13 +38,21 @@ class XMLFileHandler {
     }
 
     boolean isConfigured() {
+        if(doc == null){
+            return false;
+        }
         NodeList teams = doc.getElementsByTagName("Team");
         return teams.getLength() > 0;
     }
 
-//    Document getDoc() {
-//        return doc;
-//    }
+    Document getDoc() {
+        return doc;
+    }
+
+    void setDoc(Document document){
+        doc = document;
+    }
+
 
     List<Player> getPlayersByTeam(String teamName, String practiceName) {
         List<Player> players = new ArrayList<>();
@@ -119,7 +127,7 @@ class XMLFileHandler {
         return currentNode;
     }
 
-    private List<Node> getNodeList() {
+    List<Node> getNodeList() {
         Node node = doc.getDocumentElement();
         List<Node> nodes = new ArrayList<>();
         return getAllNodes(node, nodes);
@@ -136,10 +144,6 @@ class XMLFileHandler {
         }
         return nodes;
     }
-
-//    void test() {
-//        getTeamStats("Team 1");
-//    }
 
 //    private void printPlayers(List<Player> players) {
 //        for (Player player : players) {
