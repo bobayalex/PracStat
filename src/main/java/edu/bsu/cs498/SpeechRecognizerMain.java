@@ -272,6 +272,9 @@ public class SpeechRecognizerMain {
         updateVoiceRecStatus("The user said: " + speech);
         if (getStatColumn(stat) > -1 && playerNum > -1) {
             mainPageController1.incrementSpinner(playerNum, getStatColumn(stat));
+            if (getStatColumn(stat) == 0 || getStatColumn(stat) == 1) {
+                mainPageController1.incrementSpinner(playerNum, 2);
+            }
         }
     }
 

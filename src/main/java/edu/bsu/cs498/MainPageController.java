@@ -1,7 +1,9 @@
 package edu.bsu.cs498;
 
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_GREENPeer;
+import javafx.application.HostServices;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,6 +27,31 @@ public class MainPageController implements Initializable {
     @FXML Button speechRecBtn;
     @FXML Label statusLabel;
     @FXML Label voiceLabel;
+    @FXML MenuItem aboutBtn;
+    @FXML GridPane gridPaneList;
+
+    //THE BELOW METHOD IS JUST FOR TESTING, ACTUAL INFO WILL COME FROM PRACTICE SETUP!
+    @FXML
+    public void addToGridPane() {
+        TextField field1 = new TextField();
+        TextField field2 = new TextField();
+        TextField field3 = new TextField();
+        TextField field4 = new TextField();
+        TextField field5 = new TextField();
+        TextField field6 = new TextField();
+        field1.setText("3");
+        field2.setText("Chinici");
+        field3.setText("7");
+        field4.setText("Scannell");
+        field5.setText("19");
+        field6.setText("Turner");
+        gridPaneList.add(field1, 0, 0);
+        gridPaneList.add(field2, 1, 0);
+        gridPaneList.add(field3, 0, 1);
+        gridPaneList.add(field4, 1, 1);
+        gridPaneList.add(field5, 0, 2);
+        gridPaneList.add(field6, 1, 2);
+    }
 
     @FXML
     private void handleButtonAction() {
@@ -59,6 +86,28 @@ public class MainPageController implements Initializable {
                 mediaPlayer.play();
             }
         }
+    }
+
+    @FXML
+    private int getPlayerRow(int playerNum) {
+        int row = -1;
+        ObservableList<Node> children = gridPaneList.getChildren();
+
+        for (Node node : children) {
+            if(node.equals(playerNum)) {
+                row = gridPaneList.getRowIndex(node);
+            }
+        }
+        return row;
+    }
+
+    @FXML
+    private void openInfo() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Help Information");
+        alert.setHeaderText("Help Info");
+        alert.setContentText("On this page, you can track statistics during practice.");
+        alert.showAndWait();
     }
 
 

@@ -1,12 +1,14 @@
 package edu.bsu.cs498;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import javax.imageio.IIOParam;
+import java.awt.*;
 import java.util.List;
 
 public class Main extends Application {
@@ -41,6 +43,8 @@ public class Main extends Application {
         XMLFileHandler handler = new XMLFileHandler();
         handler.test();
         //System.exit(0);
+        //primaryStage.setOnCloseRequest(e -> Platform.exit());
+        primaryStage.setOnCloseRequest(e -> System.exit(0));
     }
 
 

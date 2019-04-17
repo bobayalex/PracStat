@@ -90,5 +90,8 @@ public class StartPageController implements Initializable {
 
         //Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.getScene().setRoot(updatedRoot);
+
+        //USE THIS ONLY TO TEST THE GRIDPANE!!!
+        mainPageController1.addToGridPane();
     }
 }

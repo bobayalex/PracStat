@@ -22,7 +22,7 @@
                 <MenuItem mnemonicParsing="false" text="Delete" />
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
-                <MenuItem mnemonicParsing="false" text="About" />
+                <MenuItem fx:id="aboutBtn" mnemonicParsing="false" onAction="#openInfo" text="About" />
             </Menu>
         </MenuBar>
     </HBox>
@@ -30,7 +30,7 @@
     <Label layoutX="211.0" layoutY="69.0" text="Practice Name + Date" />
     <Label layoutX="25.0" layoutY="118.0" prefHeight="17.0" prefWidth="71.0" text="Player Num" />
     <Rectangle arcHeight="5.0" arcWidth="5.0" height="96.0" layoutX="408.0" layoutY="30.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
-    <GridPane gridLinesVisible="true" layoutX="14.0" layoutY="135.0" prefWidth="200.0">
+    <GridPane fx:id="gridPaneList" gridLinesVisible="true" layoutX="14.0" layoutY="135.0" prefWidth="200.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
