@@ -83,7 +83,7 @@ public class MainPageController implements Initializable {
         List<Integer> teamStats = handler.getTeamStats("Team 1");
 
         CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practiceName);
-        csvFileMaker.generateCSVFile();
+        csvFileMaker.generateCSVFile("testCSVFile.csv");
     }
 
 //    private void updateFile(Document doc) {

@@ -18,9 +18,9 @@ class CSVFileMaker {
         practiceName = practice;
     }
 
-    void generateCSVFile() {
+    void generateCSVFile(String fileName) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream("testCSVFile.csv"), StandardCharsets.UTF_8))) {
+                new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
             writer.write(teamName + "," + practiceName + "\n");
             writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
             StringBuilder data;
