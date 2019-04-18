@@ -10,9 +10,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
@@ -89,12 +91,22 @@ public class MainPageController implements Initializable {
     }
 
     @FXML
-    private int getPlayerRow(int playerNum) {
+    public int getPlayerRow(int playerNum) {
+        String num = Integer.toString(playerNum);
         int row = -1;
         ObservableList<Node> children = gridPaneList.getChildren();
 
+        HBox hb = (HBox)children.get(0);
+        System.out.println(hb);
+        ObservableList<Node> hbChildren = hb.getChildren();
+        TextField tfs = (TextField) hbChildren.get(0);
+        System.out.println("tfs = " + tfs);
+
+        System.out.println("getPlayerRow gives: ");
         for (Node node : children) {
-            if(node.equals(playerNum)) {
+            TextField tf = (TextField) node;
+            System.out.println(tf.getText());
+            if (tf.getText().equals(num)) {
                 row = gridPaneList.getRowIndex(node);
             }
         }

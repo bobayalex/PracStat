@@ -246,6 +246,7 @@ public class SpeechRecognizerMain {
         }
         else if (array.length == 2) {
             playerNum = stringToNumber.convert(array[0]);
+            //System.out.println(mainPageController1.getPlayerRow(playerNum));
             stat = array[1];
             if (playerNum == -1) {
                 System.out.println("User didn't say a player number to start command!");
@@ -254,6 +255,7 @@ public class SpeechRecognizerMain {
         }
         else if (array.length == 3) {
             playerNum = stringToNumber.convert(array[0]);
+            //System.out.println(mainPageController1.getPlayerRow(playerNum));
             stat = array[1] + " " + array[2];
             if (playerNum == -1) {
                 System.out.println("User didn't say a player number to start command!");
