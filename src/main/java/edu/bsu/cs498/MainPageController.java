@@ -55,7 +55,7 @@ public class MainPageController implements Initializable {
     }
 
     private void testButtonAction(ActionEvent event) {
-//        generateCSVFile();
+        generateCSVFile();
     }
 
     private List<Integer> getSpinnerValues() {
