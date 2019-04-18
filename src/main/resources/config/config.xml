@@ -25,8 +25,8 @@
                         </PlayerStats>
                     </Player>
                     <Player>
-                        <PlayerName>Foo</PlayerName>
-                        <PlayerNumber>5</PlayerNumber>
+                        <PlayerName>Foo 2</PlayerName>
+                        <PlayerNumber>55</PlayerNumber>
                         <PlayerStats>
                             <Kills>2</Kills>
                             <Errors>1</Errors>

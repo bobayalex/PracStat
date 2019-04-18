@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    // Currently working on reading in player names and numbers to main page, organizing page elements
     @Override
     public void start(Stage primaryStage) throws Exception{
 //        String fxmlPath = "/fxml/startPage.fxml";

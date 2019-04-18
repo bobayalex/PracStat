@@ -40,7 +40,6 @@ public class MainPageController implements Initializable {
 //
 //    }
 
-
     private void initializeHashMap() {
         for (int i = 0; i < statNames.size(); i++){
             spinnerIDs.put(i, statNames.get(i));
@@ -92,18 +91,24 @@ public class MainPageController implements Initializable {
 
     private void setUpGridPanes(){
         setUpPlayerGrid();
-//        setUpStatGrid();
+        setUpStatGrid();
     }
 
     private void setUpPlayerGrid() {
         List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
-        TextField field = new TextField();
+        TextField numberField;
+        TextField nameField;
         for(int i = 0; i < players.size(); i++){
             Player player = players.get(i);
-            String name = player.getName();
-            field.setText(name);
             int number = player.getNumber();
-            playerGrid.addRow(i, field);
+            numberField = new TextField(String.valueOf(number));
+            numberField.setEditable(false);
+
+            String name = player.getName();
+            nameField = new TextField(name);
+            nameField.setEditable(false);
+            playerGrid.add(numberField, 0, i);
+            playerGrid.add(nameField, 1, i);
         }
     }
 
