@@ -246,7 +246,7 @@ public class SpeechRecognizerMain {
         }
         else if (array.length == 2) {
             playerNum = stringToNumber.convert(array[0]);
-            //System.out.println(mainPageController1.getPlayerRow(playerNum));
+            System.out.println(mainPageController1.getPlayerRow(array[0]));
             stat = array[1];
             if (playerNum == -1) {
                 System.out.println("User didn't say a player number to start command!");
@@ -255,7 +255,7 @@ public class SpeechRecognizerMain {
         }
         else if (array.length == 3) {
             playerNum = stringToNumber.convert(array[0]);
-            //System.out.println(mainPageController1.getPlayerRow(playerNum));
+            System.out.println(mainPageController1.getPlayerRow(array[0]));
             stat = array[1] + " " + array[2];
             if (playerNum == -1) {
                 System.out.println("User didn't say a player number to start command!");
@@ -272,10 +272,10 @@ public class SpeechRecognizerMain {
         System.out.println("The stat String = " + stat);
         System.out.println("The user said: " + speech);
         updateVoiceRecStatus("The user said: " + speech);
-        if (getStatColumn(stat) > -1 && playerNum > -1) {
-            mainPageController1.incrementSpinner(playerNum, getStatColumn(stat));
+        if (getStatColumn(stat) > -1 && playerNum > -1 && mainPageController1.getPlayerRow(array[0]) > -1) {
+            mainPageController1.incrementSpinner(mainPageController1.getPlayerRow(array[0]), getStatColumn(stat));
             if (getStatColumn(stat) == 0 || getStatColumn(stat) == 1) {
-                mainPageController1.incrementSpinner(playerNum, 2);
+                mainPageController1.incrementSpinner(mainPageController1.getPlayerRow(array[0]), 2);
             }
         }
     }

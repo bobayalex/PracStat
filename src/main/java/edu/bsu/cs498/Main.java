@@ -41,7 +41,7 @@ public class Main extends Application {
         primaryStage.setMaximized(true);
         primaryStage.show();
         XMLFileHandler handler = new XMLFileHandler();
-        handler.test();
+        //handler.test();
         //System.exit(0);
         //primaryStage.setOnCloseRequest(e -> Platform.exit());
         primaryStage.setOnCloseRequest(e -> System.exit(0));

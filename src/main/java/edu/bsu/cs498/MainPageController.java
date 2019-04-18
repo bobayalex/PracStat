@@ -25,6 +25,8 @@ public class MainPageController implements Initializable {
     private SpeechRecognizerMain mySpeechRecognizer = new SpeechRecognizerMain();
     private String soundFile = "chime.mp3";
     private MediaPlayer mediaPlayer;
+    EnglishStringToNumber stringToNumber = new EnglishStringToNumber();
+    private XMLFileHandler handler = new XMLFileHandler();
 
     @FXML Button speechRecBtn;
     @FXML Label statusLabel;
@@ -91,7 +93,24 @@ public class MainPageController implements Initializable {
     }
 
     @FXML
-    public int getPlayerRow(int playerNum) {
+    public int getPlayerRow(String playerNum) {
+        int row = -1;
+        for (int i = 0; i < gridPaneList.getChildren().size(); i++) {
+            Node child1 = gridPaneList.getChildren().get(i);
+            if (child1 instanceof TextField) {
+                TextField tfield = (TextField) child1;
+                System.out.println("tfield text = " + tfield.getText());
+                if (tfield.getText().length() <=2 && Integer.parseInt(tfield.getText()) == stringToNumber.convert(playerNum)) {
+                    row = gridPaneList.getRowIndex(child1);
+                    System.out.println("row = " + row);
+                }
+            }
+        }
+        return row;
+    }
+
+/*
+
         String num = Integer.toString(playerNum);
         int row = -1;
         ObservableList<Node> children = gridPaneList.getChildren();
@@ -112,6 +131,7 @@ public class MainPageController implements Initializable {
         }
         return row;
     }
+*/
 
     @FXML
     private void openInfo() {
@@ -142,7 +162,8 @@ public class MainPageController implements Initializable {
 //        setUpMenuBar();
         initializeHashMap();
         setButtonActions();
-        setUpGridPane();
+        //setUpGridPane();
+        setUpGridPanes();
 //        readConfigData();
     }
 
@@ -189,22 +210,44 @@ public class MainPageController implements Initializable {
         }
     }
 
-    private void setUpGridPane() {
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 16; j++) {
-                int initialValue = 0;
-                SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 1000, initialValue);
-                //Spinner<Integer> spinner = new Spinner<>(0, 10000, 0, 1);
-                Spinner<Integer> spinner = new Spinner<Integer>();
-                spinner.setValueFactory(valueFactory);
-                //USE THE BELOW COMMENTED OUT CODE TO INCREMENT A SPECIFIED SPINNER!
-                //spinner.getValueFactory().increment(1);
-                //valueFactory.setValue(0);
+    private void setUpGridPanes(){
+        setUpPlayerGrid();
+        setUpStatGrid();
+    }
+
+    private void setUpPlayerGrid() {
+        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        TextField numberField;
+        TextField nameField;
+        for(int i = 0; i < players.size(); i++){
+            Player player = players.get(i);
+            int number = player.getNumber();
+            numberField = new TextField(String.valueOf(number));
+            numberField.setEditable(false);
+
+            String name = player.getName();
+            nameField = new TextField(name);
+            nameField.setEditable(false);
+            gridPaneList.add(numberField, 0, i);
+            gridPaneList.add(nameField, 1, i);
+        }
+    }
+
+    private void setUpStatGrid() {
+        // column constraints are for stats, row constraints are for players
+        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        int numStats = statNames.size(); // should be 12
+        int playerCounter = 0;
+        for(Player player : players){
+            List<Integer> stats = player.getStats();
+            for(int i = 0; i < numStats; i++){
+                Spinner<Integer> spinner = new Spinner<>(0, 10000, stats.get(i), 1);
                 spinner.setPrefWidth(100);
                 spinner.setPrefHeight(30);
                 statSpinners.add(spinner);
-                statGrid.add(spinner, i, j);
+                statGrid.add(spinner, i, playerCounter);
             }
+            playerCounter++;
         }
     }
 

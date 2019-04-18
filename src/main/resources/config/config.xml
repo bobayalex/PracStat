@@ -24,6 +24,24 @@
                             <BallHandlingErrors>12</BallHandlingErrors>
                         </PlayerStats>
                     </Player>
+                    <Player>
+                        <PlayerName>Bleh</PlayerName>
+                        <PlayerNumber>9</PlayerNumber>
+                        <PlayerStats>
+                            <Kills>0</Kills>
+                            <Errors>0</Errors>
+                            <TotalAttempts>0</TotalAttempts>
+                            <Assists>0</Assists>
+                            <ServiceAces>0</ServiceAces>
+                            <ServiceErrors>0</ServiceErrors>
+                            <ReceptionErrors>0</ReceptionErrors>
+                            <Digs>0</Digs>
+                            <SoloBlocks>0</SoloBlocks>
+                            <BlockAssists>0</BlockAssists>
+                            <BlockingErrors>0</BlockingErrors>
+                            <BallHandlingErrors>0</BallHandlingErrors>
+                        </PlayerStats>
+                    </Player>
                 </Players>
             </Practice>
         </Practices>

@@ -11,10 +11,3 @@
 .incremented .text-field {
     -fx-background-color: red;
 }
-.tonormal .text-field {
-    -fx-background-color: white;
-}
-.tonormal {
-    -fx-body-color: #00e600
-    -fx-background-color: gray;
-}
