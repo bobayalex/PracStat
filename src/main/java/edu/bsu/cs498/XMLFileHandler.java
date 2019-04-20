@@ -70,6 +70,7 @@ class XMLFileHandler {
     }
 
     List<Player> getPlayersInAllPractices2(String teamName) {
+        List<Node> nodes;
         List<Player> players = new ArrayList<>();
         NodeList teamNodes = getNodeList("Team");
         Node teamNode = getParentByChild(teamNodes, teamName);
@@ -90,13 +91,15 @@ class XMLFileHandler {
         return null;
     }
 
-    private Node getChildFromParent(Node parent, String text) {
+    private List<Node> getChildrenFromParent(Node parent, String nodeName) {
+        List<Node> childNodes = new ArrayList<>();
+        NodeList allChildren = parent.getChildNodes();
         for (Node child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
-            if (child.getNodeType() == Node.ELEMENT_NODE && child.getTextContent().equals(text)) {
-                return child;
+            if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equals(nodeName)) {
+                childNodes.add(child);
             }
         }
-        return null;
+        return childNodes;
     }
 
     List<Player> getPlayersByTeamPractice(String teamName, String practiceName) {
