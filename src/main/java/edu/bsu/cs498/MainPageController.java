@@ -55,13 +55,13 @@ public class MainPageController implements Initializable {
     }
 
     private void testButtonAction(ActionEvent event) {
-        exportStatistics(false);
+        exportStatistics(true);
     }
 
     private List<Integer> getSpinnerValues() {
         List<Integer> spinnerVals = new ArrayList<>();
         int numStats = statNames.size();
-        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
         int numPlayers = players.size();
         for (int i = 0; i < numPlayers; i++) {
             for(int j = 0; j < numStats; j++){// there should be 12 stats
@@ -73,21 +73,26 @@ public class MainPageController implements Initializable {
     }
 
     private void exportStatistics(boolean showAvg){
-        List<String> practices;
-        List<Integer> spinnerVals = getSpinnerValues();
-        String teamName = "Team 1";
-        String practiceName = "Practice 1";
-        if(showAvg){
-            practices = handler.getPracticesByTeam("Team 1");
-        } else {
-            practices = Collections.singletonList(practiceName);
+        List<Player> players = handler.getPlayersInAllPractices2("Team 1");
+//        System.out.println(players.size());
+        for(Player player : players){
+            System.out.println(player.getName() + "\t\t" + player.getPractice());
         }
-        handler.updatePlayerStats(spinnerVals, teamName, practiceName);
-        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");
-        List<Integer> teamStats = handler.getTeamStats("Team 1");
-
-        CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
-        csvFileMaker.generateCSVFile("testCSVFile.csv");
+//        List<String> practices;
+//        List<Integer> spinnerVals = getSpinnerValues();
+//        String teamName = "Team 1";
+//        String practiceName = "Practice 1";
+//        if(showAvg){
+//            practices = handler.getPracticesByTeam("Team 1");
+//        } else {
+//            practices = Collections.singletonList(practiceName);
+//        }
+//        handler.updatePlayerStats(spinnerVals, teamName, practiceName);
+//        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");
+//        List<Integer> teamStats = handler.getTeamStats("Team 1");
+//
+//        CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
+//        csvFileMaker.generateCSVFile("testCSVFile.csv");
     }
 
 //    private void updateFile(Document doc) {
@@ -100,7 +105,7 @@ public class MainPageController implements Initializable {
     }
 
     private void setUpPlayerGrid() {
-        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
         TextField numberField;
         TextField nameField;
         for(int i = 0; i < players.size(); i++){
@@ -119,7 +124,7 @@ public class MainPageController implements Initializable {
 
     private void setUpStatGrid() {
         // column constraints are for stats, row constraints are for players
-        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
         int numStats = statNames.size(); // should be 12
         int playerCounter = 0;
         for(Player player : players){

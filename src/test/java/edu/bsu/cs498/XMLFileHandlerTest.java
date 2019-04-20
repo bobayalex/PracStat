@@ -37,13 +37,13 @@ public class XMLFileHandlerTest {
 
     @Test
     public void test_getPlayersByTeam(){
-        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");
+        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");
         Assert.assertEquals(2, players.size());
     }
 
     @Test
     public void test_getNodeList(){
-        List<Node> nodes = handler.getNodeList();
+        List<Node> nodes = handler.getAllNodes();
         Assert.assertTrue(nodes.size() > 0);
     }
 

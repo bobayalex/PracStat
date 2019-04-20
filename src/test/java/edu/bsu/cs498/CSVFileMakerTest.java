@@ -16,7 +16,7 @@ public class CSVFileMakerTest {
 
     @Before
     public void setup(){
-        List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");
+        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");
         List<Integer> teamStats = handler.getTeamStats("Team 1");
         csvFileMaker = new CSVFileMaker(players, "Team 1", teamStats, Collections.singletonList("Practice 1"));
         csvFileMaker.generateCSVFile(fileName);

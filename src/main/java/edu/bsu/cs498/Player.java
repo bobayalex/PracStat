@@ -6,11 +6,13 @@ public class Player {
     private String name;
     private int number;
     private List<Integer> stats;
+    private String practice;
 
-    public Player(String pName, int pNumber, List<Integer> pStats){
-        name = pName;
-        number = pNumber;
-        stats = pStats;
+    public Player(String playerName, int playerNumber, List<Integer> playerStats, String playerPractice){
+        name = playerName;
+        number = playerNumber;
+        stats = playerStats;
+        practice = playerPractice;
     }
 
     String getName() {
@@ -23,5 +25,9 @@ public class Player {
 
     List<Integer> getStats(){
         return stats;
+    }
+
+    String getPractice(){
+        return practice;
     }
 }
