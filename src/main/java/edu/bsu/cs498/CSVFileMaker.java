@@ -10,64 +10,84 @@ class CSVFileMaker {
     private List<Player> players;
     private String teamName;
     private List<Integer> teamStats;
-    private String practiceName;
-    CSVFileMaker(List<Player> playerList, String team, List<Integer> teamStatList, String practice){
+    private List<String> practices;
+    CSVFileMaker(List<Player> playerList, String team, List<Integer> teamStatList, List<String> practiceList){
         players = playerList;
         teamName = team;
         teamStats = teamStatList;
-        practiceName = practice;
+        practices = practiceList;
     }
 
     void generateCSVFile(String fileName) {
+        int numPractices = practices.size();
+        if(numPractices == 1){
+            writeSinglePracticeData(fileName);
+        } else {
+            writeAveragePracticeData(fileName);
+        }
+    }
+
+    private void writeSinglePracticeData(String fileName) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
-            writer.write(teamName + "," + practiceName + "\n");
+            writer.write(teamName + "," + practices.get(0) + "\n");
             writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
-            StringBuilder data;
-            for(int i = 0; i < players.size(); i++){
-                Player player = players.get(i);
-                // calculate PCT and PTS for player
-                String pct = calculatePCT(player.getStats());
-                String pts = calculatePTS(player.getStats());
-                // add line break if more than one player
-                if(i > 0){
-                    writer.write("\n");
-                }
-                writer.write(player.getNumber() + "," + player.getName() + ",");
-                List<Integer> stats = player.getStats();
-                data = new StringBuilder();
+            writePlayerStats(writer);
+            writeTeamStats(writer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-                // calculate pct and pts before loop starts and then add based on index
-                for(int j = 0; j < stats.size(); j++){
-                    int currentTeamStat = teamStats.get(j);
-                    currentTeamStat += stats.get(j);
-                    teamStats.set(j, currentTeamStat);
-
-                    data.append(String.valueOf(stats.get(j))).append(",");
-                    if(j == 2){// PCT
-                        data.append(pct).append(",");
-                    }
-                }
-                data.append(pts); // pts is the last value
-                writer.write(data.toString());
-                //updateTeamStats(teamStats, stats);
+    private void writePlayerStats(Writer writer) throws IOException {
+        StringBuilder data;
+        for(int i = 0; i < players.size(); i++){
+            Player player = players.get(i);
+            // calculate PCT and PTS for player
+            String pct = calculatePCT(player.getStats());
+            String pts = calculatePTS(player.getStats());
+            // add line break if more than one player
+            if(i > 0){
+                writer.write("\n");
             }
-            // write total team stats here
-            writer.write("," + "\n" + ",Totals,");
+            writer.write(player.getNumber() + "," + player.getName() + ",");
+            List<Integer> stats = player.getStats();
             data = new StringBuilder();
-            String pct = calculatePCT(teamStats);
-            String pts = calculatePTS(teamStats);
-            for(int k = 0; k < teamStats.size(); k++){
-                data.append(String.valueOf(teamStats.get(k))).append(",");
-                if(k == 2){// PCT
+
+            // calculate pct and pts before loop starts and then add based on index
+            for(int j = 0; j < stats.size(); j++){
+                int currentTeamStat = teamStats.get(j);
+                currentTeamStat += stats.get(j);
+                teamStats.set(j, currentTeamStat);
+
+                data.append(String.valueOf(stats.get(j))).append(",");
+                if(j == 2){// PCT
                     data.append(pct).append(",");
                 }
             }
             data.append(pts); // pts is the last value
             writer.write(data.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+    }
+
+    private void writeTeamStats(Writer writer) throws IOException {
+        StringBuilder data;
+        writer.write("," + "\n" + ",Totals,");
+        data = new StringBuilder();
+        String pct = calculatePCT(teamStats);
+        String pts = calculatePTS(teamStats);
+        for(int k = 0; k < teamStats.size(); k++){
+            data.append(String.valueOf(teamStats.get(k))).append(",");
+            if(k == 2){// PCT
+                data.append(pct).append(",");
+            }
+        }
+        data.append(pts); // pts is the last value
+        writer.write(data.toString());
+    }
+
+    private void writeAveragePracticeData(String fileName) {
+        System.out.println("made it");
     }
 
     String calculatePTS(List<Integer> stats) {

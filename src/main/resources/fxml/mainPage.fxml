@@ -69,7 +69,7 @@
     <Label layoutX="1164.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BE" />
     <Label layoutX="1243.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BH" />
     <Button fx:id="testBtn" layoutX="429.0" layoutY="35.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="785.0" text="Test" />
-   <ScrollPane layoutX="33.0" layoutY="110.0" prefHeight="557.0" prefWidth="244.0">
+   <ScrollPane layoutX="25.0" layoutY="135.0" prefHeight="557.0" prefWidth="244.0">
      <content>
          <GridPane fx:id="playerGrid" gridLinesVisible="true" layoutX="14.0" layoutY="135.0" prefWidth="200.0" />     </content>
    </ScrollPane>

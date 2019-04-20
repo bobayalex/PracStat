@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CSVFileMakerTest {
@@ -17,7 +18,7 @@ public class CSVFileMakerTest {
     public void setup(){
         List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");
         List<Integer> teamStats = handler.getTeamStats("Team 1");
-        csvFileMaker = new CSVFileMaker(players, "Team 1", teamStats, "Practice 1");
+        csvFileMaker = new CSVFileMaker(players, "Team 1", teamStats, Collections.singletonList("Practice 1"));
         csvFileMaker.generateCSVFile(fileName);
     }
 

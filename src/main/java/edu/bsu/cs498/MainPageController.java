@@ -55,7 +55,7 @@ public class MainPageController implements Initializable {
     }
 
     private void testButtonAction(ActionEvent event) {
-        generateCSVFile();
+        exportStatistics(false);
     }
 
     private List<Integer> getSpinnerValues() {
@@ -72,16 +72,21 @@ public class MainPageController implements Initializable {
         return spinnerVals;
     }
 
-    private void generateCSVFile(){
+    private void exportStatistics(boolean showAvg){
+        List<String> practices;
         List<Integer> spinnerVals = getSpinnerValues();
         String teamName = "Team 1";
         String practiceName = "Practice 1";
+        if(showAvg){
+            practices = handler.getPracticesByTeam("Team 1");
+        } else {
+            practices = Collections.singletonList(practiceName);
+        }
         handler.updatePlayerStats(spinnerVals, teamName, practiceName);
-
         List<Player> players = handler.getPlayersByTeam("Team 1", "Practice 1");
         List<Integer> teamStats = handler.getTeamStats("Team 1");
 
-        CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practiceName);
+        CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
         csvFileMaker.generateCSVFile("testCSVFile.csv");
     }
 

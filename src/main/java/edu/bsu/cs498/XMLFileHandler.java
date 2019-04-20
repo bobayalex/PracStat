@@ -38,7 +38,7 @@ class XMLFileHandler {
     }
 
     boolean isConfigured() {
-        if(doc == null){
+        if (doc == null) {
             return false;
         }
         NodeList teams = doc.getElementsByTagName("Team");
@@ -49,7 +49,7 @@ class XMLFileHandler {
         return doc;
     }
 
-    void setDoc(Document document){
+    void setDoc(Document document) {
         doc = document;
     }
 
@@ -67,6 +67,20 @@ class XMLFileHandler {
             }
         }
         return players;
+    }
+
+    List<String> getPracticesByTeam(String teamName) {
+        List<String> practices = new ArrayList<>();
+        List<Node> elements = getNodeList();
+        Node practicesNode = getPracticesNode(elements, teamName);
+        NodeList practiceNodes = practicesNode.getChildNodes(); // this also contains non-element nodes
+        for (int i = 0; i < practiceNodes.getLength(); i++) {
+            Node currentNode = practiceNodes.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                practices.add(currentNode.getTextContent());
+            }
+        }
+        return practices;
     }
 
     private void addPlayer(Node playerNode, List<Player> players) {
@@ -96,9 +110,9 @@ class XMLFileHandler {
             Node currentNode = children.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
                 String currentText = currentNode.getTextContent();
-                if(currentText.equals("")){
+                if (currentText.equals("")) {
                     stats.add(0);
-                } else{
+                } else {
                     stats.add(Integer.parseInt(currentNode.getTextContent()));
                 }
             }
@@ -122,6 +136,18 @@ class XMLFileHandler {
                     currentNode = elements.get(i + 4); // players element
                     return currentNode;
                 }
+            }
+        }
+        return currentNode;
+    }
+
+    private Node getPracticesNode(List<Node> elements, String teamName) {
+        Node currentNode = null;
+        for (int i = 0; i < elements.size(); i++) {
+            currentNode = elements.get(i);
+            if (currentNode.getTextContent().equals(teamName)) {
+                currentNode = elements.get(i + 1);
+                return currentNode;
             }
         }
         return currentNode;
@@ -196,8 +222,7 @@ class XMLFileHandler {
     }
 
 
-
-        //////////
+    //////////
 //    private String printXML() {
 //        try {
 //            Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -252,13 +277,13 @@ class XMLFileHandler {
 
     private void updateNodes(NodeList statNodes, List<Integer> spinnerVals) {
         // statNodes could contain non-elements
-        for(int i = 0; i < statNodes.getLength(); i++){
+        for (int i = 0; i < statNodes.getLength(); i++) {
             Node currentNode = statNodes.item(i);
-            if(currentNode.getNodeType() == Node.ELEMENT_NODE){
-                if(currentNode.getTextContent().equals("")){
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                if (currentNode.getTextContent().equals("")) {
                     currentNode.setTextContent("0");
                 }
-                if(!currentNode.getTextContent().equals(String.valueOf(spinnerVals.get(0)))){
+                if (!currentNode.getTextContent().equals(String.valueOf(spinnerVals.get(0)))) {
                     currentNode.setTextContent(String.valueOf(spinnerVals.get(0)));
                 }
                 spinnerVals.remove(0);
