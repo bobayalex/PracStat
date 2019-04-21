@@ -73,8 +73,8 @@ public class MainPageController implements Initializable {
     }
 
     private void exportStatistics(boolean showAvg){
-        List<Player> players = handler.getPlayersInAllPractices2("Team 1");
-//        System.out.println(players.size());
+        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");
+//        List<Player> players = handler.getPlayersInAllPractices("Team 1");
         for(Player player : players){
             System.out.println(player.getName() + "\t\t" + player.getPractice());
         }
