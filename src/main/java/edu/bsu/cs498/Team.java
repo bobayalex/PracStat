@@ -7,25 +7,8 @@ public class Team {
     private ObservableList<Player> playerList;
     private XMLFileHandler reader = new XMLFileHandler();
 
-    private void addPlayer(String playerName, String playerNumber, String position){
-        Player newPlayer = new Player(playerName, playerNumber, position);
-        playerList.add(newPlayer);
-    }
-
-    private void editTeam(){
-
-    }
-
-    private void teamSettings(){
-
-    }
-
     public String getTeamName(){
         return (teamName);
-    }
-
-    public void getTeamStats(){
-
     }
 
     public ObservableList<Player> getPlayers(){
@@ -40,7 +23,6 @@ public class Team {
             this.teamName = teamName;
             this.playerList = playerList;
             reader.addTeam(teamName, playerList);
-            System.out.println(reader.isConfigured());
         }
     }
 }

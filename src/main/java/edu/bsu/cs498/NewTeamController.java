@@ -11,7 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class NewTeamController {
@@ -30,7 +29,6 @@ public class NewTeamController {
     @FXML private TableColumn<Player, String> positionColumn;
 
     public void initialize(){
-        XMLFileHandler reader = new XMLFileHandler();
         setButtonActions();
         nameColumn.setCellValueFactory(new PropertyValueFactory("playerName"));
         numberColumn.setCellValueFactory(new PropertyValueFactory("playerNumber"));
@@ -38,15 +36,25 @@ public class NewTeamController {
     }
 
     public void addPlayer(){
-        if (playerInfoEntered()){
-            playerTable.setItems(playerList);
-            playerList.add(new Player(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString()));
-            output.setText("Player " + playerCount + " Added");
-            playerCount++;
-            playerNameInput.clear();
-            playerNumberInput.clear();
-            positionOptions.setValue(null);
-        } else {popupMessage("Error", "Error adding player");}
+        try{
+            if (Integer.parseInt(playerNumberInput.getText()) > 100){
+            popupMessage("Error", "Player Number must be 100 or below");
+            return;
+            }
+            if (playerNameInput.getText().length() < 3){
+                popupMessage("Error", "Player Name must be at least 3 characters");
+                return;
+            }
+            if (playerInfoEntered()){
+                playerTable.setItems(playerList);
+                playerList.add(new Player(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString()));
+                output.setText("Player " + playerCount + " Added");
+                playerCount++;
+                playerNameInput.clear();
+                playerNumberInput.clear();
+                positionOptions.setValue(null);
+            } else {popupMessage("Error", "Error adding player");}
+        } catch (NumberFormatException e){}
     }
 
     private void createTeamButtonAction(ActionEvent event){

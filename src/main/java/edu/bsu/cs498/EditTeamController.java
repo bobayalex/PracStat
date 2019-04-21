@@ -91,26 +91,34 @@ public class EditTeamController {
     }
 
     public void editPlayer(){
+        if (Integer.parseInt(playerNumberInput.getText()) > 100){
+            popupMessage("Error", "Player Number must be 100 or below");
+            return;
+        }
+        if (playerNameInput.getText().length() < 3){
+            popupMessage("Error", "Player Name must be at least 3 characters");
+            return;
+        }
         if (missingInfo() == false && isAPlayerSelected() == true){
             String playerInfo = playerSelection.getValue().toString();
             String[] playerInfoSplit = playerInfo.split(",");
             String playerName = playerInfoSplit[0];
             reader.editPlayer(playerName, playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
             refreshPage();}
-        else{errorPopup("Error editing player. Please make sure all necessary information has been entered.");}
+        else{popupMessage("Error", "Error editing player. Please make sure all necessary information has been entered.");}
     }
 
     public void addNewPlayer(){
         if (missingInfo() == false) {
             Player newPlayer = new Player(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
-            reader.addPlayer(teamOptions.getValue().toString(), newPlayer, reader.getTeamNode(teamOptions.getValue().toString()));
+            reader.addPlayer(teamOptions.getValue().toString(), newPlayer, reader.getTeamPlayersNode(reader.getTeamNode(teamOptions.getValue().toString())));
             refreshPage();
-        } else {errorPopup("Error adding player. Please make sure all necessary information has been entered.");}
+        } else {popupMessage("Error", "Error adding player. Please make sure all necessary information has been entered.");}
     }
 
     public void deletePlayer(){
         if (playerSelection.getValue() == null){
-            errorPopup("Please select a player to delete");
+            popupMessage("Error", "Please select a player to delete");
         }else{
             playerStringList.add(playerSelection.getValue().toString());
             playerInfo = playerStringList.get(0).split(",");
@@ -126,11 +134,11 @@ public class EditTeamController {
         loadPlayerTable();
     }
 
-    private void errorPopup(String errorMessage) {
+    private void popupMessage(String type, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("PracStat");
-        alert.setHeaderText("Error");
-        alert.setContentText(errorMessage);
+        alert.setHeaderText(type);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 

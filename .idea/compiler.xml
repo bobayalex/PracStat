@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="PracStat" target="1.8" />
+      <module name="PracStat" target="8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

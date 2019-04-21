@@ -40,49 +40,99 @@ class XMLFileHandler {
         return teams.getLength() > 0;
     }
 
-    private String printXML() {
-        try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            StreamResult result = new StreamResult(new StringWriter());
-            DOMSource source = new DOMSource(doc);
-            transformer.transform(source, result);
-            return result.getWriter().toString();
-        } catch (TransformerException e) {
-            System.out.println("Error");
-        }
-        return "Error";
-    }
-
     private Node createTeamNode(String teamName){
         Element teamRoot = doc.createElement("Team");
         Node teamNameNode = doc.createElement("TeamName");
+        Node practicesNode = doc.createElement("Practices");
+        Node practiceNode = doc.createElement("Practice");
+        Node practiceNameNode = doc.createElement("PracticeName");
+        practiceNameNode.appendChild(doc.createTextNode("SeasonStats"));
+        Node playersNode = doc.createElement("Players");
         teamNameNode.appendChild(doc.createTextNode(teamName));
         teamRoot.appendChild(teamNameNode);
+        practiceNode.appendChild(practiceNameNode);
+        practiceNode.appendChild(playersNode);
+        practicesNode.appendChild(practiceNode);
+        teamRoot.appendChild(practicesNode);
         return teamRoot;
     }
 
     public void addTeam(String teamName, ObservableList<Player>playerList){
         Element root = doc.getDocumentElement();
         Node teamRoot = createTeamNode(teamName);
+        Node playersNode = teamRoot.getChildNodes().item(1).getFirstChild().getChildNodes().item(1);
         for (int i=0; i<playerList.size(); i++){
-            addPlayer(teamName, playerList.get(i), teamRoot);
+            addPlayer(teamName, playerList.get(i), playersNode);
         }
-        Node statisticsNode = doc.createElement("Statistics");
+        Node statisticsNode = doc.createElement("TeamStats");
+        Node killsNode = doc.createElement("Kills");
+        Node errorsNode = doc.createElement("Errors");
+        Node totalAttemptsNode = doc.createElement("TotalAttempts");
+        Node assistsNode = doc.createElement("Assists");
+        Node serviceAcesNode = doc.createElement("ServiceAces");
+        Node serviceErrorsNode = doc.createElement("ServiceErrors");
+        Node receptionErrorsNode = doc.createElement("ReceptionErrors");
+        Node digsNode = doc.createElement("Digs");
+        Node soloBlocksNode = doc.createElement("SoloBlocks");
+        Node blockAssistsNode = doc.createElement("BlockAssists");
+        Node blockingErrorsNode = doc.createElement("BlockingErrors");
+        Node ballHandlingErrors = doc.createElement("BallHandlingErrors");
+        statisticsNode.appendChild(killsNode);
+        statisticsNode.appendChild(errorsNode);
+        statisticsNode.appendChild(totalAttemptsNode);
+        statisticsNode.appendChild(assistsNode);
+        statisticsNode.appendChild(serviceAcesNode);
+        statisticsNode.appendChild(serviceErrorsNode);
+        statisticsNode.appendChild(receptionErrorsNode);
+        statisticsNode.appendChild(digsNode);
+        statisticsNode.appendChild(soloBlocksNode);
+        statisticsNode.appendChild(blockAssistsNode);
+        statisticsNode.appendChild(blockingErrorsNode);
+        statisticsNode.appendChild(ballHandlingErrors);
+        NodeList teamStatsNodes = statisticsNode.getChildNodes();
+        for (int i = 0; i<teamStatsNodes.getLength(); i++){
+            teamStatsNodes.item(i).appendChild(doc.createTextNode("0"));
+        }
         teamRoot.appendChild(statisticsNode);
         root.appendChild(teamRoot);
-        System.out.println(printXML());
         updateXML(doc);
     }
 
-    public void addPlayer(String teamName, Player player, Node teamNode){
+    public void addPlayer(String teamName, Player player, Node playersNode){
         Element playerNode = doc.createElement("Player");
         playerNode.setAttribute("id", teamName);
-        Node playerNameNode = doc.createElement("Name");
-        Node playerNumberNode = doc.createElement("Number");
-        Node playerPositionNode = doc.createElement("Position");
-        Node playerStatisticsNode = doc.createElement("PlayerStatistics");
+        Node playerNameNode = doc.createElement("PlayerName");
+        Node playerNumberNode = doc.createElement("PlayerNumber");
+        Node playerPositionNode = doc.createElement("PlayerPosition");
+        Node playerStatisticsNode = doc.createElement("PlayerStats");
+        Node killsNode = doc.createElement("Kills");
+        Node errorsNode = doc.createElement("Errors");
+        Node totalAttemptsNode = doc.createElement("TotalAttempts");
+        Node assistsNode = doc.createElement("Assists");
+        Node serviceAcesNode = doc.createElement("ServiceAces");
+        Node serviceErrorsNode = doc.createElement("ServiceErrors");
+        Node receptionErrorsNode = doc.createElement("ReceptionErrors");
+        Node digsNode = doc.createElement("Digs");
+        Node soloBlocksNode = doc.createElement("SoloBlocks");
+        Node blockAssistsNode = doc.createElement("BlockAssists");
+        Node blockingErrorsNode = doc.createElement("BlockingErrors");
+        Node ballHandlingErrors = doc.createElement("BallHandlingErrors");
+        playerStatisticsNode.appendChild(killsNode);
+        playerStatisticsNode.appendChild(errorsNode);
+        playerStatisticsNode.appendChild(totalAttemptsNode);
+        playerStatisticsNode.appendChild(assistsNode);
+        playerStatisticsNode.appendChild(serviceAcesNode);
+        playerStatisticsNode.appendChild(serviceErrorsNode);
+        playerStatisticsNode.appendChild(receptionErrorsNode);
+        playerStatisticsNode.appendChild(digsNode);
+        playerStatisticsNode.appendChild(soloBlocksNode);
+        playerStatisticsNode.appendChild(blockAssistsNode);
+        playerStatisticsNode.appendChild(blockingErrorsNode);
+        playerStatisticsNode.appendChild(ballHandlingErrors);
+        NodeList playerStatsNodes = playerStatisticsNode.getChildNodes();
+        for (int i = 0; i<playerStatsNodes.getLength(); i++){
+            playerStatsNodes.item(i).appendChild(doc.createTextNode("0"));
+        }
         playerNode.appendChild(playerNameNode);
         playerNode.appendChild(playerNumberNode);
         playerNode.appendChild(playerPositionNode);
@@ -90,7 +140,7 @@ class XMLFileHandler {
         playerNameNode.appendChild(doc.createTextNode(player.getPlayerName()));
         playerNumberNode.appendChild(doc.createTextNode(player.getPlayerNumber()));
         playerPositionNode.appendChild(doc.createTextNode(player.getPlayerPosition()));
-        teamNode.appendChild(playerNode);
+        playersNode.appendChild(playerNode);
         updateXML(doc);
     }
 
@@ -98,7 +148,7 @@ class XMLFileHandler {
         XPath xPath = XPathFactory.newInstance().newXPath();
         Node selectedPlayer = null;
         Node selectedName;
-        try{XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + oldName + "')]]");
+        try{XPathExpression expr = xPath.compile("//*[text()='" + oldName + "']");
             Object result = expr.evaluate(doc, XPathConstants.NODE);
             selectedName = (Node) result;
             selectedPlayer = selectedName.getParentNode();
@@ -106,11 +156,10 @@ class XMLFileHandler {
         NodeList playerInfo = selectedPlayer.getChildNodes();
         for (int i = 0; i < playerInfo.getLength(); i++){
             Node node = playerInfo.item(i);
-            if ("Name".equals(node.getNodeName())){node.setTextContent(newName);}
-            if ("Number".equals(node.getNodeName())){node.setTextContent(newNumber);}
-            if ("Position".equals(node.getNodeName())){node.setTextContent(newPosition);}
+            if ("PlayerName".equals(node.getNodeName())){node.setTextContent(newName);}
+            if ("PlayerNumber".equals(node.getNodeName())){node.setTextContent(newNumber);}
+            if ("PlayerPosition".equals(node.getNodeName())){node.setTextContent(newPosition);}
         }
-        System.out.println(playerInfo.getLength());
         updateXML(doc);
     }
 
@@ -120,15 +169,8 @@ class XMLFileHandler {
         updateXML(doc);
     }
 
-    public ObservableList<String> getAllTeams(){
-        ObservableList<String> teamList = FXCollections.observableArrayList();
-        NodeList teams = doc.getElementsByTagName("TeamName");
-        for (int i = 0; i < teams.getLength(); i++) {
-            Node currentTeam = teams.item(i);
-            String teamName = currentTeam.getTextContent();
-            teamList.add(teamName);
-            }
-        return teamList;
+    public int getNumberOfPlayers(String teamName){
+        return getAllPlayerNodes(teamName).getLength();
     }
 
     public Node getTeamNode(String teamName){
@@ -144,7 +186,31 @@ class XMLFileHandler {
         return teamNode;
     }
 
-    public NodeList getAllPlayerNodes(String teamName){
+    public Node getTeamPlayersNode(Node teamNode){ //Returns "Players" Node given "Team" Parent
+        Node teamPlayersNode = null;
+        NodeList teamNodeChildren = teamNode.getChildNodes();
+        NodeList practiceNodeChildren = teamNodeChildren.item(3).getChildNodes().item(1).getChildNodes();
+        for (int i = 0; i<practiceNodeChildren.getLength(); i++){
+            if (practiceNodeChildren.item(i).getNodeName().equals("Players")){
+                teamPlayersNode = practiceNodeChildren.item(i);
+            }
+        }
+        return teamPlayersNode;
+    }
+
+    public Node getIndividualPlayerNode(String playerName){ //Returns parent player node, Name, Number, Position and PlayerStatistics nodes are children
+        Node playerNode = null;
+        Node playerNameNode;
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        try{XPathExpression expr = xPath.compile("//*[text()='" + playerName + "']");
+            Object result = expr.evaluate(doc, XPathConstants.NODE);
+            playerNameNode = (Node) result;
+            playerNode = playerNameNode.getParentNode();
+        }catch (XPathExpressionException e){}
+        return playerNode;
+    }
+
+    public NodeList getAllPlayerNodes(String teamName){ //Returns nodelist of parent player nodes
         NodeList playerNodes = null;
         XPath xPath = XPathFactory.newInstance().newXPath();
         try{XPathExpression expr = xPath.compile("//*[@id='" + teamName + "']");
@@ -154,19 +220,7 @@ class XMLFileHandler {
         return playerNodes;
     }
 
-    public Node getIndividualPlayerNode(String playerName){
-        Node playerNode = null;
-        Node playerNameNode;
-        XPath xPath = XPathFactory.newInstance().newXPath();
-        try{XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + playerName + "')]]");
-            Object result = expr.evaluate(doc, XPathConstants.NODE);
-            playerNameNode = (Node) result;
-            playerNode = playerNameNode.getParentNode();
-        }catch (XPathExpressionException e){}
-        return playerNode;
-    }
-
-    public ObservableList<String> getAllPlayersString(String teamName){
+    public ObservableList<String> getAllPlayersString(String teamName){ //Used to populate FXML dropdown boxes
         String playerName = "";
         String playerNumber = "";
         String playerPosition = "";
@@ -177,9 +231,9 @@ class XMLFileHandler {
             NodeList currentPlayerInfo = currentPlayerNode.getChildNodes();
             for (int j = 0; j < currentPlayerInfo.getLength(); j++){
                 Node node = currentPlayerInfo.item(j);
-                if ("Name".equals(node.getNodeName())){playerName = node.getTextContent();}
-                if ("Number".equals(node.getNodeName())){playerNumber = node.getTextContent();}
-                if ("Position".equals(node.getNodeName())){playerPosition = node.getTextContent();}
+                if ("PlayerName".equals(node.getNodeName())){playerName = node.getTextContent();}
+                if ("PlayerNumber".equals(node.getNodeName())){playerNumber = node.getTextContent();}
+                if ("PlayerPosition".equals(node.getNodeName())){playerPosition = node.getTextContent();}
             }
             String playerInfo = playerName + "," + playerNumber + "," + playerPosition;
             playerList.add(playerInfo);
@@ -187,10 +241,21 @@ class XMLFileHandler {
         return playerList;
     }
 
+    public ObservableList<String> getAllTeams(){ //Used to populate FXML dropdown boxes
+        ObservableList<String> teamList = FXCollections.observableArrayList();
+        NodeList teams = doc.getElementsByTagName("TeamName");
+        for (int i = 0; i < teams.getLength(); i++) {
+            Node currentTeam = teams.item(i);
+            String teamName = currentTeam.getTextContent();
+            teamList.add(teamName);
+        }
+        return teamList;
+    }
+
     public boolean doesTeamExist(String teamName){
         Node teamNameNode;
         XPath xPath = XPathFactory.newInstance().newXPath();
-        try{XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + teamName + "')]]");
+        try{XPathExpression expr = xPath.compile("//*[text()='" + teamName + "']");
             Object result = expr.evaluate(doc, XPathConstants.NODE);
             teamNameNode = (Node) result;
             if (teamNameNode == null){return false;}
@@ -198,15 +263,32 @@ class XMLFileHandler {
         return true;
     }
 
-    public void updateXML(Document doc){
+    private void updateXML(Document doc){
         try{
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             Result output = new StreamResult(configFile);
             Source input = new DOMSource(doc);
             transformer.transform(input, output);
-            System.out.println("Updated");
         }
         catch(TransformerException e){System.out.println("Error");}
 
+    }
+
+    private String printXML() {
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            StreamResult result = new StreamResult(new StringWriter());
+            DOMSource source = new DOMSource(doc);
+            transformer.transform(source, result);
+            return result.getWriter().toString();
+        } catch (TransformerException e) {
+            System.out.println("Error");
+        }
+        return "Error";
     }
 }
