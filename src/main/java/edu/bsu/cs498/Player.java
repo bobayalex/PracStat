@@ -27,6 +27,10 @@ public class Player {
         return stats;
     }
 
+    void setStats(List<Integer> playerStats){
+        stats = playerStats;
+    }
+
     String getPractice(){
         return practice;
     }
