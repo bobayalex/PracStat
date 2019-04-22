@@ -1,0 +1,12 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Grammar
+ */
+
+grammar grammar;
+
+public <number> = ( zero | one | two | three | four | five | six | seven | eight | nine | ten
+                   | eleven | twelve | thirteen | fourteen | fifteen | sixteen | seventeen | eighteen | nineteen | twenty );
+public <actions> = ( attack | error | kill | block | assist | dig | receive | pass | ace | solo | serve | service | lift | double | contact )*;
+public <statistic> = <number>{1} <actions>{1};

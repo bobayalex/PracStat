@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -20,10 +21,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class StartPageController implements Initializable {
-    @FXML private Button startButton;
-    @FXML private ImageView imageView;
-    @FXML private PasswordField pwordField;
-    @FXML private Label label1;
+    @FXML
+    private Button startButton;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private PasswordField pwordField;
+    @FXML
+    private Label label1;
     private boolean isConfigured;
     static MainPageController mainPageController1;
 
@@ -52,8 +57,11 @@ public class StartPageController implements Initializable {
     private void startButtonAction(ActionEvent event) {
         String path = choosePath();
         if (!pwordField.getText().equals("pword")) {
-            label1.setText("Your password is incorrect!");
-            label1.setTextFill(Color.rgb(210, 39, 30));
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Login Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Incorrect Password");
+            alert.showAndWait();
         } else {
             try {
                 switchRoot(event, path);
@@ -65,7 +73,7 @@ public class StartPageController implements Initializable {
     }
 
     private String choosePath() {
-        if(!isConfigured){
+        if (!isConfigured) {
             return "/fxml/setup.fxml";
         }
         return "/fxml/mainPage.fxml";

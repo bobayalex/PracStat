@@ -1,5 +1,6 @@
 package edu.bsu.cs498;
 
+import com.sun.org.apache.bcel.internal.util.ClassLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,7 +42,6 @@ public class MainPageController implements Initializable {
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
     private HashMap<Integer, String> spinnerIDs = new HashMap<>();
     private SpeechRecognizerMain mySpeechRecognizer = new SpeechRecognizerMain();
-    private String soundFile = "/sounds/chime.mp3";
     private MediaPlayer mediaPlayer;
     private EnglishStringToNumber stringToNumber = new EnglishStringToNumber();
 
@@ -220,7 +220,8 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void handleButtonAction() {
-        Media sound = new Media(new File(soundFile).toURI().toString());
+        URL chimeURL = this.getClass().getResource("/sounds/chime.mp3");
+        Media sound = new Media(new File(chimeURL.getPath()).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
         if(!mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
             statusLabel.setText("Loading Speech Recognizer...");
