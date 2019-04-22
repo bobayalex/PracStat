@@ -39,19 +39,34 @@ class CSVFileMaker {
         }
     }
 
+//    private void writeAveragePracticeData(String fileName) {
+//        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+//                new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
+//            StringBuilder data = new StringBuilder();
+//            data.append(teamName).append(",");
+//            for(int i = 0; i < practices.size(); i++){
+//                if(i == 0){
+//                    data.append(practices.get(i));
+//                } else {
+//                    data.append(",").append(practices.get(i));
+//                }
+//            }
+//            data.append("\n");
+//            writer.write(data.toString());
+//            writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
+////            writeAvgPlayerStats(writer);
+////            writeAvgTeamStats(writer);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     private void writeAveragePracticeData(String fileName) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                 new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
             StringBuilder data = new StringBuilder();
             data.append(teamName).append(",");
-            for(int i = 0; i < practices.size(); i++){
-                if(i == 0){
-                    data.append(practices.get(i));
-                } else {
-                    data.append(",").append(practices.get(i));
-                }
-            }
-            data.append("\n");
+            data.append("Average Stats,\n");
             writer.write(data.toString());
             writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
 //            writeAvgPlayerStats(writer);

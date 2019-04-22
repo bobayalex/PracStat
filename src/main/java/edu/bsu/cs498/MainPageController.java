@@ -56,7 +56,7 @@ public class MainPageController implements Initializable {
     }
 
     private void testButtonAction(ActionEvent event) {
-        exportStatistics(false);
+        exportStatistics(true);
     }
 
     private List<Integer> getSpinnerValues() {
