@@ -14,6 +14,8 @@ import java.util.Optional;
 public class Main extends Application {
     // TOD0
     // get practice/team names programmatically
+    // figure out csv file location/name
+    // combine branches
     @Override
     public void start(Stage primaryStage) throws Exception{
 //        String fxmlPath = "/fxml/startPage.fxml";
