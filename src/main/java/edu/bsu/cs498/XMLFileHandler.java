@@ -14,9 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 class XMLFileHandler {
     private URL url = getClass().getResource("/config/config.xml");
@@ -108,14 +106,13 @@ class XMLFileHandler {
 
     List<Player> getPlayersByTeamPractice(String teamName, String practiceName) {
         List<Player> players = new ArrayList<>();
-//        List<Node> elements = getAllNodes();
-//        Node playersNode = getPlayersNode(elements, teamName, practiceName);
-
+        Map<Node,Node> nodeMap = new HashMap<>();
         NodeList elements = doc.getDocumentElement().getChildNodes();
-        Node playersNode = getPlayersNode2(elements, teamName, practiceName);
+        Node teamNode = getTeamNode(elements, teamName, nodeMap);
+        nodeMap.clear();
+        elements = teamNode.getChildNodes();
+        Node playersNode = getPlayersNodeRec(elements, practiceName, nodeMap);
 
-        //
-        System.out.println(playersNode.getNodeName());
         if(!playersNode.getNodeName().equals("Players")){
             return players;
         }
@@ -231,20 +228,38 @@ class XMLFileHandler {
         return currentNode;
     }
 
-    private Node getPlayersNode2(NodeList elements, String teamName, String practiceName) {
-        Node currentNode = null;
+    private Node getTeamNode(NodeList elements, String teamName, Map<Node,Node> nodeMap ) {
         for (int i = 0; i < elements.getLength(); i++) {
-            currentNode = elements.item(i);
-            System.out.println(currentNode.getNodeName());
-            if (currentNode.getTextContent().equals(teamName)) {
-                getPlayersNode2(currentNode.getChildNodes(), teamName, practiceName);
-            }
-            if (currentNode.getTextContent().equals(practiceName)) {
-                currentNode = currentNode.getNextSibling();
-                return currentNode;
+            Node currentNode = elements.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE && currentNode.getTextContent().equals(teamName)) {
+                nodeMap.put(currentNode.getParentNode(),currentNode.getParentNode());
+            } else if(currentNode.getNodeType() == Node.ELEMENT_NODE){
+                getTeamNode(currentNode.getChildNodes(), teamName, nodeMap);
             }
         }
-        return currentNode;
+        if(nodeMap.isEmpty()){
+            return null;
+        }
+        return nodeMap.get(nodeMap.values().toArray()[0]);
+    }
+
+    private Node getPlayersNodeRec(NodeList elements, String practiceName, Map<Node,Node> nodeMap) {
+        for (int i = 0; i < elements.getLength(); i++) {
+            Node currentNode = elements.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE && currentNode.getTextContent().equals(practiceName)) {
+                currentNode = currentNode.getNextSibling();
+                while (currentNode.getNodeType() != Node.ELEMENT_NODE){
+                    currentNode = currentNode.getNextSibling();
+                }
+                nodeMap.put(currentNode,currentNode);
+            } else if(currentNode.getNodeType() == Node.ELEMENT_NODE){
+                getPlayersNodeRec(currentNode.getChildNodes(), practiceName, nodeMap);
+            }
+        }
+        if(nodeMap.isEmpty()){
+            return null;
+        }
+        return nodeMap.get(nodeMap.values().toArray()[0]);
     }
 
     private Node getTeamStatNodeJunk(List<Node> elements, String teamName) {
