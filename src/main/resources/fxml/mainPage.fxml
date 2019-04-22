@@ -9,68 +9,110 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" stylesheets="@../css/vertical_separator.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.MainPageController">
-    <HBox prefHeight="25.0" prefWidth="1500.0">
-        <MenuBar prefHeight="25.0" prefWidth="168.0" HBox.hgrow="ALWAYS">
-            <Menu mnemonicParsing="false" text="File">
-                <MenuItem fx:id="genCSVMenuItem" mnemonicParsing="false" text="Generate Spreadsheet" />
-                <MenuItem fx:id="genAvgCSVMenuItem" mnemonicParsing="false" text="Generate Average Spreadsheet" />
-                <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-                <MenuItem fx:id="saveStatsMenuItem" mnemonicParsing="false" text="Save Stats" />
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-                <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
-            </Menu>
-        </MenuBar>
-    </HBox>
-    <Label layoutX="245.0" layoutY="52.0" text="Team Name" />
-    <Label layoutX="211.0" layoutY="69.0" text="Practice Name + Date" />
-    <Label layoutX="25.0" layoutY="118.0" prefHeight="17.0" prefWidth="71.0" text="Player Num" />
-    <Rectangle arcHeight="5.0" arcWidth="5.0" height="96.0" layoutX="408.0" layoutY="30.0" stroke="BLACK" strokeType="INSIDE" width="2.0" />
-    <!--<GridPane fx:id="playerGrid" gridLinesVisible="true" layoutX="14.0" layoutY="135.0" prefWidth="200.0">-->
-        <!--<columnConstraints>-->
-            <!--<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>-->
-            <!--<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>-->
-        <!--</columnConstraints>-->
-        <!--<rowConstraints>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-            <!--<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>-->
-        <!--</rowConstraints>-->
-    <!--</GridPane>-->
-    <!--<GridPane fx:id="playerGrid" gridLinesVisible="true" layoutX="14.0" layoutY="135.0" prefWidth="200.0" />-->
-    <Label layoutX="129.0" layoutY="118.0" prefHeight="17.0" prefWidth="71.0" text="Player Name" />
-    <GridPane fx:id="statGrid" gridLinesVisible="true" layoutX="435.0" layoutY="126.0" prefHeight="535.0" prefWidth="854.0" />
-    <Label layoutX="461.0" layoutY="101.0" prefHeight="17.0" prefWidth="15.0" text="K" />
-    <Label layoutX="532.0" layoutY="101.0" prefHeight="17.0" prefWidth="15.0" text="E" />
-    <Label layoutX="605.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="TA" />
-    <Label layoutX="670.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="Ast" />
-    <Label layoutX="739.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="SA" />
-    <Label layoutX="810.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="SE" />
-    <Label layoutX="882.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="RE" />
-    <Label layoutX="954.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="Dig" />
-    <Label layoutX="1025.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BS" />
-    <Label layoutX="1094.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BA" />
-    <Label layoutX="1164.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BE" />
-    <Label layoutX="1243.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BH" />
-   <ScrollPane layoutX="25.0" layoutY="135.0" prefHeight="557.0" prefWidth="244.0">
-     <content>
-         <GridPane fx:id="playerGrid" gridLinesVisible="true" layoutX="14.0" layoutY="135.0" prefWidth="200.0" />     </content>
-   </ScrollPane>
-</AnchorPane>
+<ScrollPane hbarPolicy="NEVER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" stylesheets="@../css/vertical_separator.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.MainPageController">
+    <AnchorPane>
+        <HBox prefHeight="25.0" prefWidth="1500.0">
+            <MenuBar prefHeight="25.0" prefWidth="168.0" HBox.hgrow="ALWAYS">
+                <Menu mnemonicParsing="false" text="File">
+                    <MenuItem fx:id="genCSVMenuItem" mnemonicParsing="false" text="Generate Spreadsheet" />
+                    <MenuItem fx:id="genAvgCSVMenuItem" mnemonicParsing="false" text="Generate Average Spreadsheet" />
+                    <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <MenuItem fx:id="saveStatsMenuItem" mnemonicParsing="false" text="Save Stats" />
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
+                </Menu>
+            </MenuBar>
+        </HBox>
+        <Label layoutX="14.0" layoutY="36.0" text="Team Name">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <Label layoutX="138.0" layoutY="36.0" text="Practice Name">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <Label layoutX="33.0" layoutY="80.0" prefHeight="17.0" prefWidth="71.0" text="Player Num">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="133.0" layoutY="80.0" prefHeight="17.0" prefWidth="78.0" text="Player Name">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="180.0" layoutX="374.0" layoutY="25.0" stroke="BLACK" strokeType="INSIDE" width="4.0" />
+        <GridPane fx:id="playerGrid" gridLinesVisible="true" layoutX="22.0" layoutY="100.0" prefWidth="200.0">
+        </GridPane>
+        <GridPane fx:id="statGrid" gridLinesVisible="true" layoutX="435.0" layoutY="100.0" prefHeight="535.0" prefWidth="854.0">
+        </GridPane>
+
+        <Label layoutX="460.0" layoutY="80.0" prefHeight="17.0" prefWidth="15.0" text="K">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="530.0" layoutY="80.0" prefHeight="17.0" prefWidth="15.0" text="E">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="596.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="TA">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="664.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="Ast">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="737.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="SA">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="809.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="SE">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="880.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="RE">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="949.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="Dig">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="1022.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="BS">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="1091.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="BA">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="1163.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="BE">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="1238.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="BH">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+    </AnchorPane>
+</ScrollPane>

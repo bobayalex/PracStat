@@ -14,7 +14,6 @@ import java.util.Optional;
 public class Main extends Application {
     // TOD0
     // get practice/team names programmatically
-    // add 1 scrollbar for both gridpanes
     // fix/complete test classes
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -24,7 +23,7 @@ public class Main extends Application {
         primaryStage.setTitle("PracStat");
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
-        primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowAction);
+//        primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowAction);
         primaryStage.show();
     }
 
