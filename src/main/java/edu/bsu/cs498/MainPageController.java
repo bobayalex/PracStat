@@ -37,7 +37,6 @@ public class MainPageController implements Initializable {
     @FXML Button speechRecBtn;
     @FXML Label statusLabel;
     @FXML Label voiceLabel;
-    @FXML GridPane gridPaneList;
     private XMLFileHandler handler = new XMLFileHandler();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
     private HashMap<Integer, String> spinnerIDs = new HashMap<>();
@@ -253,13 +252,13 @@ public class MainPageController implements Initializable {
     @FXML
     public int getPlayerRow(String playerNum) {
         int row = -1;
-        for (int i = 0; i < gridPaneList.getChildren().size(); i++) {
-            Node child1 = gridPaneList.getChildren().get(i);
+        for (int i = 0; i < playerGrid.getChildren().size(); i++) {
+            Node child1 = playerGrid.getChildren().get(i);
             if (child1 instanceof TextField) {
                 TextField tfield = (TextField) child1;
                 System.out.println("tfield text = " + tfield.getText());
                 if (tfield.getText().length() <=2 && Integer.parseInt(tfield.getText()) == stringToNumber.convert(playerNum)) {
-                    row = gridPaneList.getRowIndex(child1);
+                    row = playerGrid.getRowIndex(child1);
                     System.out.println("row = " + row);
                 }
             }
