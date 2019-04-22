@@ -39,7 +39,7 @@ public class MenuPageController {
 
     private void newPracticeButtonAction(javafx.event.ActionEvent event) {
         try { switchRoot(event, "/fxml/newPractice.fxml");}
-        catch (IOException e){ }
+        catch (IOException e){}
     }
 
     private void viewStatsButtonAction(javafx.event.ActionEvent event) {
