@@ -13,14 +13,14 @@ import java.util.Optional;
 
 public class Main extends Application {
     // Dexter's TOD0
-    // figure out csv file location/name - documents/pracstat spreadsheets (name: teamName+practiceName+date)
     // get practice/team names programmatically
     // combine branches
     // clean up code/beautify fxml pages
     private static MainPageController mainPageController;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        String fxmlPath = "/fxml/startPage.fxml";
+//        String fxmlPath = "/fxml/startPage.fxml";
+        String fxmlPath = "/fxml/mainPage.fxml";
         Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("css/startpage.css");

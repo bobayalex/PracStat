@@ -28,22 +28,26 @@ class CSVFileMaker {
     }
 
     boolean writePracticeData(String fileName, int numPractices, String folderPath) {
+        File dir = new File(folderPath);
+        if (!dir.exists()) dir.mkdirs();
+        File outputFile = new File(folderPath + "/" + fileName);
         if (numPractices == 1) {
             // single practice data
             try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
+                    new FileOutputStream(outputFile), StandardCharsets.UTF_8))) {
                 writer.write(teamName + "," + practices.get(0) + "\n");
                 writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
                 writePlayerStats(writer, false);
                 writeTeamStats(writer);
                 return true;
             } catch (Exception e) {
+                e.printStackTrace();
                 return false;
             }
         } else {
             // average practice data
             try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
+                    new FileOutputStream(outputFile), StandardCharsets.UTF_8))) {
                 String data = teamName + ",Average Stats,\n";
                 writer.write(data);
                 writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");

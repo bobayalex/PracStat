@@ -13,6 +13,7 @@ import javafx.scene.media.MediaPlayer;
 import javax.swing.*;
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -154,6 +155,8 @@ public class MainPageController implements Initializable {
         // get both teamName and practiceName programmatically eventually
         String teamName = "Team 1";
         String practiceName = "Practice 1";
+        // file name should be teamName_practiceName_currentDate
+        String fileName = teamName + "_" + practiceName + "_" + LocalDate.now() + ".csv";
         handler.updatePlayerStats(spinnerVals, teamName, practiceName);
         if (showAvg) {
             players = handler.getPlayersInAllPractices(teamName);
@@ -164,8 +167,9 @@ public class MainPageController implements Initializable {
         }
         List<Double> teamStats = handler.getTeamStats(teamName);
         CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
-        String documentsPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
-        return csvFileMaker.generateCSVFile("testCSVFile.csv", documentsPath);
+        String outputPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
+        outputPath += "\\PracStat_Spreadsheets";
+        return csvFileMaker.generateCSVFile(fileName, outputPath);
     }
 
     private void setUpGridPanes() {
