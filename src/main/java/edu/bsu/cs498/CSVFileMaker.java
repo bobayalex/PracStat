@@ -23,145 +23,41 @@ class CSVFileMaker {
 
     void generateCSVFile(String fileName) {
         int numPractices = practices.size();
+        writePracticeData(fileName, numPractices);
+    }
+
+    private void writePracticeData(String fileName, int numPractices) {
         if (numPractices == 1) {
-            writeSinglePracticeData(fileName);
+            // single practice data
+            try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
+                writer.write(teamName + "," + practices.get(0) + "\n");
+                writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
+                writePlayerStats(writer, false);
+                writeTeamStats(writer);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
-            writeAveragePracticeData(fileName);
-        }
-    }
-
-    private void writeSinglePracticeData(String fileName) {
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
-            writer.write(teamName + "," + practices.get(0) + "\n");
-            writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
-            writePlayerStats(writer);
-            writeTeamStats(writer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-//    private void writeAveragePracticeData(String fileName) {
-//        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-//                new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
-//            StringBuilder data = new StringBuilder();
-//            data.append(teamName).append(",");
-//            for(int i = 0; i < practices.size(); i++){
-//                if(i == 0){
-//                    data.append(practices.get(i));
-//                } else {
-//                    data.append(",").append(practices.get(i));
-//                }
-//            }
-//            data.append("\n");
-//            writer.write(data.toString());
-//            writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
-////            writeAvgPlayerStats(writer);
-////            writeAvgTeamStats(writer);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    private void writeAveragePracticeData(String fileName) {
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
-            String data = teamName + ",Average Stats,\n";
-            writer.write(data);
-            writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
-            writeAvgPlayerStats(writer);
-//            writeAvgTeamStats(writer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void writeAvgPlayerStats(Writer writer) throws IOException {
-        // find average of player stats
-        players = updatePlayerStats(players);
-        StringBuilder data;
-        for (int i = 0; i < players.size(); i++) {
-            Player player = players.get(i);
-            // calculate PCT and PTS for player
-            String pct = calculatePCT(player.getStats());
-            String pts = calculatePTS(player.getStats());
-            // add line break if more than one player
-            if (i > 0) {
-                writer.write("\n");
+            // average practice data
+            try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream(fileName), StandardCharsets.UTF_8))) {
+                String data = teamName + ",Average Stats,\n";
+                writer.write(data);
+                writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
+                writePlayerStats(writer, true);
+                writeTeamStats(writer);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            writer.write(player.getNumber() + "," + player.getName() + ",");
-            List<Double> stats = player.getStats();
-            data = new StringBuilder();
-
-            // calculate pct and pts before loop starts and then add based on index
-            for (int j = 0; j < stats.size(); j++) {
-                double currentTeamStat = teamStats.get(j);
-                currentTeamStat += stats.get(j);
-                teamStats.set(j, currentTeamStat);
-
-                data.append(String.valueOf(stats.get(j))).append(",");
-                if (j == 2) {// PCT
-                    data.append(pct).append(",");
-                }
-            }
-            data.append(pts); // pts is the last value
-            writer.write(data.toString());
         }
     }
 
-    private List<Player> updatePlayerStats(List<Player> players) {
-        List<Player> updatedPlayers = new ArrayList<>();
-        players = formatPlayersList(players);
-        for(Player player : players){
-            List<Double> updatedStats = calculateAverageStats(player);
-            player.setStats(updatedStats);
-            updatedPlayers.add(player);
+    private void writePlayerStats(Writer writer, boolean isAvg) throws IOException {
+        if (isAvg) {
+            // find average of player stats
+            players = updatePlayerStats(players);
         }
-        return updatedPlayers;
-    }
-
-    private List<Double> calculateAverageStats(Player player) {
-        int numPractices = practices.size();
-        List<Double> currentStats = player.getStats();
-        List<Double> averageStats = new ArrayList<>();
-        for (Double currentStat : currentStats) {
-            DecimalFormat format = new DecimalFormat("0.##");
-            currentStat = currentStat / numPractices;
-            currentStat = Double.parseDouble(format.format(currentStat));
-            averageStats.add(currentStat);
-        }
-        return averageStats;
-    }
-
-    private List<Player> formatPlayersList(List<Player> players) {
-        List<Player> uniquePlayers = new ArrayList<>();
-        for (Player player : players) {
-            boolean isFound = false;
-            for (Player uniquePlayer : uniquePlayers) {
-                if (uniquePlayer.getName().equals(player.getName()) && uniquePlayer.getNumber() == player.getNumber()) {
-                    isFound = true;
-                    combineStats(uniquePlayer, player);
-                    break;
-                }
-            }
-            if (!isFound) uniquePlayers.add(player);
-        }
-        return uniquePlayers;
-    }
-
-    private void combineStats(Player uniquePlayer, Player player) {
-        List<Double> uniquePlayerStats = uniquePlayer.getStats();
-        List<Double> playerStats = player.getStats();
-        for(int i = 0; i < playerStats.size(); i++){
-            double currentUniqueStat = uniquePlayerStats.get(i);
-            double currentPlayerStat = playerStats.get(i);
-            uniquePlayerStats.set(i, currentUniqueStat + currentPlayerStat);
-        }
-        uniquePlayer.setStats(uniquePlayerStats);
-    }
-
-    private void writePlayerStats(Writer writer) throws IOException {
         StringBuilder data;
         for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
@@ -198,9 +94,9 @@ class CSVFileMaker {
         data = new StringBuilder();
         String pct = calculatePCT(teamStats);
         String pts = calculatePTS(teamStats);
-        for (int k = 0; k < teamStats.size(); k++) {
-            data.append(String.valueOf(teamStats.get(k))).append(",");
-            if (k == 2) {// PCT
+        for (int i = 0; i < teamStats.size(); i++) {
+            data.append(String.valueOf(teamStats.get(i))).append(",");
+            if (i == 2) {// PCT
                 data.append(pct).append(",");
             }
         }
@@ -208,7 +104,58 @@ class CSVFileMaker {
         writer.write(data.toString());
     }
 
-    String calculatePTS(List<Double> stats) {
+    private List<Player> updatePlayerStats(List<Player> players) {
+        List<Player> updatedPlayers = new ArrayList<>();
+        players = formatPlayersList(players);
+        for (Player player : players) {
+            List<Double> updatedStats = calculateAverageStats(player);
+            player.setStats(updatedStats);
+            updatedPlayers.add(player);
+        }
+        return updatedPlayers;
+    }
+
+    private List<Player> formatPlayersList(List<Player> players) {
+        List<Player> uniquePlayers = new ArrayList<>();
+        for (Player player : players) {
+            boolean isFound = false;
+            for (Player uniquePlayer : uniquePlayers) {
+                if (uniquePlayer.getName().equals(player.getName()) && uniquePlayer.getNumber() == player.getNumber()) {
+                    isFound = true;
+                    combineStats(uniquePlayer, player);
+                    break;
+                }
+            }
+            if (!isFound) uniquePlayers.add(player);
+        }
+        return uniquePlayers;
+    }
+
+    private List<Double> calculateAverageStats(Player player) {
+        int numPractices = practices.size();
+        List<Double> currentStats = player.getStats();
+        List<Double> averageStats = new ArrayList<>();
+        for (Double currentStat : currentStats) {
+            DecimalFormat format = new DecimalFormat("0.##");
+            currentStat = currentStat / numPractices;
+            currentStat = Double.parseDouble(format.format(currentStat));
+            averageStats.add(currentStat);
+        }
+        return averageStats;
+    }
+
+    private void combineStats(Player uniquePlayer, Player player) {
+        List<Double> uniquePlayerStats = uniquePlayer.getStats();
+        List<Double> playerStats = player.getStats();
+        for (int i = 0; i < playerStats.size(); i++) {
+            double currentUniqueStat = uniquePlayerStats.get(i);
+            double currentPlayerStat = playerStats.get(i);
+            uniquePlayerStats.set(i, currentUniqueStat + currentPlayerStat);
+        }
+        uniquePlayer.setStats(uniquePlayerStats);
+    }
+
+    private String calculatePTS(List<Double> stats) {
         BigDecimal kills = BigDecimal.valueOf(stats.get(0));
         BigDecimal soloBlocks = BigDecimal.valueOf(stats.get(8));
         BigDecimal serviceAces = BigDecimal.valueOf(stats.get(4));
@@ -217,7 +164,7 @@ class CSVFileMaker {
         return pts.toString();
     }
 
-    String calculatePCT(List<Double> stats) {
+    private String calculatePCT(List<Double> stats) {
         BigDecimal kills = BigDecimal.valueOf(stats.get(0));
         BigDecimal errors = BigDecimal.valueOf(stats.get(1));
         BigDecimal totalAttempts = BigDecimal.valueOf(stats.get(2));
@@ -226,7 +173,7 @@ class CSVFileMaker {
         return formatPCT(pctString);
     }
 
-    String formatPCT(String pctString) {
+    private String formatPCT(String pctString) {
         // remove first zero case
         if (pctString.charAt(0) == '0') {
             pctString = pctString.substring(1);
