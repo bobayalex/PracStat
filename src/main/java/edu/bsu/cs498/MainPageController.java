@@ -1,14 +1,19 @@
 package edu.bsu.cs498;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class MainPageController implements Initializable {
     @FXML
@@ -27,9 +32,18 @@ public class MainPageController implements Initializable {
     private MenuItem saveStatsMenuItem;
     @FXML
     private MenuItem aboutMenuItem;
+
+    @FXML Button speechRecBtn;
+    @FXML Label statusLabel;
+    @FXML Label voiceLabel;
+    @FXML GridPane gridPaneList;
     private XMLFileHandler handler = new XMLFileHandler();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
     private HashMap<Integer, String> spinnerIDs = new HashMap<>();
+    private SpeechRecognizerMain mySpeechRecognizer = new SpeechRecognizerMain();
+    private String soundFile = "/sounds/chime.mp3";
+    private MediaPlayer mediaPlayer;
+    private EnglishStringToNumber stringToNumber = new EnglishStringToNumber();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -202,5 +216,95 @@ public class MainPageController implements Initializable {
             }
         }
         return null;
+    }
+
+    @FXML
+    private void handleButtonAction() {
+        Media sound = new Media(new File(soundFile).toURI().toString());
+        mediaPlayer = new MediaPlayer(sound);
+        if(!mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
+            statusLabel.setText("Loading Speech Recognizer...");
+            Platform.runLater(() -> {
+                mySpeechRecognizer.SpeechRecognizerMain();
+                speechRecBtn.setStyle("-fx-background-color: Green");
+                speechRecBtn.setText("Speech Recognition");
+                statusLabel.setText("You can start to speak...");
+                mediaPlayer.play();
+            });
+        }
+        else if(mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
+            if(!mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
+                mySpeechRecognizer.ignoreSpeechRecognitionResults();
+                System.out.println("ignoring speech recognition results");
+                speechRecBtn.setStyle("-fx-background-color: Red");
+                statusLabel.setText("Ignoring speech recognition results...");
+            }
+            else if(mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
+                mySpeechRecognizer.stopIgnoreSpeechRecognitionResults();
+                System.out.println("listening to speech recognition results");
+                speechRecBtn.setStyle("-fx-background-color: Green");
+                statusLabel.setText("Listening to speech recognition results...");
+                mediaPlayer.play();
+            }
+        }
+    }
+
+    @FXML
+    public int getPlayerRow(String playerNum) {
+        int row = -1;
+        for (int i = 0; i < gridPaneList.getChildren().size(); i++) {
+            Node child1 = gridPaneList.getChildren().get(i);
+            if (child1 instanceof TextField) {
+                TextField tfield = (TextField) child1;
+                System.out.println("tfield text = " + tfield.getText());
+                if (tfield.getText().length() <=2 && Integer.parseInt(tfield.getText()) == stringToNumber.convert(playerNum)) {
+                    row = gridPaneList.getRowIndex(child1);
+                    System.out.println("row = " + row);
+                }
+            }
+        }
+        return row;
+    }
+
+    //Use this method to get a specific spinner and increment it by 1
+    public void incrementSpinner(int row, int col) throws InterruptedException {
+        Spinner spinner = getSpinner(row, col);
+        //getSpinner(row, col).getValueFactory().increment(1);
+        spinner.getValueFactory().increment(1);
+        //spinner.getStyleClass().clear();
+        //spinner.getStyleClass().removeIf(style -> style.equals("spinner incremented tonormal"));
+        System.out.println("The OLD style class is: " + spinner.getStyleClass());
+        spinner.getStyleClass().add("incremented");
+        System.out.println("The NEW style class is: " + spinner.getStyleClass());
+        TimeUnit.SECONDS.sleep(1);
+        //spinner.getStyleClass().add("tonormal");
+        spinner.getStyleClass().remove("incremented");
+        System.out.println("The go-back style class is: " + spinner.getStyleClass());
+    }
+
+    // Value factory.
+    SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory<Integer>() {
+        @Override
+        public void decrement(int steps) {
+            Integer current = this.getValue();
+            int idx = statSpinners.indexOf(current);
+            int newIdx = (statSpinners.size() + idx - steps) % statSpinners.size();
+            Spinner<Integer> newInt = statSpinners.get(newIdx);
+            this.setValue(newInt.getValue());
+        }
+
+        @Override
+        public void increment(int steps) {
+            Integer current = this.getValue();
+            int idx = statSpinners.indexOf(current);
+            int newIdx = (idx + steps) % statSpinners.size();
+            Spinner<Integer> newInt = statSpinners.get(newIdx);
+            this.setValue(newInt.getValue());
+        }
+
+    };
+
+    public void setVoiceLabelText(String str) {
+        voiceLabel.setText(str);
     }
 }

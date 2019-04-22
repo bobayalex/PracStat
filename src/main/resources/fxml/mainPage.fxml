@@ -11,6 +11,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.Button?>
 <ScrollPane hbarPolicy="NEVER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" stylesheets="@../css/vertical_separator.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.MainPageController">
     <AnchorPane>
         <HBox prefHeight="25.0" prefWidth="1500.0">
@@ -114,5 +115,8 @@
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
+        <Button fx:id="speechRecBtn" layoutX="25.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Click to Start Speech Recognition" />
+        <Label fx:id="statusLabel" layoutX="179.0" layoutY="741.0" />
+        <Label fx:id="voiceLabel" layoutX="787.0" layoutY="686.0" />
     </AnchorPane>
 </ScrollPane>

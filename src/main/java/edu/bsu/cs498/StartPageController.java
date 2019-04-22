@@ -6,9 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,7 +22,11 @@ import java.util.ResourceBundle;
 public class StartPageController implements Initializable {
     @FXML private Button startButton;
     @FXML private ImageView imageView;
+    @FXML private PasswordField pwordField;
+    @FXML private Label label1;
     private boolean isConfigured;
+    static MainPageController mainPageController1;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -43,12 +51,17 @@ public class StartPageController implements Initializable {
 
     private void startButtonAction(ActionEvent event) {
         String path = choosePath();
-
-        try {
-            switchRoot(event, path);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (!pwordField.getText().equals("pword")) {
+            label1.setText("Your password is incorrect!");
+            label1.setTextFill(Color.rgb(210, 39, 30));
+        } else {
+            try {
+                switchRoot(event, path);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        pwordField.clear();
     }
 
     private String choosePath() {
@@ -59,8 +72,12 @@ public class StartPageController implements Initializable {
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {
-        Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceName));
+        Parent updatedRoot = loader.load();
+        mainPageController1 = loader.getController();
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        currentScene.getStylesheets().add("css/mainpage.css");
+        Stage currentStage = (Stage) currentScene.getWindow();
         currentStage.getScene().setRoot(updatedRoot);
     }
 }

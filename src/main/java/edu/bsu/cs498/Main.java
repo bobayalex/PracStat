@@ -12,20 +12,24 @@ import javafx.stage.WindowEvent;
 import java.util.Optional;
 
 public class Main extends Application {
-    // TOD0
+    // Dexter's TOD0
     // get practice/team names programmatically
     // figure out csv file location/name
     // combine branches
+    private static MainPageController mainPageController;
     @Override
     public void start(Stage primaryStage) throws Exception{
-//        String fxmlPath = "/fxml/startPage.fxml";
-        String fxmlPath = "/fxml/mainPage.fxml";
+        String fxmlPath = "/fxml/startPage.fxml";
         Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("css/startpage.css");
         primaryStage.setTitle("PracStat");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowAction);
         primaryStage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainPage.fxml"));
+        mainPageController = loader.getController();
     }
 
     private void closeWindowAction(WindowEvent windowEvent) {
