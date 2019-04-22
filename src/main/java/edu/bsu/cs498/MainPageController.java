@@ -1,6 +1,5 @@
 package edu.bsu.cs498;
 
-import com.sun.org.apache.bcel.internal.util.ClassLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import javax.swing.*;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
@@ -164,7 +164,8 @@ public class MainPageController implements Initializable {
         }
         List<Double> teamStats = handler.getTeamStats(teamName);
         CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
-        return csvFileMaker.generateCSVFile("testCSVFile.csv");
+        String documentsPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
+        return csvFileMaker.generateCSVFile("testCSVFile.csv", documentsPath);
     }
 
     private void setUpGridPanes() {

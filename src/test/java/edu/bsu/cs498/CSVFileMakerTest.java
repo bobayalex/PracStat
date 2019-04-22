@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.swing.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,13 +14,14 @@ public class CSVFileMakerTest {
     private XMLFileHandler handler = new XMLFileHandler();
     private String fileName = "testCSVFile.csv";
     private CSVFileMaker csvFileMaker;
+    private String documentsPath = new JFileChooser().getFileSystemView().getDefaultDirectory().toString();
 
     @Before
     public void setup(){
         List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");
         List<Double> teamStats = handler.getTeamStats("Team 1");
         csvFileMaker = new CSVFileMaker(players, "Team 1", teamStats, Collections.singletonList("Practice 1"));
-        csvFileMaker.generateCSVFile(fileName);
+        csvFileMaker.generateCSVFile(fileName, documentsPath);
     }
 
     @Test
@@ -36,13 +38,13 @@ public class CSVFileMakerTest {
 
     @Test
     public void test_writePracticeData_single_practice(){
-        boolean isSuccessful = csvFileMaker.writePracticeData(fileName, 1);
+        boolean isSuccessful = csvFileMaker.writePracticeData(fileName, 1, documentsPath);
         Assert.assertTrue(isSuccessful);
     }
 
     @Test
     public void test_writePracticeData_multiple_practices(){
-        boolean isSuccessful = csvFileMaker.writePracticeData(fileName, 2);
+        boolean isSuccessful = csvFileMaker.writePracticeData(fileName, 2, documentsPath);
         Assert.assertTrue(isSuccessful);
     }
 

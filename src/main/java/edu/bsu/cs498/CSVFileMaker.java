@@ -22,12 +22,12 @@ class CSVFileMaker {
         practices = practiceList;
     }
 
-    boolean generateCSVFile(String fileName) {
+    boolean generateCSVFile(String fileName, String folderPath) {
         int numPractices = practices.size();
-        return writePracticeData(fileName, numPractices);
+        return writePracticeData(fileName, numPractices, folderPath);
     }
 
-    boolean writePracticeData(String fileName, int numPractices) {
+    boolean writePracticeData(String fileName, int numPractices, String folderPath) {
         if (numPractices == 1) {
             // single practice data
             try (Writer writer = new BufferedWriter(new OutputStreamWriter(

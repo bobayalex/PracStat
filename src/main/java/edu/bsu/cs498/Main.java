@@ -13,9 +13,10 @@ import java.util.Optional;
 
 public class Main extends Application {
     // Dexter's TOD0
+    // figure out csv file location/name - documents/pracstat spreadsheets (name: teamName+practiceName+date)
     // get practice/team names programmatically
-    // figure out csv file location/name
     // combine branches
+    // clean up code/beautify fxml pages
     private static MainPageController mainPageController;
     @Override
     public void start(Stage primaryStage) throws Exception{
