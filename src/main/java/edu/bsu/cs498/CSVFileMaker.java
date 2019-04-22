@@ -21,12 +21,12 @@ class CSVFileMaker {
         practices = practiceList;
     }
 
-    void generateCSVFile(String fileName) {
+    boolean generateCSVFile(String fileName) {
         int numPractices = practices.size();
-        writePracticeData(fileName, numPractices);
+        return writePracticeData(fileName, numPractices);
     }
 
-    private void writePracticeData(String fileName, int numPractices) {
+    private boolean writePracticeData(String fileName, int numPractices) {
         if (numPractices == 1) {
             // single practice data
             try (Writer writer = new BufferedWriter(new OutputStreamWriter(
@@ -35,8 +35,9 @@ class CSVFileMaker {
                 writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
                 writePlayerStats(writer, false);
                 writeTeamStats(writer);
+                return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                return false;
             }
         } else {
             // average practice data
@@ -47,8 +48,9 @@ class CSVFileMaker {
                 writer.write("#,PLAYER,K,E,TA,PCT,AST,SA,SE,RE,DIG,BS,BA,BE,BH,PTS\n");
                 writePlayerStats(writer, true);
                 writeTeamStats(writer);
+                return true;
             } catch (Exception e) {
-                e.printStackTrace();
+                return false;
             }
         }
     }

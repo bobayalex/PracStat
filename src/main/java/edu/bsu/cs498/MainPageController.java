@@ -14,13 +14,9 @@ public class MainPageController implements Initializable {
     @FXML
     private GridPane playerGrid;
     @FXML
-    private MenuBar menuBar;
-    @FXML
     private GridPane statGrid;
     @FXML
     private List<Spinner<Integer>> statSpinners = new ArrayList<>();
-    @FXML
-    private Button testBtn;
     @FXML
     private MenuItem closeMenuItem;
     @FXML
@@ -29,6 +25,8 @@ public class MainPageController implements Initializable {
     private MenuItem genAvgCSVMenuItem;
     @FXML
     private MenuItem saveStatsMenuItem;
+    @FXML
+    private MenuItem aboutMenuItem;
     private XMLFileHandler handler = new XMLFileHandler();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
     private HashMap<Integer, String> spinnerIDs = new HashMap<>();
@@ -45,26 +43,75 @@ public class MainPageController implements Initializable {
         genCSVMenuItem.setOnAction(this::genCSVMenuItemAction);
         genAvgCSVMenuItem.setOnAction(this::genAvgCSVMenuItemAction);
         saveStatsMenuItem.setOnAction(this::saveStatsMenuItemAction);
+        aboutMenuItem.setOnAction(this::aboutMenuItemAction);
     }
 
-    private void closeMenuItemAction(ActionEvent event){
-        System.exit(0);
+    private void closeMenuItemAction(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm Exit");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to exit PracStat?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (!result.isPresent()) {
+            alert.close();
+        } else if (result.get() == ButtonType.OK) {
+            System.exit(0);
+        } else if (result.get() == ButtonType.CANCEL) {
+            alert.close();
+        }
     }
 
-    private void genCSVMenuItemAction(ActionEvent event){
-        exportStatistics(false);
+    private void genCSVMenuItemAction(ActionEvent event) {
+        boolean isSuccessful = exportStatistics(false);
+        displayGenerationPopup(isSuccessful);
     }
 
-    private void genAvgCSVMenuItemAction(ActionEvent event){
-        exportStatistics(true);
+    private void genAvgCSVMenuItemAction(ActionEvent event) {
+        boolean isSuccessful = exportStatistics(true);
+        displayGenerationPopup(isSuccessful);
     }
 
-    private void saveStatsMenuItemAction(ActionEvent event){
+    private void displayGenerationPopup(boolean isSuccessful){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Action Status");
+        alert.setHeaderText(null);
+        if(isSuccessful){
+            alert.setContentText("Spreadsheet was successfully generated");
+            alert.showAndWait();
+        } else {
+            alert.setContentText("There was a problem generating the spreadsheet");
+            alert.showAndWait();
+        }
+    }
+
+    private void saveStatsMenuItemAction(ActionEvent event) {
         List<Integer> spinnerVals = getSpinnerValues();
         // get both teamName and practiceName programmatically eventually
         String teamName = "Team 1";
         String practiceName = "Practice 1";
-        handler.updatePlayerStats(spinnerVals, teamName, practiceName);
+        boolean isSuccessful = handler.updatePlayerStats(spinnerVals, teamName, practiceName);
+        displaySavePopup(isSuccessful);
+    }
+
+    private void displaySavePopup(boolean isSuccessful) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Action Status");
+        alert.setHeaderText(null);
+        if(isSuccessful){
+            alert.setContentText("Stats have successfully been saved");
+            alert.showAndWait();
+        } else {
+            alert.setContentText("There was a problem saving the stats");
+            alert.showAndWait();
+        }
+    }
+
+    private void aboutMenuItemAction(ActionEvent event){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About");
+        alert.setHeaderText("PracStat version 1.0");
+        alert.setContentText("Created by W.E.B. Enterprises");
+        alert.showAndWait();
     }
 
     private void initializeHashMap() {
@@ -87,7 +134,7 @@ public class MainPageController implements Initializable {
         return spinnerVals;
     }
 
-    private void exportStatistics(boolean showAvg) {
+    private boolean exportStatistics(boolean showAvg) {
         List<Player> players;
         List<String> practices;
         List<Integer> spinnerVals = getSpinnerValues();
@@ -104,7 +151,7 @@ public class MainPageController implements Initializable {
         }
         List<Double> teamStats = handler.getTeamStats(teamName);
         CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
-        csvFileMaker.generateCSVFile("testCSVFile.csv");
+        return csvFileMaker.generateCSVFile("testCSVFile.csv");
     }
 
     private void setUpGridPanes() {

@@ -107,7 +107,7 @@ class XMLFileHandler {
     List<Player> getPlayersByTeamPractice(String teamName, String practiceName) {
         List<Player> players = new ArrayList<>();
         Node playersNode = getPlayersNode(teamName, practiceName);
-        if(!playersNode.getNodeName().equals("Players")){
+        if (!playersNode.getNodeName().equals("Players")) {
             return players;
         }
         NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
@@ -185,44 +185,44 @@ class XMLFileHandler {
 
     private Node getPlayersNode(String teamName, String practiceName) {
         Node playersNode;
-        Map<Node,Node> nodeMap = new HashMap<>();
+        Map<Node, Node> nodeMap = new HashMap<>();
         NodeList elements = doc.getDocumentElement().getChildNodes();
         Node teamNode = getTeamNode(elements, teamName, nodeMap);
         nodeMap.clear();
         elements = teamNode.getChildNodes();
-        playersNode = getPlayersNodeRec(elements,practiceName,nodeMap);
+        playersNode = getPlayersNodeRec(elements, practiceName, nodeMap);
         return playersNode;
     }
 
-    private Node getTeamNode(NodeList elements, String teamName, Map<Node,Node> nodeMap ) {
+    private Node getTeamNode(NodeList elements, String teamName, Map<Node, Node> nodeMap) {
         for (int i = 0; i < elements.getLength(); i++) {
             Node currentNode = elements.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE && currentNode.getTextContent().equals(teamName)) {
-                nodeMap.put(currentNode.getParentNode(),currentNode.getParentNode());
-            } else if(currentNode.getNodeType() == Node.ELEMENT_NODE){
+                nodeMap.put(currentNode.getParentNode(), currentNode.getParentNode());
+            } else if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
                 getTeamNode(currentNode.getChildNodes(), teamName, nodeMap);
             }
         }
-        if(nodeMap.isEmpty()){
+        if (nodeMap.isEmpty()) {
             return null;
         }
         return nodeMap.get(nodeMap.values().toArray()[0]);
     }
 
-    private Node getPlayersNodeRec(NodeList elements, String practiceName, Map<Node,Node> nodeMap) {
+    private Node getPlayersNodeRec(NodeList elements, String practiceName, Map<Node, Node> nodeMap) {
         for (int i = 0; i < elements.getLength(); i++) {
             Node currentNode = elements.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE && currentNode.getTextContent().equals(practiceName)) {
                 currentNode = currentNode.getNextSibling();
-                while (currentNode.getNodeType() != Node.ELEMENT_NODE){
+                while (currentNode.getNodeType() != Node.ELEMENT_NODE) {
                     currentNode = currentNode.getNextSibling();
                 }
-                nodeMap.put(currentNode,currentNode);
-            } else if(currentNode.getNodeType() == Node.ELEMENT_NODE){
+                nodeMap.put(currentNode, currentNode);
+            } else if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
                 getPlayersNodeRec(currentNode.getChildNodes(), practiceName, nodeMap);
             }
         }
-        if(nodeMap.isEmpty()){
+        if (nodeMap.isEmpty()) {
             return null;
         }
         return nodeMap.get(nodeMap.values().toArray()[0]);
@@ -283,16 +283,21 @@ class XMLFileHandler {
         return currentNode;
     }
 
-    void updatePlayerStats(List<Integer> spinnerVals, String teamName, String practiceName) {
-        // each player should have 12 stats, process spinnerVals 12 elements at a time
-        Node playersNode = getPlayersNode(teamName, practiceName);
-        NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
-        for (int i = 0; i < playerList.getLength(); i++) {
-            Node currentPlayerNode = playerList.item(i);
-            if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
-                NodeList statNodes = getStatNodes(currentPlayerNode);
-                updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
+    boolean updatePlayerStats(List<Integer> spinnerVals, String teamName, String practiceName) {
+        try {
+            // each player should have 12 stats, process spinnerVals 12 elements at a time
+            Node playersNode = getPlayersNode(teamName, practiceName);
+            NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
+            for (int i = 0; i < playerList.getLength(); i++) {
+                Node currentPlayerNode = playerList.item(i);
+                if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
+                    NodeList statNodes = getStatNodes(currentPlayerNode);
+                    updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
+                }
             }
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 

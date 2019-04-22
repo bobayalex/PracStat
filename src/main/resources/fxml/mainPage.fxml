@@ -12,7 +12,7 @@
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" stylesheets="@../css/vertical_separator.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.MainPageController">
     <HBox prefHeight="25.0" prefWidth="1500.0">
-        <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="168.0" HBox.hgrow="ALWAYS">
+        <MenuBar prefHeight="25.0" prefWidth="168.0" HBox.hgrow="ALWAYS">
             <Menu mnemonicParsing="false" text="File">
                 <MenuItem fx:id="genCSVMenuItem" mnemonicParsing="false" text="Generate Spreadsheet" />
                 <MenuItem fx:id="genAvgCSVMenuItem" mnemonicParsing="false" text="Generate Average Spreadsheet" />
@@ -22,7 +22,7 @@
                 <MenuItem fx:id="saveStatsMenuItem" mnemonicParsing="false" text="Save Stats" />
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
-                <MenuItem mnemonicParsing="false" text="About" />
+                <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
             </Menu>
         </MenuBar>
     </HBox>
