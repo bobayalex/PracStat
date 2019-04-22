@@ -16,6 +16,7 @@ public class Main extends Application {
     // get practice/team names programmatically
     // combine branches
     // clean up code/beautify fxml pages
+    // implement password functionality for alex's 3 buttons
     private static MainPageController mainPageController;
     @Override
     public void start(Stage primaryStage) throws Exception{
