@@ -51,18 +51,18 @@
                         <PlayerName>Foo</PlayerName>
                         <PlayerNumber>5</PlayerNumber>
                         <PlayerStats>
-                            <Kills>0</Kills>
-                            <Errors>1</Errors>
-                            <TotalAttempts>1</TotalAttempts>
-                            <Assists>31</Assists>
-                            <ServiceAces>0</ServiceAces>
-                            <ServiceErrors>0</ServiceErrors>
-                            <ReceptionErrors>0</ReceptionErrors>
-                            <Digs>2</Digs>
-                            <SoloBlocks>0</SoloBlocks>
-                            <BlockAssists>2</BlockAssists>
-                            <BlockingErrors>0</BlockingErrors>
-                            <BallHandlingErrors>0</BallHandlingErrors>
+                            <Kills>7</Kills>
+                            <Errors>2</Errors>
+                            <TotalAttempts>2</TotalAttempts>
+                            <Assists>10</Assists>
+                            <ServiceAces>1</ServiceAces>
+                            <ServiceErrors>1</ServiceErrors>
+                            <ReceptionErrors>1</ReceptionErrors>
+                            <Digs>3</Digs>
+                            <SoloBlocks>1</SoloBlocks>
+                            <BlockAssists>1</BlockAssists>
+                            <BlockingErrors>1</BlockingErrors>
+                            <BallHandlingErrors>1</BallHandlingErrors>
                         </PlayerStats>
                     </Player>
                     <Player>

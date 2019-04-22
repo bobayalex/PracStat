@@ -5,10 +5,10 @@ import java.util.List;
 public class Player {
     private String name;
     private int number;
-    private List<Integer> stats;
+    private List<Double> stats;
     private String practice;
 
-    public Player(String playerName, int playerNumber, List<Integer> playerStats, String playerPractice){
+    public Player(String playerName, int playerNumber, List<Double> playerStats, String playerPractice){
         name = playerName;
         number = playerNumber;
         stats = playerStats;
@@ -23,11 +23,11 @@ public class Player {
         return number;
     }
 
-    List<Integer> getStats(){
+    List<Double> getStats(){
         return stats;
     }
 
-    void setStats(List<Integer> playerStats){
+    void setStats(List<Double> playerStats){
         stats = playerStats;
     }
 

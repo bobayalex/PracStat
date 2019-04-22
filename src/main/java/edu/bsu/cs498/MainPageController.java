@@ -56,7 +56,7 @@ public class MainPageController implements Initializable {
     }
 
     private void testButtonAction(ActionEvent event) {
-        exportStatistics(true);
+        exportStatistics(false);
     }
 
     private List<Integer> getSpinnerValues() {
@@ -88,14 +88,11 @@ public class MainPageController implements Initializable {
             practices = Collections.singletonList(practiceName);
         }
         handler.updatePlayerStats(spinnerVals, teamName, practiceName);
-        List<Integer> teamStats = handler.getTeamStats("Team 1");
+        // update team stats too
+        List<Double> teamStats = handler.getTeamStats(teamName);
         CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
         csvFileMaker.generateCSVFile("testCSVFile.csv");
     }
-
-//    private void updateFile(Document doc) {
-//        handler.updateXML(doc);
-//    }
 
     private void setUpGridPanes() {
         setUpPlayerGrid();
@@ -126,9 +123,9 @@ public class MainPageController implements Initializable {
         int numStats = statNames.size(); // should be 12
         int playerCounter = 0;
         for (Player player : players) {
-            List<Integer> stats = player.getStats();
+            List<Double> stats = player.getStats();
             for (int i = 0; i < numStats; i++) {
-                Spinner<Integer> spinner = new Spinner<>(0, 10000, stats.get(i), 1);
+                Spinner<Integer> spinner = new Spinner<>(0, 10000, stats.get(i).intValue(), 1);
                 spinner.setPrefWidth(100);
                 spinner.setPrefHeight(30);
                 statSpinners.add(spinner);

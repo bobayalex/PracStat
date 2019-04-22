@@ -150,7 +150,7 @@ class XMLFileHandler {
         NodeList children = playerNode.getChildNodes();
         String name = "";
         int number = -1;
-        List<Integer> stats = new ArrayList<>();
+        List<Double> stats = new ArrayList<>();
         for (int i = 0; i < children.getLength(); i++) {
             Node currentNode = children.item(i);
             if (currentNode.getNodeName().equals("PlayerName")) {
@@ -166,17 +166,17 @@ class XMLFileHandler {
         players.add(new Player(name, number, stats, practiceName));
     }
 
-    private List<Integer> getStatsFromNode(Node statsNode) {
-        List<Integer> stats = new ArrayList<>();
+    private List<Double> getStatsFromNode(Node statsNode) {
+        List<Double> stats = new ArrayList<>();
         NodeList children = statsNode.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node currentNode = children.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
                 String currentText = currentNode.getTextContent();
                 if (currentText.equals("")) {// in the event that there is not a number, make it 0
-                    stats.add(0);
+                    stats.add(0d);
                 } else {
-                    stats.add(Integer.parseInt(currentNode.getTextContent()));
+                    stats.add(Double.parseDouble(currentNode.getTextContent()));
                 }
             }
         }
@@ -262,7 +262,7 @@ class XMLFileHandler {
         return doc.getElementsByTagName(nodeName);
     }
 
-    List<Integer> getTeamStats(String teamName) {
+    List<Double> getTeamStats(String teamName) {
         List<Node> elements = getAllNodes();
         Node teamStatsNode = getTeamStatNode(elements, teamName);
         return getStatsFromNode(teamStatsNode);
@@ -285,58 +285,16 @@ class XMLFileHandler {
 
     void updatePlayerStats(List<Integer> spinnerVals, String teamName, String practiceName) {
         // each player should have 12 stats, process spinnerVals 12 elements at a time
-//        List<Node> elements = getAllNodes();
-//        Node playersNode = getPlayersNode(elements, teamName, practiceName);
-//        NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
-//        for (int i = 0; i < playerList.getLength(); i++) {
-//            Node currentPlayerNode = playerList.item(i);
-//            if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
-//                NodeList statNodes = getStatNodes(currentPlayerNode);
-//                updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
-//            }
-//        }
+        Node playersNode = getPlayersNode(teamName, practiceName);
+        NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
+        for (int i = 0; i < playerList.getLength(); i++) {
+            Node currentPlayerNode = playerList.item(i);
+            if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
+                NodeList statNodes = getStatNodes(currentPlayerNode);
+                updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
+            }
+        }
     }
-
-
-    //////////
-//    private String printXML() {
-//        try {
-//            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-//            StreamResult result = new StreamResult(new StringWriter());
-//            DOMSource source = new DOMSource(doc);
-//            transformer.transform(source, result);
-//            String xmlString = result.getWriter().toString();
-//            return xmlString;
-//        } catch (TransformerException e) {
-//            System.out.println("Error");
-//        }
-//        return "Error";
-//    }
-//
-//    public void addTeam(String teamName) {
-//        Element root = doc.getDocumentElement();
-//        Element elementRoot = doc.createElement("Team");
-//        Node teamNameNode = doc.createElement("TeamName");
-//        teamNameNode.appendChild(doc.createTextNode(teamName));
-//        elementRoot.appendChild(teamNameNode);
-//        Node playerNode = doc.createElement("Player");
-//        Node playerNameNode = doc.createElement("Name");
-//        Node playerNumberNode = doc.createElement("Number");
-//        Node playerPositionNode = doc.createElement("Position");
-//        playerNode.appendChild(playerNameNode);
-//        playerNode.appendChild(playerNumberNode);
-//        playerNode.appendChild(playerPositionNode);
-//        elementRoot.appendChild(playerNode);
-//
-//        Node statisticsNode = doc.createElement("Statistics");
-//        elementRoot.appendChild(statisticsNode);
-//        root.appendChild(elementRoot);
-//        //System.out.println(printXML());
-//        updateXML(doc);
-//    }
-//
 
     private void updateXML(Document doc) {
         try {
@@ -349,7 +307,6 @@ class XMLFileHandler {
         }
 
     }
-
 
     private void updateNodes(NodeList statNodes, List<Integer> spinnerVals) {
         // statNodes could contain non-elements

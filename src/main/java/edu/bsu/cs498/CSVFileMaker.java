@@ -4,18 +4,17 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 class CSVFileMaker {
     private List<Player> players;
     private String teamName;
-    private List<Integer> teamStats;
+    private List<Double> teamStats;
     private List<String> practices;
 
-    CSVFileMaker(List<Player> playerList, String team, List<Integer> teamStatList, List<String> practiceList) {
+    CSVFileMaker(List<Player> playerList, String team, List<Double> teamStatList, List<String> practiceList) {
         players = playerList;
         teamName = team;
         teamStats = teamStatList;
@@ -80,40 +79,59 @@ class CSVFileMaker {
 
     private void writeAvgPlayerStats(Writer writer) throws IOException {
         // find average of player stats
-        calculateAverageStats(players);
-//        StringBuilder data;
-//        for (int i = 0; i < players.size(); i++) {
-//            Player player = players.get(i);
-//            // calculate PCT and PTS for player
-//            String pct = calculatePCT(player.getStats());
-//            String pts = calculatePTS(player.getStats());
-//            // add line break if more than one player
-//            if (i > 0) {
-//                writer.write("\n");
-//            }
-//            writer.write(player.getNumber() + "," + player.getName() + ",");
-//            List<Integer> stats = player.getStats();
-//            data = new StringBuilder();
-//
-//            // calculate pct and pts before loop starts and then add based on index
-//            for (int j = 0; j < stats.size(); j++) {
-//                int currentTeamStat = teamStats.get(j);
-//                currentTeamStat += stats.get(j);
-//                teamStats.set(j, currentTeamStat);
-//
-//                data.append(String.valueOf(stats.get(j))).append(",");
-//                if (j == 2) {// PCT
-//                    data.append(pct).append(",");
-//                }
-//            }
-//            data.append(pts); // pts is the last value
-//            writer.write(data.toString());
-//        }
+        players = updatePlayerStats(players);
+        StringBuilder data;
+        for (int i = 0; i < players.size(); i++) {
+            Player player = players.get(i);
+            // calculate PCT and PTS for player
+            String pct = calculatePCT(player.getStats());
+            String pts = calculatePTS(player.getStats());
+            // add line break if more than one player
+            if (i > 0) {
+                writer.write("\n");
+            }
+            writer.write(player.getNumber() + "," + player.getName() + ",");
+            List<Double> stats = player.getStats();
+            data = new StringBuilder();
+
+            // calculate pct and pts before loop starts and then add based on index
+            for (int j = 0; j < stats.size(); j++) {
+                double currentTeamStat = teamStats.get(j);
+                currentTeamStat += stats.get(j);
+                teamStats.set(j, currentTeamStat);
+
+                data.append(String.valueOf(stats.get(j))).append(",");
+                if (j == 2) {// PCT
+                    data.append(pct).append(",");
+                }
+            }
+            data.append(pts); // pts is the last value
+            writer.write(data.toString());
+        }
     }
 
-    private void calculateAverageStats(List<Player> players) {
+    private List<Player> updatePlayerStats(List<Player> players) {
+        List<Player> updatedPlayers = new ArrayList<>();
         players = formatPlayersList(players);
-        // at this point, players have been combined into one list
+        for(Player player : players){
+            List<Double> updatedStats = calculateAverageStats(player);
+            player.setStats(updatedStats);
+            updatedPlayers.add(player);
+        }
+        return updatedPlayers;
+    }
+
+    private List<Double> calculateAverageStats(Player player) {
+        int numPractices = practices.size();
+        List<Double> currentStats = player.getStats();
+        List<Double> averageStats = new ArrayList<>();
+        for (Double currentStat : currentStats) {
+            DecimalFormat format = new DecimalFormat("0.##");
+            currentStat = currentStat / numPractices;
+            currentStat = Double.parseDouble(format.format(currentStat));
+            averageStats.add(currentStat);
+        }
+        return averageStats;
     }
 
     private List<Player> formatPlayersList(List<Player> players) {
@@ -133,11 +151,11 @@ class CSVFileMaker {
     }
 
     private void combineStats(Player uniquePlayer, Player player) {
-        List<Integer> uniquePlayerStats = uniquePlayer.getStats();
-        List<Integer> playerStats = player.getStats();
+        List<Double> uniquePlayerStats = uniquePlayer.getStats();
+        List<Double> playerStats = player.getStats();
         for(int i = 0; i < playerStats.size(); i++){
-            int currentUniqueStat = uniquePlayerStats.get(i);
-            int currentPlayerStat = playerStats.get(i);
+            double currentUniqueStat = uniquePlayerStats.get(i);
+            double currentPlayerStat = playerStats.get(i);
             uniquePlayerStats.set(i, currentUniqueStat + currentPlayerStat);
         }
         uniquePlayer.setStats(uniquePlayerStats);
@@ -155,12 +173,12 @@ class CSVFileMaker {
                 writer.write("\n");
             }
             writer.write(player.getNumber() + "," + player.getName() + ",");
-            List<Integer> stats = player.getStats();
+            List<Double> stats = player.getStats();
             data = new StringBuilder();
 
             // calculate pct and pts before loop starts and then add based on index
             for (int j = 0; j < stats.size(); j++) {
-                int currentTeamStat = teamStats.get(j);
+                double currentTeamStat = teamStats.get(j);
                 currentTeamStat += stats.get(j);
                 teamStats.set(j, currentTeamStat);
 
@@ -190,7 +208,7 @@ class CSVFileMaker {
         writer.write(data.toString());
     }
 
-    String calculatePTS(List<Integer> stats) {
+    String calculatePTS(List<Double> stats) {
         BigDecimal kills = BigDecimal.valueOf(stats.get(0));
         BigDecimal soloBlocks = BigDecimal.valueOf(stats.get(8));
         BigDecimal serviceAces = BigDecimal.valueOf(stats.get(4));
@@ -199,7 +217,7 @@ class CSVFileMaker {
         return pts.toString();
     }
 
-    String calculatePCT(List<Integer> stats) {
+    String calculatePCT(List<Double> stats) {
         BigDecimal kills = BigDecimal.valueOf(stats.get(0));
         BigDecimal errors = BigDecimal.valueOf(stats.get(1));
         BigDecimal totalAttempts = BigDecimal.valueOf(stats.get(2));
