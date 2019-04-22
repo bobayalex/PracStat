@@ -88,7 +88,6 @@ public class MainPageController implements Initializable {
             players = handler.getPlayersByTeamPractice(teamName, practiceName);
             practices = Collections.singletonList(practiceName);
         }
-        // update team stats too
         List<Double> teamStats = handler.getTeamStats(teamName);
         CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
         csvFileMaker.generateCSVFile("testCSVFile.csv");

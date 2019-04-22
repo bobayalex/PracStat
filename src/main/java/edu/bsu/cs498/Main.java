@@ -7,8 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    // update team stats similarly to playerstats
     // TOD0, view average stats, menubar put button actions in
+    // check and handle errors, ex. csv file in use when trying to update
     // add success messages for CSV file generation, updating stats in config file
     // add 1 scrollbar for both gridpanes
     @Override
