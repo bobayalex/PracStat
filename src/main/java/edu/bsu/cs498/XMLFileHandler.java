@@ -89,21 +89,6 @@ class XMLFileHandler {
         return null;
     }
 
-//    private Node getChildFromParent(NodeList nodes, String text) {
-//        for (int i = 0; i < nodes.getLength(); i++) {
-//            Node parent = nodes.item(i);
-//            for (Node child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
-//                if (child.getNodeType() == Node.ELEMENT_NODE && child.getTextContent().equals(text)) {
-//                    return child;
-//                }
-//                if (child.hasChildNodes()) {
-//                    return getChildFromParent(child.getChildNodes(), text);
-//                }
-//            }
-//        }
-//        return null;
-//    }
-
     List<Player> getPlayersByTeamPractice(String teamName, String practiceName) {
         List<Player> players = new ArrayList<>();
         Node playersNode = getPlayersNode(teamName, practiceName);

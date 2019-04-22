@@ -13,7 +13,6 @@ import java.util.Optional;
 
 public class Main extends Application {
     // TOD0
-    // finish test cases
     // get practice/team names programmatically
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -23,7 +22,7 @@ public class Main extends Application {
         primaryStage.setTitle("PracStat");
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
-//        primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowAction);
+        primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowAction);
         primaryStage.show();
     }
 

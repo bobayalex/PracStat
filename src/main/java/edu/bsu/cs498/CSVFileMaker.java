@@ -27,7 +27,7 @@ class CSVFileMaker {
         return writePracticeData(fileName, numPractices);
     }
 
-    private boolean writePracticeData(String fileName, int numPractices) {
+    boolean writePracticeData(String fileName, int numPractices) {
         if (numPractices == 1) {
             // single practice data
             try (Writer writer = new BufferedWriter(new OutputStreamWriter(

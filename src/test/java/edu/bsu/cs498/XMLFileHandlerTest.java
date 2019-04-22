@@ -36,6 +36,12 @@ public class XMLFileHandlerTest {
     }
 
     @Test
+    public void test_getPlayersInAllPractices(){
+        List<Player> players = handler.getPlayersInAllPractices("Team 1");
+        Assert.assertEquals(2, players.size());
+    }
+
+    @Test
     public void test_getPlayersByTeam(){
         List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");
         Assert.assertEquals(2, players.size());

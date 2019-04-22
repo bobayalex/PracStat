@@ -35,17 +35,27 @@ public class CSVFileMakerTest {
     }
 
     @Test
+    public void test_writePracticeData_single_practice(){
+        boolean isSuccessful = csvFileMaker.writePracticeData(fileName, 1);
+        Assert.assertTrue(isSuccessful);
+    }
+
+    @Test
+    public void test_writePracticeData_multiple_practices(){
+        boolean isSuccessful = csvFileMaker.writePracticeData(fileName, 2);
+        Assert.assertTrue(isSuccessful);
+    }
+
+    @Test
     public void test_pct_value(){
-        Double[] arr = new Double[] {11d, 4d, 21d, 0d, 0d, 3d, 0d, 2d, 0d, 3d, 0d, 0d};
-        List<Double> stats = Arrays.asList(arr);
+        List<Double> stats = Arrays.asList(11d, 4d, 21d, 0d, 0d, 3d, 0d, 2d, 0d, 3d, 0d, 0d);
         String pct = csvFileMaker.calculatePCT(stats);
         Assert.assertEquals(".333", pct);
     }
 
     @Test
     public void test_pts_value(){
-        Double[] arr = new Double[] {11d, 4d, 21d, 0d, 0d, 3d, 0d, 2d, 0d, 3d, 0d, 0d};
-        List<Double> stats = Arrays.asList(arr);
+        List<Double> stats = Arrays.asList(11d, 4d, 21d, 0d, 0d, 3d, 0d, 2d, 0d, 3d, 0d, 0d);
         String pts = csvFileMaker.calculatePTS(stats);
         Assert.assertEquals("12.5", pts);
     }
