@@ -153,11 +153,9 @@ class XMLFileHandler {
         for (int i=0; i<participatingPlayers.size(); i++){
             addPlayer(teamName, participatingPlayers.get(i), playersNode);
         }
-        System.out.println(playersNode.getChildNodes().getLength());
         practiceNode.appendChild(practiceNameNode);
         practiceNode.appendChild(playersNode);
         practicesNode.appendChild(practiceNode);
-        System.out.println("hi");
         updateXML(doc);
     }
 
