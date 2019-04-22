@@ -79,7 +79,7 @@ public class MainPageController implements Initializable {
             alert.setContentText("Spreadsheet was successfully generated");
             alert.showAndWait();
         } else {
-            alert.setContentText("There was a problem generating the spreadsheet");
+            alert.setContentText("There was a problem generating the spreadsheet. Please ensure that the file is not currently being used by another process.");
             alert.showAndWait();
         }
     }

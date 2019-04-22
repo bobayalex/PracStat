@@ -13,7 +13,6 @@ import java.util.Optional;
 
 public class Main extends Application {
     // TOD0
-    // check and handle errors, ex. csv file in use when trying to update
     // get practice/team names programmatically
     // add 1 scrollbar for both gridpanes
     // fix/complete test classes
