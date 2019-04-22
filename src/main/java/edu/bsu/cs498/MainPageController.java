@@ -4,10 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 
 import java.net.URL;
@@ -24,39 +21,56 @@ public class MainPageController implements Initializable {
     private List<Spinner<Integer>> statSpinners = new ArrayList<>();
     @FXML
     private Button testBtn;
+    @FXML
+    private MenuItem closeMenuItem;
+    @FXML
+    private MenuItem genCSVMenuItem;
+    @FXML
+    private MenuItem genAvgCSVMenuItem;
+    @FXML
+    private MenuItem saveStatsMenuItem;
     private XMLFileHandler handler = new XMLFileHandler();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
     private HashMap<Integer, String> spinnerIDs = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        setUpMenuBar();
+        setUpMenuBar();
         initializeHashMap();
-        setButtonActions();
         setUpGridPanes();
-//        readConfigData();
     }
 
-//    private void readConfigData() {
-//
-//    }
+    private void setUpMenuBar() {
+        closeMenuItem.setOnAction(this::closeMenuItemAction);
+        genCSVMenuItem.setOnAction(this::genCSVMenuItemAction);
+        genAvgCSVMenuItem.setOnAction(this::genAvgCSVMenuItemAction);
+        saveStatsMenuItem.setOnAction(this::saveStatsMenuItemAction);
+    }
+
+    private void closeMenuItemAction(ActionEvent event){
+        System.exit(0);
+    }
+
+    private void genCSVMenuItemAction(ActionEvent event){
+        exportStatistics(false);
+    }
+
+    private void genAvgCSVMenuItemAction(ActionEvent event){
+        exportStatistics(true);
+    }
+
+    private void saveStatsMenuItemAction(ActionEvent event){
+        List<Integer> spinnerVals = getSpinnerValues();
+        // get both teamName and practiceName programmatically eventually
+        String teamName = "Team 1";
+        String practiceName = "Practice 1";
+        handler.updatePlayerStats(spinnerVals, teamName, practiceName);
+    }
 
     private void initializeHashMap() {
         for (int i = 0; i < statNames.size(); i++) {
             spinnerIDs.put(i, statNames.get(i));
         }
-    }
-
-    private void setButtonActions() {
-        setTestButtonAction();
-    }
-
-    private void setTestButtonAction() {
-        testBtn.setOnAction(this::testButtonAction);
-    }
-
-    private void testButtonAction(ActionEvent event) {
-        exportStatistics(false);
     }
 
     private List<Integer> getSpinnerValues() {
@@ -81,7 +95,7 @@ public class MainPageController implements Initializable {
         String teamName = "Team 1";
         String practiceName = "Practice 1";
         handler.updatePlayerStats(spinnerVals, teamName, practiceName);
-        if(showAvg){
+        if (showAvg) {
             players = handler.getPlayersInAllPractices(teamName);
             practices = handler.getPracticesByTeam(teamName);
         } else {
@@ -142,8 +156,4 @@ public class MainPageController implements Initializable {
         }
         return null;
     }
-
-//    private void setUpMenuBar() {
-//
-//    }
 }

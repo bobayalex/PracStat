@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -15,10 +14,12 @@
     <HBox prefHeight="25.0" prefWidth="1500.0">
         <MenuBar fx:id="menuBar" prefHeight="25.0" prefWidth="168.0" HBox.hgrow="ALWAYS">
             <Menu mnemonicParsing="false" text="File">
-                <MenuItem mnemonicParsing="false" text="Close" />
+                <MenuItem fx:id="genCSVMenuItem" mnemonicParsing="false" text="Generate Spreadsheet" />
+                <MenuItem fx:id="genAvgCSVMenuItem" mnemonicParsing="false" text="Generate Average Spreadsheet" />
+                <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
-                <MenuItem mnemonicParsing="false" text="Delete" />
+                <MenuItem fx:id="saveStatsMenuItem" mnemonicParsing="false" text="Save Stats" />
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                 <MenuItem mnemonicParsing="false" text="About" />
@@ -68,7 +69,6 @@
     <Label layoutX="1094.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BA" />
     <Label layoutX="1164.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BE" />
     <Label layoutX="1243.0" layoutY="101.0" prefHeight="17.0" prefWidth="23.0" text="BH" />
-    <Button fx:id="testBtn" layoutX="429.0" layoutY="35.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="785.0" text="Test" />
    <ScrollPane layoutX="25.0" layoutY="135.0" prefHeight="557.0" prefWidth="244.0">
      <content>
          <GridPane fx:id="playerGrid" gridLinesVisible="true" layoutX="14.0" layoutY="135.0" prefWidth="200.0" />     </content>
