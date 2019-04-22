@@ -9,6 +9,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+
 import java.net.URL;
 import java.util.*;
 
@@ -25,7 +26,7 @@ public class MainPageController implements Initializable {
     private Button testBtn;
     private XMLFileHandler handler = new XMLFileHandler();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
-    private HashMap<Integer,String> spinnerIDs = new HashMap<>();
+    private HashMap<Integer, String> spinnerIDs = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,7 +42,7 @@ public class MainPageController implements Initializable {
 //    }
 
     private void initializeHashMap() {
-        for (int i = 0; i < statNames.size(); i++){
+        for (int i = 0; i < statNames.size(); i++) {
             spinnerIDs.put(i, statNames.get(i));
         }
     }
@@ -55,7 +56,7 @@ public class MainPageController implements Initializable {
     }
 
     private void testButtonAction(ActionEvent event) {
-        exportStatistics(true);
+        exportStatistics(false);
     }
 
     private List<Integer> getSpinnerValues() {
@@ -64,7 +65,7 @@ public class MainPageController implements Initializable {
         List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
         int numPlayers = players.size();
         for (int i = 0; i < numPlayers; i++) {
-            for(int j = 0; j < numStats; j++){// there should be 12 stats
+            for (int j = 0; j < numStats; j++) {// there should be 12 stats
                 int statValue = Objects.requireNonNull(getSpinner(i, j)).getValue();
                 spinnerVals.add(statValue);
             }
@@ -72,34 +73,31 @@ public class MainPageController implements Initializable {
         return spinnerVals;
     }
 
-    private void exportStatistics(boolean showAvg){
-        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");
-//        List<Player> players = handler.getPlayersInAllPractices("Team 1");
-        for(Player player : players){
-            System.out.println(player.getName() + "\t\t" + player.getPractice());
+    private void exportStatistics(boolean showAvg) {
+        List<Player> players;
+        List<String> practices;
+        List<Integer> spinnerVals = getSpinnerValues();
+        // get both teamName and practiceName programmatically eventually
+        String teamName = "Team 1";
+        String practiceName = "Practice 1";
+        if(showAvg){
+            players = handler.getPlayersInAllPractices(teamName);
+            practices = handler.getPracticesByTeam(teamName);
+        } else {
+            players = handler.getPlayersByTeamPractice(teamName, practiceName);
+            practices = Collections.singletonList(practiceName);
         }
-//        List<String> practices;
-//        List<Integer> spinnerVals = getSpinnerValues();
-//        String teamName = "Team 1";
-//        String practiceName = "Practice 1";
-//        if(showAvg){
-//            practices = handler.getPracticesByTeam("Team 1");
-//        } else {
-//            practices = Collections.singletonList(practiceName);
-//        }
-//        handler.updatePlayerStats(spinnerVals, teamName, practiceName);
-//        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");
-//        List<Integer> teamStats = handler.getTeamStats("Team 1");
-//
-//        CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
-//        csvFileMaker.generateCSVFile("testCSVFile.csv");
+        handler.updatePlayerStats(spinnerVals, teamName, practiceName);
+        List<Integer> teamStats = handler.getTeamStats("Team 1");
+        CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
+        csvFileMaker.generateCSVFile("testCSVFile.csv");
     }
 
 //    private void updateFile(Document doc) {
 //        handler.updateXML(doc);
 //    }
 
-    private void setUpGridPanes(){
+    private void setUpGridPanes() {
         setUpPlayerGrid();
         setUpStatGrid();
     }
@@ -108,7 +106,7 @@ public class MainPageController implements Initializable {
         List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
         TextField numberField;
         TextField nameField;
-        for(int i = 0; i < players.size(); i++){
+        for (int i = 0; i < players.size(); i++) {
             Player player = players.get(i);
             int number = player.getNumber();
             numberField = new TextField(String.valueOf(number));
@@ -127,9 +125,9 @@ public class MainPageController implements Initializable {
         List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
         int numStats = statNames.size(); // should be 12
         int playerCounter = 0;
-        for(Player player : players){
+        for (Player player : players) {
             List<Integer> stats = player.getStats();
-            for(int i = 0; i < numStats; i++){
+            for (int i = 0; i < numStats; i++) {
                 Spinner<Integer> spinner = new Spinner<>(0, 10000, stats.get(i), 1);
                 spinner.setPrefWidth(100);
                 spinner.setPrefHeight(30);

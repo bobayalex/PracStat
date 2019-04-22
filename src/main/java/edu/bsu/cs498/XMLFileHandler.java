@@ -89,30 +89,24 @@ class XMLFileHandler {
         return null;
     }
 
-    private Node getChildFromParent(NodeList nodes, String text) {
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Node parent = nodes.item(i);
-            for (Node child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
-                if (child.getNodeType() == Node.ELEMENT_NODE && child.getTextContent().equals(text)) {
-                    return child;
-                }
-                if (child.hasChildNodes()) {
-                    return getChildFromParent(child.getChildNodes(), text);
-                }
-            }
-        }
-        return null;
-    }
+//    private Node getChildFromParent(NodeList nodes, String text) {
+//        for (int i = 0; i < nodes.getLength(); i++) {
+//            Node parent = nodes.item(i);
+//            for (Node child = parent.getFirstChild(); child != null; child = child.getNextSibling()) {
+//                if (child.getNodeType() == Node.ELEMENT_NODE && child.getTextContent().equals(text)) {
+//                    return child;
+//                }
+//                if (child.hasChildNodes()) {
+//                    return getChildFromParent(child.getChildNodes(), text);
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     List<Player> getPlayersByTeamPractice(String teamName, String practiceName) {
         List<Player> players = new ArrayList<>();
-        Map<Node,Node> nodeMap = new HashMap<>();
-        NodeList elements = doc.getDocumentElement().getChildNodes();
-        Node teamNode = getTeamNode(elements, teamName, nodeMap);
-        nodeMap.clear();
-        elements = teamNode.getChildNodes();
-        Node playersNode = getPlayersNodeRec(elements, practiceName, nodeMap);
-
+        Node playersNode = getPlayersNode(teamName, practiceName);
         if(!playersNode.getNodeName().equals("Players")){
             return players;
         }
@@ -124,29 +118,6 @@ class XMLFileHandler {
             }
         }
         return players;
-    }
-
-    List<Player> getPlayersByTeamPractice2(String teamName, String practiceName) {
-        List<Player> players = new ArrayList<>();
-        List<Node> elements = getAllNodes();
-        NodeList teamNodes = getNodeList("Team");
-        Node teamNode = getParentByChild(teamNodes, teamName);
-        NodeList teamChildren = teamNode.getChildNodes();
-        Node practiceNode = getChildFromParent(teamChildren, practiceName);
-        System.out.println(practiceNode.getTextContent());
-
-//        NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
-//        for (int i = 0; i < playerList.getLength(); i++) {
-//            Node currentNode = playerList.item(i);
-//            if (currentNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
-//                addPlayer(currentNode, players, practiceName);
-//            }
-//        }
-        return players;
-//        List<Node> nodes = new ArrayList<>();
-//        NodeList teamNodes = getNodeList("Team");
-//        Node teamNode = getParentByChild(teamNodes, teamName);
-//        nodes = getAllPlayerNodesByTeam(teamNode, nodes);
     }
 
     List<String> getPracticesByTeam(String teamName) {
@@ -202,7 +173,7 @@ class XMLFileHandler {
             Node currentNode = children.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
                 String currentText = currentNode.getTextContent();
-                if (currentText.equals("")) {
+                if (currentText.equals("")) {// in the event that there is not a number, make it 0
                     stats.add(0);
                 } else {
                     stats.add(Integer.parseInt(currentNode.getTextContent()));
@@ -212,20 +183,15 @@ class XMLFileHandler {
         return stats;
     }
 
-    // this method is problematic
-    private Node getPlayersNode(List<Node> elements, String teamName, String practiceName) {
-        Node currentNode = null;
-        for (int i = 0; i < elements.size(); i++) {
-            currentNode = elements.get(i);
-            if (currentNode.getTextContent().equals(teamName)) {
-                currentNode = elements.get(i + 3);
-                if (currentNode.getTextContent().equals(practiceName)) {
-                    currentNode = elements.get(i + 4); // players element
-                    return currentNode;
-                }
-            }
-        }
-        return currentNode;
+    private Node getPlayersNode(String teamName, String practiceName) {
+        Node playersNode;
+        Map<Node,Node> nodeMap = new HashMap<>();
+        NodeList elements = doc.getDocumentElement().getChildNodes();
+        Node teamNode = getTeamNode(elements, teamName, nodeMap);
+        nodeMap.clear();
+        elements = teamNode.getChildNodes();
+        playersNode = getPlayersNodeRec(elements,practiceName,nodeMap);
+        return playersNode;
     }
 
     private Node getTeamNode(NodeList elements, String teamName, Map<Node,Node> nodeMap ) {
@@ -260,21 +226,6 @@ class XMLFileHandler {
             return null;
         }
         return nodeMap.get(nodeMap.values().toArray()[0]);
-    }
-
-    private Node getTeamStatNodeJunk(List<Node> elements, String teamName) {
-        Node currentNode = null;
-        for (Node element : elements) {
-            currentNode = element;
-            if (currentNode.getTextContent().equals(teamName)) {
-                currentNode = currentNode.getNextSibling();
-                while (!(currentNode.getNodeName().equals("TeamStats"))) {
-                    currentNode = currentNode.getNextSibling();
-                }
-                return currentNode;
-            }
-        }
-        return currentNode;
     }
 
     private Node getPracticesNode(List<Node> elements, String teamName) {
@@ -334,16 +285,16 @@ class XMLFileHandler {
 
     void updatePlayerStats(List<Integer> spinnerVals, String teamName, String practiceName) {
         // each player should have 12 stats, process spinnerVals 12 elements at a time
-        List<Node> elements = getAllNodes();
-        Node playersNode = getPlayersNode(elements, teamName, practiceName);
-        NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
-        for (int i = 0; i < playerList.getLength(); i++) {
-            Node currentPlayerNode = playerList.item(i);
-            if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
-                NodeList statNodes = getStatNodes(currentPlayerNode);
-                updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
-            }
-        }
+//        List<Node> elements = getAllNodes();
+//        Node playersNode = getPlayersNode(elements, teamName, practiceName);
+//        NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
+//        for (int i = 0; i < playerList.getLength(); i++) {
+//            Node currentPlayerNode = playerList.item(i);
+//            if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
+//                NodeList statNodes = getStatNodes(currentPlayerNode);
+//                updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
+//            }
+//        }
     }
 
 
