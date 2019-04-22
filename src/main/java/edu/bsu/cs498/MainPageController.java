@@ -80,6 +80,7 @@ public class MainPageController implements Initializable {
         // get both teamName and practiceName programmatically eventually
         String teamName = "Team 1";
         String practiceName = "Practice 1";
+        handler.updatePlayerStats(spinnerVals, teamName, practiceName);
         if(showAvg){
             players = handler.getPlayersInAllPractices(teamName);
             practices = handler.getPracticesByTeam(teamName);
@@ -87,7 +88,6 @@ public class MainPageController implements Initializable {
             players = handler.getPlayersByTeamPractice(teamName, practiceName);
             practices = Collections.singletonList(practiceName);
         }
-        handler.updatePlayerStats(spinnerVals, teamName, practiceName);
         // update team stats too
         List<Double> teamStats = handler.getTeamStats(teamName);
         CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
