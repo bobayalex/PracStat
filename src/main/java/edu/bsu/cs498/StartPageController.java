@@ -75,23 +75,15 @@ public class StartPageController implements Initializable {
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {
-        //Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
-        //Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        //currentStage.getScene().setRoot(updatedRoot);
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceName));
         Parent updatedRoot = loader.load();
-        //updatedRoot.getScene().getStylesheets().add("css/mainpage.css");
+
         mainPageController1 = (MainPageController)loader.getController();
 
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.getStylesheets().add("css/mainpage.css");
         Stage currentStage = (Stage) currentScene.getWindow();
 
-        //Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.getScene().setRoot(updatedRoot);
-
-        //USE THIS ONLY TO TEST THE GRIDPANE!!!
-        //mainPageController1.addToGridPane();
     }
 }

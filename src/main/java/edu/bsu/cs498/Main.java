@@ -13,37 +13,20 @@ import java.util.List;
 
 public class Main extends Application {
 
-    static StartPageController startPageController;
     static MainPageController mainPageController;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         String fxmlPath = "/fxml/startPage.fxml";
-
-//        String fxmlPath = "/fxml/mainPage.fxml";
-
-        // THE ORIGINAL BELOW:
-        Parent root1 = FXMLLoader.load(getClass().getResource(fxmlPath));
-
-        //FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/fxml/startPage.fxml"));
-        //Parent root1 = loader1.load();
-        //startPageController = (StartPageController)loader1.getController();
-
-        // THE NEW ONE:
+        Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainPage.fxml"));
-        Parent root = loader.load();
-        mainPageController = (MainPageController)loader.getController();
-
+        mainPageController = loader.getController();
         primaryStage.setTitle("PracStat");
-        Scene scene = new Scene(root1);
+        Scene scene = new Scene(root);
         scene.getStylesheets().add("css/startpage.css");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
-        XMLFileHandler handler = new XMLFileHandler();
-        //handler.test();
-        //System.exit(0);
-        //primaryStage.setOnCloseRequest(e -> Platform.exit());
         primaryStage.setOnCloseRequest(e -> System.exit(0));
     }
 

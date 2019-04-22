@@ -1,20 +1,15 @@
 package edu.bsu.cs498;
 
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_GREENPeer;
-import javafx.application.HostServices;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import javax.xml.soap.Text;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
@@ -159,18 +154,10 @@ public class MainPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        setUpMenuBar();
         initializeHashMap();
         setButtonActions();
-        //setUpGridPane();
         setUpGridPanes();
-//        readConfigData();
     }
-
-//    private void readConfigData() {
-//
-//    }
-
 
     private void initializeHashMap() {
         for (int i = 0; i < statNames.size(); i++){
@@ -196,13 +183,8 @@ public class MainPageController implements Initializable {
         for (int i = playerIndex; i < numStats; i++) {
             String idName = spinnerIDs.get(i);
             int statValue = getSpinner(0, i).getValue();
-            //System.out.println(idName + ": " + Integer.toString(statValue));
         }
     }
-
-//    private void updateFile(Document doc) {
-//        handler.updateXML(doc);
-//    }
 
     private void printSpinnerVals() {
         for (Spinner<Integer> spinner : statSpinners) {
@@ -244,6 +226,9 @@ public class MainPageController implements Initializable {
                 Spinner<Integer> spinner = new Spinner<>(0, 10000, stats.get(i), 1);
                 spinner.setPrefWidth(100);
                 spinner.setPrefHeight(30);
+                //spinner.setMaxSize(100, 30);
+                //System.out.println("SPINNER WIDTH = " + spinner.getWidth());
+                //System.out.println("SPINNER MAX WIDTH = " + spinner.getMaxWidth());
                 statSpinners.add(spinner);
                 statGrid.add(spinner, i, playerCounter);
             }
@@ -263,15 +248,11 @@ public class MainPageController implements Initializable {
     //Use this method to get a specific spinner and increment it by 1
     public void incrementSpinner(int row, int col) throws InterruptedException {
         Spinner spinner = getSpinner(row, col);
-        //getSpinner(row, col).getValueFactory().increment(1);
         spinner.getValueFactory().increment(1);
-        //spinner.getStyleClass().clear();
-        //spinner.getStyleClass().removeIf(style -> style.equals("spinner incremented tonormal"));
         System.out.println("The OLD style class is: " + spinner.getStyleClass());
         spinner.getStyleClass().add("incremented");
         System.out.println("The NEW style class is: " + spinner.getStyleClass());
         TimeUnit.SECONDS.sleep(1);
-        //spinner.getStyleClass().add("tonormal");
         spinner.getStyleClass().remove("incremented");
         System.out.println("The go-back style class is: " + spinner.getStyleClass());
     }
@@ -302,10 +283,4 @@ public class MainPageController implements Initializable {
     public void setVoiceLabelText(String str) {
         voiceLabel.setText(str);
     }
-
-
-
-//    private void setUpMenuBar() {
-//
-//    }
 }

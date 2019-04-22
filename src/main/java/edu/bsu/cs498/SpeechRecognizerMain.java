@@ -1,29 +1,24 @@
 package edu.bsu.cs498;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Port;
-
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import edu.cmu.sphinx.api.SpeechResult;
-import edu.cmu.sphinx.result.WordResult;
 import javafx.application.Platform;
 
-import static edu.bsu.cs498.Main.mainPageController;
 import static edu.bsu.cs498.StartPageController.mainPageController1;
 
 public class SpeechRecognizerMain {
 
     // Necessary
     private LiveSpeechRecognizer recognizer;
-    EnglishStringToNumber stringToNumber	= new EnglishStringToNumber();
+    private EnglishStringToNumber stringToNumber = new EnglishStringToNumber();
 
     // Logger
     private Logger logger = Logger.getLogger(getClass().getName());
