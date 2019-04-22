@@ -2,6 +2,7 @@ package edu.bsu.cs498;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
@@ -157,25 +158,26 @@ class CSVFileMaker {
         uniquePlayer.setStats(uniquePlayerStats);
     }
 
-    private String calculatePTS(List<Double> stats) {
+    String calculatePTS(List<Double> stats) {
         BigDecimal kills = BigDecimal.valueOf(stats.get(0));
         BigDecimal soloBlocks = BigDecimal.valueOf(stats.get(8));
         BigDecimal serviceAces = BigDecimal.valueOf(stats.get(4));
         BigDecimal blockAssists = BigDecimal.valueOf(stats.get(9));
         BigDecimal pts = (blockAssists.multiply(new BigDecimal(.5)).add(kills).add(soloBlocks).add(serviceAces));
+        pts = pts.round(new MathContext(3, RoundingMode.HALF_UP));
         return pts.toString();
     }
 
-    private String calculatePCT(List<Double> stats) {
+    String calculatePCT(List<Double> stats) {
         BigDecimal kills = BigDecimal.valueOf(stats.get(0));
         BigDecimal errors = BigDecimal.valueOf(stats.get(1));
         BigDecimal totalAttempts = BigDecimal.valueOf(stats.get(2));
-        BigDecimal pct = (kills.subtract(errors)).divide(totalAttempts, 3, RoundingMode.HALF_EVEN);
+        BigDecimal pct = (kills.subtract(errors)).divide(totalAttempts, 3, RoundingMode.HALF_UP);
         String pctString = pct.toString();
         return formatPCT(pctString);
     }
 
-    private String formatPCT(String pctString) {
+    String formatPCT(String pctString) {
         // remove first zero case
         if (pctString.charAt(0) == '0') {
             pctString = pctString.substring(1);

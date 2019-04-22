@@ -13,8 +13,8 @@ import java.util.Optional;
 
 public class Main extends Application {
     // TOD0
+    // finish test cases
     // get practice/team names programmatically
-    // fix/complete test classes
     @Override
     public void start(Stage primaryStage) throws Exception{
 //        String fxmlPath = "/fxml/startPage.fxml";
