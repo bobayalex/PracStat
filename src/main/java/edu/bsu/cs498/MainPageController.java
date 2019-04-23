@@ -199,8 +199,9 @@ public class MainPageController implements Initializable {
             List<Double> stats = player.getStats();
             for (int i = 0; i < numStats; i++) {
                 Spinner<Integer> spinner = new Spinner<>(0, 10000, stats.get(i).intValue(), 1);
-                spinner.setPrefWidth(100);
-                spinner.setPrefHeight(30);
+                spinner.setMinSize(71, 31);
+                spinner.setPrefSize(71, 31);
+                spinner.setMaxSize(71, 31);
                 statSpinners.add(spinner);
                 statGrid.add(spinner, i, playerCounter);
             }
@@ -269,17 +270,15 @@ public class MainPageController implements Initializable {
     //Use this method to get a specific spinner and increment it by 1
     public void incrementSpinner(int row, int col) throws InterruptedException {
         Spinner spinner = getSpinner(row, col);
-        //getSpinner(row, col).getValueFactory().increment(1);
         spinner.getValueFactory().increment(1);
-        //spinner.getStyleClass().clear();
-        //spinner.getStyleClass().removeIf(style -> style.equals("spinner incremented tonormal"));
+        System.out.println("spinner width = " + spinner.getWidth() + "spinner height = " + spinner.getHeight());
         System.out.println("The OLD style class is: " + spinner.getStyleClass());
         spinner.getStyleClass().add("incremented");
         System.out.println("The NEW style class is: " + spinner.getStyleClass());
         TimeUnit.SECONDS.sleep(1);
-        //spinner.getStyleClass().add("tonormal");
         spinner.getStyleClass().remove("incremented");
         System.out.println("The go-back style class is: " + spinner.getStyleClass());
+        System.out.println("spinner width = " + spinner.getWidth() + "spinner height = " + spinner.getHeight());
     }
 
     // Value factory.

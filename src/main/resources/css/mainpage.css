@@ -1,5 +1,5 @@
 .spinner{
-    -fx-body-color: #00e600
+    -fx-body-color: #00e600;
     -fx-background-color: gray;
 }
 .spinner .increment-arrow-button .increment-arrow {
