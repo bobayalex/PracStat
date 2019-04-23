@@ -240,7 +240,7 @@ class XMLFileHandler {
         return playerNodes;
     }
 
-    public ObservableList<String> getAllPlayersString(String teamName){ //Used to populate FXML dropdown boxes
+    public ObservableList<String> getAllPlayersString(String teamName){ //Used to populate FXML dropdown boxes and lists
         String playerName = "";
         String playerNumber = "";
         String playerPosition = "";
@@ -249,14 +249,22 @@ class XMLFileHandler {
         for (int i = 0; i < playerNodes.getLength(); i++) {
             Node currentPlayerNode = playerNodes.item(i);
             NodeList currentPlayerInfo = currentPlayerNode.getChildNodes();
-            for (int j = 0; j < currentPlayerInfo.getLength(); j++){
+            boolean duplicate = false;
+            for (int j = 0; j < currentPlayerInfo.getLength(); j++) {
                 Node node = currentPlayerInfo.item(j);
-                if ("PlayerName".equals(node.getNodeName())){playerName = node.getTextContent();}
-                if ("PlayerNumber".equals(node.getNodeName())){playerNumber = node.getTextContent();}
-                if ("PlayerPosition".equals(node.getNodeName())){playerPosition = node.getTextContent();}
+                if ("PlayerName".equals(node.getNodeName())) {
+                    playerName = node.getTextContent();
+                }
+                if ("PlayerNumber".equals(node.getNodeName())) {
+                    playerNumber = node.getTextContent();
+                }
+                if ("PlayerPosition".equals(node.getNodeName())) {
+                    playerPosition = node.getTextContent();
+                }
             }
             String playerInfo = playerName + "," + playerNumber + "," + playerPosition;
-            playerList.add(playerInfo);
+            for (String str : playerList) {if (str.contains(playerInfo)) {duplicate = true;}}
+            if (duplicate == false){playerList.add(playerInfo);}
         }
         return playerList;
     }
