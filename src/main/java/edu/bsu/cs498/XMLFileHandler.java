@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 
 class XMLFileHandler {
@@ -269,6 +271,13 @@ class XMLFileHandler {
         return playerList;
     }
 
+    public ObservableList<String> getPracticesByTeamObservable(String teamName){
+        ObservableList<String> practiceList = FXCollections.observableArrayList(getPracticesByTeam(teamName));
+        return practiceList;
+    }
+
+
+
     public ObservableList<String> getAllTeams(){ //Used to populate FXML dropdown boxes
         ObservableList<String> teamList = FXCollections.observableArrayList();
         NodeList teams = doc.getElementsByTagName("TeamName");
@@ -318,5 +327,61 @@ class XMLFileHandler {
             System.out.println("Error");
         }
         return "Error";
+    }
+
+    List<String> getPracticesByTeam(String teamName) { //taken from dexter branch
+        List<String> practices = new ArrayList<>();
+        List<Node> elements = getAllNodes();
+        Node practicesNode = getPracticesNodeDexter(elements, teamName);
+        NodeList childNodes = practicesNode.getChildNodes(); // this also contains non-element nodes
+        for (int i = 0; i < childNodes.getLength(); i++) {
+            Node currentNode = childNodes.item(i);
+            if (currentNode.getNodeName().equals("Practice")) {
+                String practiceName = getPracticeName(currentNode);
+                practices.add(practiceName);
+            }
+        }
+        return practices;
+    }
+
+    List<Node> getAllNodes() { //taken from dexter branch
+        Node node = doc.getDocumentElement();
+        List<Node> nodes = new ArrayList<>();
+        return getAllNodesRec(node, nodes);
+    }
+
+    private List<Node> getAllNodesRec(Node node, List<Node> nodes) { //taken from dexter branch
+        nodes.add(node);
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node currentNode = nodeList.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                getAllNodesRec(currentNode, nodes);
+            }
+        }
+        return nodes;
+    }
+
+    private Node getPracticesNodeDexter(List<Node> elements, String teamName) { //taken from dexter branch
+        Node currentNode = null;
+        for (int i = 0; i < elements.size(); i++) {
+            currentNode = elements.get(i);
+            if (currentNode.getTextContent().equals(teamName)) {
+                currentNode = elements.get(i + 1);
+                return currentNode;
+            }
+        }
+        return currentNode;
+    }
+
+    private String getPracticeName(Node practiceNode) { //taken from dexter branch
+        NodeList children = practiceNode.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node currentNode = children.item(i);
+            if (currentNode.getNodeName().equals("PracticeName")) {
+                return currentNode.getTextContent();
+            }
+        }
+        return null;
     }
 }

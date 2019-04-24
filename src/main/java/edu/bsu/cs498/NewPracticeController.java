@@ -7,9 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.util.ListIterator;
 
@@ -22,7 +26,6 @@ public class NewPracticeController {
     @FXML private ScrollPane scroll;
     @FXML private TextField practiceNameInput;
     private ObservableList<String> playerStringList = FXCollections.observableArrayList();
-    private ObservableList<String> playerObjectList = FXCollections.observableArrayList();
     private String[] playerInfo;
     ObservableList<String> teamOptions;
     private XMLFileHandler reader = new XMLFileHandler();
@@ -70,7 +73,9 @@ public class NewPracticeController {
     private void createPracticeButtonAction(ActionEvent event){
         String practiceName = practiceNameInput.getText();
         ObservableList<Player> selectedPlayers = getSelectedPlayers();
-        reader.createPractice(teamOptionsSelection.getValue().toString(), "Practice1", selectedPlayers);
+        //reader.createPractice(teamOptionsSelection.getValue().toString(), "Practice1", selectedPlayers);
+        try {switchRoot(event, "/fxml/mainPage.fxml");}
+        catch (IOException e) {e.printStackTrace();}
     }
 
     private ObservableList<Player> getSelectedPlayers(){
