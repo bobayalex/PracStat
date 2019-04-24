@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" style="-fx-background-color: dimgray;" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.MenuPageController">
+<GridPane alignment="center" hgap="10" style="-fx-background-color: dimgray;" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.MenuPageController">
     <columnConstraints>
         <ColumnConstraints />
     </columnConstraints>
@@ -17,19 +21,23 @@
         <RowConstraints />
         <RowConstraints />
     </rowConstraints>
-    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: dimgray;" GridPane.rowIndex="1">
-      <Label alignment="CENTER" layoutY="20.0" text="Welcome to PracStat" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <font>
-            <Font name="System Bold" size="35.0" />
-         </font>
-      </Label>
-      <VBox alignment="CENTER" layoutX="650.0" layoutY="135.0" spacing="30.0" AnchorPane.leftAnchor="800.0" AnchorPane.rightAnchor="800.0">
-         <children>
-            <Button fx:id="newTeamButton" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="New Team" textAlignment="CENTER" />
-            <Button fx:id="editTeamButton" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="Edit Team" />
-            <Button fx:id="newPracticeButton" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="New Practice" />
-            <Button fx:id="viewStatsButton" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="View Statistics" />
-         </children>
-      </VBox>
-    </AnchorPane>
+    <children>
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: dimgray;" GridPane.rowIndex="1">
+            <children>
+                <Label alignment="CENTER" layoutY="20.0" style="-fx-background-color: firebrick;" text="Welcome to PracStat" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+                    <font>
+                        <Font name="System Bold" size="35.0" />
+                    </font>
+                </Label>
+                <VBox alignment="CENTER" layoutX="650.0" layoutY="135.0" minHeight="350.0" minWidth="320.0" spacing="30.0" style="-fx-alignment: center;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <children>
+                        <Button fx:id="newTeamButton" minHeight="57.0" minWidth="200.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="New Team" textAlignment="CENTER" />
+                        <Button fx:id="editTeamButton" minHeight="57.0" minWidth="200.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="Edit Team" />
+                        <Button fx:id="newPracticeButton" minHeight="57.0" minWidth="200.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="New Practice" />
+                        <Button fx:id="viewStatsButton" minHeight="57.0" minWidth="200.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="View Statistics" />
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
 </GridPane>
