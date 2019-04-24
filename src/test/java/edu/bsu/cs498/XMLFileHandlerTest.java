@@ -59,4 +59,52 @@ public class XMLFileHandlerTest {
         Assert.assertEquals(12, teamStats.size());
     }
 
+    @Test
+    public void addPlayer() {
+        Assert.assertEquals(4, handler.getNumberOfPlayers("Indiana"));
+        PlayerData newPlayerData = new PlayerData("Matt", "46", "Libero");
+        handler.addPlayer("Indiana", newPlayerData, handler.getTeamNode("Indiana"));
+        Assert.assertEquals(5, handler.getNumberOfPlayers("Indiana"));
+    }
+
+
+    @Test
+    public void deletePlayer() {
+        Assert.assertEquals(3, handler.getNumberOfPlayers("Michigan"));
+        handler.deletePlayer("Kyle");
+        Assert.assertEquals(2, handler.getNumberOfPlayers("Michigan"));
+        PlayerData kyleReplacement = new PlayerData("Kyle", "22", "Libero");
+        handler.addPlayer("Michigan", kyleReplacement, handler.getTeamNode("Michigan"));
+    }
+
+    @Test
+    public void getAllTeams() {
+        Assert.assertEquals(6, handler.getAllTeams().size());
+    }
+
+    @Test
+    public void getTeamNode() {
+        Assert.assertEquals("Team", handler.getTeamNode("Michigan").getNodeName());
+    }
+
+    @Test
+    public void getAllPlayerNodes() {
+        Assert.assertEquals(3, handler.getAllPlayerNodes("Michigan").getLength());
+    }
+
+    @Test
+    public void getIndividualPlayerNode() {
+        Assert.assertEquals("Player", handler.getIndividualPlayerNode("Doug B").getNodeName());
+    }
+
+    @Test
+    public void getAllPlayersString() {
+        Assert.assertEquals(3, handler.getAllPlayersString("Michigan").size());
+    }
+
+    @Test
+    public void doesTeamExist() {
+        Assert.assertTrue(handler.doesTeamExist("Michigan"));
+    }
+
 }

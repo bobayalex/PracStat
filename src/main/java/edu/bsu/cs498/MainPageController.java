@@ -1,6 +1,8 @@
 package edu.bsu.cs498;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,6 +40,10 @@ public class MainPageController implements Initializable {
     @FXML Button speechRecBtn;
     @FXML Label statusLabel;
     @FXML Label voiceLabel;
+    @FXML private ComboBox teamOptions;
+    @FXML private ComboBox practiceOptions;
+    private ObservableList<String> teamOptionsList = FXCollections.observableArrayList();
+    private ObservableList<String> teamPracticesList = FXCollections.observableArrayList();
     private XMLFileHandler handler = new XMLFileHandler();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
     private HashMap<Integer, String> spinnerIDs = new HashMap<>();
@@ -50,6 +56,8 @@ public class MainPageController implements Initializable {
         setUpMenuBar();
         initializeHashMap();
         setUpGridPanes();
+        teamOptionsList = handler.getAllTeams();
+        teamOptions.setItems(teamOptionsList);
     }
 
     private void setUpMenuBar() {
@@ -311,5 +319,14 @@ public class MainPageController implements Initializable {
 
     public void setVoiceLabelText(String str) {
         voiceLabel.setText(str);
+    }
+
+    public void loadPractices(){
+        teamPracticesList = handler.getPracticesByTeamObservable(teamOptions.getValue().toString());
+        practiceOptions.setItems(teamPracticesList);
+    }
+
+    public String getPracticeName(){
+        return practiceOptions.getValue().toString();
     }
 }
