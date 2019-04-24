@@ -269,10 +269,10 @@ public class MainPageController implements Initializable {
             Node child1 = playerGrid.getChildren().get(i);
             if (child1 instanceof TextField) {
                 TextField tfield = (TextField) child1;
-                System.out.println("tfield text = " + tfield.getText());
+                //System.out.println("tfield text = " + tfield.getText());
                 if (tfield.getText().length() <=2 && Integer.parseInt(tfield.getText()) == stringToNumber.convert(playerNum)) {
                     row = playerGrid.getRowIndex(child1);
-                    System.out.println("row = " + row);
+                    //System.out.println("row = " + row);
                 }
             }
         }

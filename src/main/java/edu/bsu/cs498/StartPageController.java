@@ -26,7 +26,7 @@ public class StartPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         XMLFileHandler handler = new XMLFileHandler();
-        isConfigured = handler.isConfigured();
+        //isConfigured = handler.isConfigured();
         loadImage();
         setButtonActions();
     }
@@ -51,9 +51,6 @@ public class StartPageController implements Initializable {
     }
 
     private String choosePath() {
-        if (!isConfigured) {
-            return "/fxml/setup.fxml";
-        }
         return "/fxml/menuPage.fxml";
     }
 

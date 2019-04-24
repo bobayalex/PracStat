@@ -23,19 +23,6 @@ public class XMLFileHandlerTest {
     }
 
     @Test
-    public void test_configured(){
-        boolean isConfigured = handler.isConfigured();
-        Assert.assertTrue(isConfigured);
-    }
-
-    @Test
-    public void test_notConfigured(){
-        handler.setDoc(null);
-        boolean isConfigured = handler.isConfigured();
-        Assert.assertFalse(isConfigured);
-    }
-
-    @Test
     public void test_getPlayersInAllPractices(){
         List<Player> players = handler.getPlayersInAllPractices("Team 1");
         Assert.assertEquals(2, players.size());

@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -28,6 +29,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowAction);
+        primaryStage.getIcons().add(new Image("images/pracstat_logo.png"));
         primaryStage.show();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainPage.fxml"));
         mainPageController = loader.getController();

@@ -40,14 +40,6 @@ class XMLFileHandler {
         }
     }
 
-    boolean isConfigured() {
-        if (doc == null) {
-            return false;
-        }
-        NodeList teams = doc.getElementsByTagName("Team");
-        return teams.getLength() > 0;
-    }
-
     Document getDoc() {
         return doc;
     }
