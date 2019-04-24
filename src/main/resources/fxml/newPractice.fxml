@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -9,41 +13,46 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1400.0" prefWidth="1600.0" style="-fx-background-color: dimgray;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.NewPracticeController">
-    <children>
-        <Label alignment="CENTER" layoutX="193.0" layoutY="-435.0" text="Team Name" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
-            <font>
-                <Font size="22.0" />
-            </font></Label>
-        <Label alignment="CENTER" layoutX="201.0" layoutY="20.0" text="New Practice" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
-            <font>
-                <Font name="System Bold" size="35.0" />
-            </font>
-        </Label>
-        <Button fx:id="createPracticeButton" layoutX="701.0" layoutY="894.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="200.0" text="Create Practice" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="700.0" AnchorPane.topAnchor="720.0" />
-      <ComboBox fx:id="teamOptionsSelection" layoutX="542.0" layoutY="138.0" onAction="#loadPlayerTable" prefHeight="31.0" prefWidth="515.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="135.0" />
-      <Button fx:id="newTeamButton" layoutX="725.0" layoutY="215.0" mnemonicParsing="false" text="Create New Team" AnchorPane.leftAnchor="725.0" AnchorPane.rightAnchor="725.0" AnchorPane.topAnchor="215.0" />
-      <Button fx:id="mainMenuButton" layoutX="711.0" layoutY="902.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="200.0" text="Main Menu" AnchorPane.leftAnchor="700.0" AnchorPane.rightAnchor="700.0" AnchorPane.topAnchor="800.0" />
-      <ScrollPane fx:id="scroll" layoutX="600.0" layoutY="329.0" prefHeight="238.0" prefWidth="400.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <VBox fx:id="playerListVBox" layoutX="-400.0" spacing="10.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0" />
-               </children>
-            </AnchorPane>
-        </content>
-      </ScrollPane>
-      <Label alignment="CENTER" layoutX="1.0" layoutY="276.0" text="Select All Participating Players" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="practiceNameInput" layoutX="707.0" layoutY="635.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0" />
-      <Label alignment="CENTER" layoutX="642.0" layoutY="588.0" text="Enter Practice Name" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hvalue="0.5" minHeight="768.0" minWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.NewPracticeController">
+    <content>
+        <AnchorPane prefHeight="770.0" prefWidth="1715.0" style="-fx-background-color: dimgray;">
+            <children>
+                <Label alignment="CENTER" layoutX="193.0" layoutY="-435.0" text="Team Name" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+                    <font>
+                        <Font size="22.0" />
+                    </font>
+                </Label>
+                <Label alignment="CENTER" layoutX="201.0" layoutY="20.0" style="-fx-background-color: firebrick;" text="New Practice" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
+                    <font>
+                        <Font name="System Bold" size="35.0" />
+                    </font>
+                </Label>
+                <Button fx:id="createPracticeButton" layoutX="600.0" layoutY="593.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="266.0" text="Create Practice" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="599.0" AnchorPane.topAnchor="593.0" />
+                <ComboBox fx:id="teamOptionsSelection" layoutX="542.0" layoutY="138.0" onAction="#loadPlayerTable" prefHeight="31.0" prefWidth="515.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0" AnchorPane.topAnchor="135.0" />
+                <Button fx:id="newTeamButton" layoutX="642.0" layoutY="179.0" minHeight="30.0" minWidth="265.0" mnemonicParsing="false" text="Create New Team" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0" />
+                <ScrollPane fx:id="scroll" layoutX="600.0" layoutY="269.0" prefHeight="238.0" prefWidth="400.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <VBox fx:id="playerListVBox" layoutX="-400.0" spacing="10.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+                <Label alignment="CENTER" layoutY="234.0" text="Select All Participating Players" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="practiceNameInput" layoutX="600.0" layoutY="551.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="600.0" />
+                <Label alignment="CENTER" layoutY="516.0" text="Enter Practice Name" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Button fx:id="mainMenuButton" layoutX="678.0" layoutY="676.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="110.0" text="Main Menu" AnchorPane.leftAnchor="678.0" AnchorPane.rightAnchor="677.0" AnchorPane.topAnchor="676.0" />
 
-    </children>
-</AnchorPane>
+            </children>
+        </AnchorPane>
+    </content>
+</ScrollPane>
