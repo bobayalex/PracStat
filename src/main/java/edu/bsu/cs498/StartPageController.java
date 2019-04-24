@@ -20,13 +20,9 @@ public class StartPageController implements Initializable {
     private Button startButton;
     @FXML
     private ImageView imageView;
-    private boolean isConfigured;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        XMLFileHandler handler = new XMLFileHandler();
-        //isConfigured = handler.isConfigured();
         loadImage();
         setButtonActions();
     }
@@ -45,13 +41,9 @@ public class StartPageController implements Initializable {
     }
 
     private void startButtonAction(ActionEvent event) {
-        String nextPage = choosePath();
+        String nextPage = "/fxml/menuPage.fxml";
         try { switchRoot(event, nextPage);}
         catch (IOException e){}
-    }
-
-    private String choosePath() {
-        return "/fxml/menuPage.fxml";
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {

@@ -20,7 +20,7 @@ public class SpeechRecognizerMain {
 
     // Necessary
     private LiveSpeechRecognizer recognizer;
-    private EnglishStringToNumber stringToNumber	= new EnglishStringToNumber();
+    EnglishStringToNumber stringToNumber	= new EnglishStringToNumber();
 
     // Logger
     private Logger logger = Logger.getLogger(getClass().getName());
@@ -63,7 +63,7 @@ public class SpeechRecognizerMain {
     /**
      * Constructor
      */
-    SpeechRecognizerMain() {
+    public void SpeechRecognizerMain() {
 
         // Loading Message
         logger.log(Level.INFO, "Loading Speech Recognizer...\n");
@@ -112,7 +112,7 @@ public class SpeechRecognizerMain {
     /**
      * Starts the Speech Recognition Thread
      */
-    private synchronized void startSpeechRecognition() {
+    public synchronized void startSpeechRecognition() {
 
         //Check lock
         if (speechRecognizerThreadRunning)
@@ -132,9 +132,9 @@ public class SpeechRecognizerMain {
 
                 try {
                     while (speechRecognizerThreadRunning) {
-						/*
-						 * This method will return when the end of speech is reached. Note that the end pointer will determine the end of speech.
-						 */
+                        /*
+                         * This method will return when the end of speech is reached. Note that the end pointer will determine the end of speech.
+                         */
                         SpeechResult speechResult = recognizer.getResult();
 
                         //Check if we ignore the speech recognition results
@@ -172,7 +172,7 @@ public class SpeechRecognizerMain {
     /**
      * Stops ignoring the results of SpeechRecognition
      */
-    synchronized void stopIgnoreSpeechRecognitionResults() {
+    public synchronized void stopIgnoreSpeechRecognitionResults() {
 
         //Stop ignoring speech recognition results
         ignoreSpeechRecognitionResults = false;
@@ -181,7 +181,7 @@ public class SpeechRecognizerMain {
     /**
      * Ignores the results of SpeechRecognition
      */
-    synchronized void ignoreSpeechRecognitionResults() {
+    public synchronized void ignoreSpeechRecognitionResults() {
 
         //Instead of stopping the speech recognition we are ignoring it's results
         ignoreSpeechRecognitionResults = true;
@@ -193,7 +193,7 @@ public class SpeechRecognizerMain {
     /**
      * Starting a Thread that checks if the resources needed to the SpeechRecognition library are available
      */
-    private void startResourcesThread() {
+    public void startResourcesThread() {
 
         //Check lock
         if (resourcesThreadRunning)
@@ -224,7 +224,7 @@ public class SpeechRecognizerMain {
             });
     }
 
-    void makeDecision(String speech) throws InterruptedException {
+    public void makeDecision(String speech) throws InterruptedException {
 
         // Initialize playerNum and stat
         int playerNum = -1;
@@ -286,49 +286,53 @@ public class SpeechRecognizerMain {
     }
 
     private int getStatColumn(String stat) {
-        switch (stat) {
-            case "kill":
-                return 0;
-            case "attack error":
-                return 1;
-            case "attack":
-                return 2;
-            case "assist":
-                return 3;
-            case "ace":
-            case "service ace":
-            case "serve ace":
-            case "ace serve":
-                return 4;
-            case "service error":
-            case "serve error":
-                return 5;
-            case "receive error":
-                return 6;
-            case "dig":
-                return 7;
-            case "solo block":
-            case "block":
-                return 8;
-            case "block assist":
-                return 9;
-            case "block error":
-                return 10;
-            case "lift":
-            case "double":
-            case "double contact":
-                return 11;
-            default:
-                System.out.println("Spoken stat not a valid voice command!");
-                return -1;
+        if (stat.equals("kill")) {
+            return 0;
+        }
+        else if (stat.equals("attack error")) {
+            return 1;
+        }
+        else if (stat.equals("attack")) {
+            return 2;
+        }
+        else if (stat.equals("assist")) {
+            return 3;
+        }
+        else if (stat.equals("ace") || stat.equals("service ace") || stat.equals("serve ace") || stat.equals("ace serve")) {
+            return 4;
+        }
+        else if (stat.equals("service error") || stat.equals("serve error")) {
+            return 5;
+        }
+        else if (stat.equals("receive error")) {
+            return 6;
+        }
+        else if (stat.equals("dig")) {
+            return 7;
+        }
+        else if (stat.equals("solo block") || stat.equals("block")) {
+            return 8;
+        }
+        else if (stat.equals("block assist")) {
+            return 9;
+        }
+        else if (stat.equals("block error")) {
+            return 10;
+        }
+        else if (stat.equals("lift") || stat.equals("double") || stat.equals("double contact")) {
+            return 11;
+        }
+        else {
+            System.out.println("Spoken stat not a valid voice command!");
+            return -1;
         }
     }
 
-    boolean getIgnoreSpeechRecognitionResults() {
+    public boolean getIgnoreSpeechRecognitionResults() {
         return ignoreSpeechRecognitionResults;
     }
 
-    boolean getSpeechRecognizerThreadRunning() {
+    public boolean getSpeechRecognizerThreadRunning() {
         return speechRecognizerThreadRunning;
     }
 
