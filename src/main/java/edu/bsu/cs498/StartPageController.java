@@ -6,14 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,10 +20,6 @@ public class StartPageController implements Initializable {
     private Button startButton;
     @FXML
     private ImageView imageView;
-    @FXML
-    private PasswordField pwordField;
-    @FXML
-    private Label label1;
     private boolean isConfigured;
     static MainPageController mainPageController1;
 
@@ -55,37 +46,21 @@ public class StartPageController implements Initializable {
     }
 
     private void startButtonAction(ActionEvent event) {
-        String path = choosePath();
-        if (!pwordField.getText().equals("pword")) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Login Error");
-            alert.setHeaderText(null);
-            alert.setContentText("Incorrect Password");
-            alert.showAndWait();
-        } else {
-            try {
-                switchRoot(event, path);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        pwordField.clear();
+        String nextPage = choosePath();
+        try { switchRoot(event, nextPage);}
+        catch (IOException e){}
     }
 
     private String choosePath() {
         if (!isConfigured) {
             return "/fxml/setup.fxml";
         }
-        return "/fxml/mainPage.fxml";
+        return "/fxml/menuPage.fxml";
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceName));
-        Parent updatedRoot = loader.load();
-        mainPageController1 = loader.getController();
-        Scene currentScene = ((Node) event.getSource()).getScene();
-        currentScene.getStylesheets().add("css/mainpage.css");
-        Stage currentStage = (Stage) currentScene.getWindow();
+        Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.getScene().setRoot(updatedRoot);
     }
 }

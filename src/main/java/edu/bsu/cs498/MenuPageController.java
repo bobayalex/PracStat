@@ -1,15 +1,17 @@
 package edu.bsu.cs498;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MenuPageController {
     @FXML private Button newTeamButton;
@@ -53,19 +55,33 @@ public class MenuPageController {
     }
 
     private boolean promptForPassword() {
+        AtomicBoolean isCorrect = new AtomicBoolean(false);
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Enter Password");
         dialog.setHeaderText("Enter Password to Continue.");
-        Optional<String> result = dialog.showAndWait();
-        if(result.get().equals("pword")){
-            return true;
+        GridPane grid = new GridPane();
+        PasswordField passwordField = new PasswordField();
+        passwordField.requestFocus();
+        grid.add(new Label("Password:"), 0, 1);
+        grid.add(passwordField, 1, 1);
+        dialog.getDialogPane().setContent(grid);
+        Platform.runLater(() -> passwordField.requestFocus());
+        Button button = (Button) dialog.getDialogPane().lookupButton(dialog.getDialogPane().getButtonTypes().get(0));
+        button.setOnAction(event -> {
+            String pass = passwordField.getText();
+            if(pass.equals("pword")){
+                isCorrect.set(true);
+            }
+        });
+        dialog.showAndWait();
+        if(!isCorrect.get() && !passwordField.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Login Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Incorrect Password");
+            alert.showAndWait();
         }
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Login Error");
-        alert.setHeaderText(null);
-        alert.setContentText("Incorrect Password");
-        alert.showAndWait();
-        return false;
+        return isCorrect.get();
     }
 
     private void viewStatsButtonAction(javafx.event.ActionEvent event) {

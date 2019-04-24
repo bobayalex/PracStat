@@ -16,13 +16,10 @@ public class Main extends Application {
     // get practice/team names programmatically
     // combine branches
     // clean up code/beautify fxml pages
-    // implement password functionality for alex's 3 buttons
-    // add xml fix from Adam
     private static MainPageController mainPageController;
     @Override
     public void start(Stage primaryStage) throws Exception{
-        String fxmlPath = "/fxml/menuPage.fxml";
-//        String fxmlPath = "/fxml/mainPage.fxml";
+        String fxmlPath = "/fxml/startPage.fxml";
         Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("css/startpage.css");

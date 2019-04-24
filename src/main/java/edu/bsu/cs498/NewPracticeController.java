@@ -29,6 +29,7 @@ public class NewPracticeController {
     private String[] playerInfo;
     ObservableList<String> teamOptions;
     private XMLFileHandler reader = new XMLFileHandler();
+    static MainPageController mainPageController1;
 
     public void initialize(){
         setButtonActions();
@@ -96,8 +97,12 @@ public class NewPracticeController {
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {
-        Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(resourceName));
+        Parent updatedRoot = loader.load();
+        mainPageController1 = loader.getController();
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        currentScene.getStylesheets().add("css/mainpage.css");
+        Stage currentStage = (Stage) currentScene.getWindow();
         currentStage.getScene().setRoot(updatedRoot);
     }
 }

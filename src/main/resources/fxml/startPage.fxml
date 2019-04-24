@@ -25,7 +25,5 @@
             </font>
         </Button>
         <ImageView fx:id="imageView" fitHeight="200.0" fitWidth="200.0" layoutX="650.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true" />
-        <PasswordField fx:id="pwordField" layoutX="655.0" layoutY="400.0" promptText="Enter Password" />
-        <Label fx:id="label1" layoutX="655.0" layoutY="475.0" text="" />
     </AnchorPane>
 </GridPane>
