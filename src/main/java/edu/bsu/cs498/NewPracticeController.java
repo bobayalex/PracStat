@@ -73,7 +73,7 @@ public class NewPracticeController {
     private void createPracticeButtonAction(ActionEvent event){
         String practiceName = practiceNameInput.getText();
         ObservableList<Player> selectedPlayers = getSelectedPlayers();
-        //reader.createPractice(teamOptionsSelection.getValue().toString(), "Practice1", selectedPlayers);
+        reader.createPractice(teamOptionsSelection.getValue().toString(), practiceName, selectedPlayers);
         try {switchRoot(event, "/fxml/mainPage.fxml");}
         catch (IOException e) {e.printStackTrace();}
     }
@@ -81,7 +81,6 @@ public class NewPracticeController {
     private ObservableList<Player> getSelectedPlayers(){
         ObservableList<Player> selectedPlayers = FXCollections.observableArrayList();
         for (Node child : playerListVBox.getChildren()) {
-
             if (child instanceof CheckBox){
                 if(((CheckBox) child).isSelected()){
                     playerInfo = child.getId().split(",");
