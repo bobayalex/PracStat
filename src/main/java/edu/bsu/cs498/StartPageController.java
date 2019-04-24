@@ -21,7 +21,6 @@ public class StartPageController implements Initializable {
     @FXML
     private ImageView imageView;
     private boolean isConfigured;
-    static MainPageController mainPageController1;
 
 
     @Override

@@ -72,7 +72,7 @@
                   </ComboBox>
                   <Button fx:id="submitEditButton" layoutX="270.0" layoutY="615.0" mnemonicParsing="false" onAction="#editPlayer" text="Submit Edit" AnchorPane.leftAnchor="370.0" AnchorPane.rightAnchor="1230.0" AnchorPane.topAnchor="620.0" />
                   <Button fx:id="mainMenuButton" layoutX="900.0" layoutY="729.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="305.0" text="Main Menu" AnchorPane.leftAnchor="900.0" AnchorPane.rightAnchor="710.0" />
-                  <TableView fx:id="playerTable" layoutX="-460.0" layoutY="41.0" prefHeight="426.0" prefWidth="545.0" tableMenuButtonVisible="true" AnchorPane.leftAnchor="900.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="230.0">
+                  <TableView fx:id="playerDataTable" layoutX="-460.0" layoutY="41.0" prefHeight="426.0" prefWidth="545.0" tableMenuButtonVisible="true" AnchorPane.leftAnchor="900.0" AnchorPane.rightAnchor="470.0" AnchorPane.topAnchor="230.0">
                      <columns>
                         <TableColumn fx:id="nameColumn" prefWidth="135.0" text="Name" />
                         <TableColumn fx:id="numberColumn" minWidth="0.0" prefWidth="117.0" text="Number" />

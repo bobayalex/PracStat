@@ -14,7 +14,7 @@ import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 import edu.cmu.sphinx.api.SpeechResult;
 import javafx.application.Platform;
 
-import static edu.bsu.cs498.StartPageController.mainPageController1;
+import static edu.bsu.cs498.NewPracticeController.mainPageController1;
 
 public class SpeechRecognizerMain {
 
