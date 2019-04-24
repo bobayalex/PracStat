@@ -238,7 +238,7 @@ public class MainPageController implements Initializable {
         if(!mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
             statusLabel.setText("Loading Speech Recognizer...");
             Platform.runLater(() -> {
-                mySpeechRecognizer = new SpeechRecognizerMain();
+                mySpeechRecognizer.SpeechRecognizerMain();
                 speechRecBtn.setStyle("-fx-background-color: Green");
                 speechRecBtn.setText("Speech Recognition");
                 statusLabel.setText("You can start to speak...");

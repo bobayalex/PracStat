@@ -20,7 +20,7 @@ public class SpeechRecognizerMain {
 
     // Necessary
     private LiveSpeechRecognizer recognizer;
-    EnglishStringToNumber stringToNumber	= new EnglishStringToNumber();
+    EnglishStringToNumber stringToNumber = new EnglishStringToNumber();
 
     // Logger
     private Logger logger = Logger.getLogger(getClass().getName());
@@ -132,9 +132,9 @@ public class SpeechRecognizerMain {
 
                 try {
                     while (speechRecognizerThreadRunning) {
-                        /*
-                         * This method will return when the end of speech is reached. Note that the end pointer will determine the end of speech.
-                         */
+						/*
+						 * This method will return when the end of speech is reached. Note that the end pointer will determine the end of speech.
+						 */
                         SpeechResult speechResult = recognizer.getResult();
 
                         //Check if we ignore the speech recognition results
