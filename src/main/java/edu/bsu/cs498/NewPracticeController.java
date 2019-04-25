@@ -72,6 +72,14 @@ public class NewPracticeController {
     }
 
     private void createPracticeButtonAction(ActionEvent event){
+        if (missingInfo()){
+            popupMessage("Error", "Please Enter All Necessary Information");
+            return;
+        }
+        if (getSelectedPlayers().size() == 0){
+            popupMessage("Error", "At least 1 player must be selected to create a practice");
+            return;
+        }
         String practiceName = practiceNameInput.getText();
         ObservableList<PlayerData> selectedPlayersData = getSelectedPlayers();
         reader.createPractice(teamOptionsSelection.getValue().toString(), practiceName, selectedPlayersData);
@@ -110,6 +118,22 @@ public class NewPracticeController {
         Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.getScene().setRoot(updatedRoot);
+    }
+
+    private void popupMessage(String type, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("PracStat");
+        alert.setHeaderText(type);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public boolean missingInfo(){
+        if (practiceNameInput.getText().length() == 0){
+            return true;
+        }if (teamOptionsSelection.getValue() == null){
+            return true;
+        }else{return false;}
     }
 }
 
