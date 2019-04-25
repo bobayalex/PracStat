@@ -207,7 +207,7 @@ public class MainPageController implements Initializable {
 
     private void setUpStatGrid() {
         // column constraints are for stats, row constraints are for players
-        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        List<Player> players = handler.getPlayersByTeamPractice(teamName, practiceName);// teamName and practiceName should be read from mainPage element
         int numStats = statNames.size(); // should be 12
         int playerCounter = 0;
         for (Player player : players) {
