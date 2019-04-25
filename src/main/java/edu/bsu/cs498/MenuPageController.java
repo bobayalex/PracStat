@@ -52,4 +52,6 @@ public class MenuPageController {
         currentStage.getScene().setRoot(updatedRoot);
     }
 
+
+
 }

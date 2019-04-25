@@ -23,9 +23,17 @@ public class MainPageController{
         practiceOptions.setItems(teamPracticesList);
     }
 
+    public void loadPlayers(String teamName, String practiceName){
+        teamName = getTeamName();
+        practiceName = getPracticeName();
+        //loadPlayerGrid(teamName, practiceName);
+    }
+
     public String getPracticeName(){
         return practiceOptions.getValue().toString();
     }
 
-
+    public String getTeamName(){
+        return teamOptions.getValue().toString();
+    }
 }

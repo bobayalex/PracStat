@@ -7,13 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.IOException;
 import java.util.ListIterator;
 
@@ -41,6 +37,7 @@ public class NewPracticeController {
         playerListVBox.getChildren().clear();
         playerStringList = reader.getAllPlayersString(teamOptionsSelection.getValue().toString());
         ListIterator<String> teamIterator = playerStringList.listIterator();
+
         while (teamIterator.hasNext()){
             playerInfo = teamIterator.next().split(",");
             String playerName = playerInfo[0];
@@ -52,8 +49,7 @@ public class NewPracticeController {
         }
         scroll.setContent(playerListVBox);
     }
-
-
+    
     private void setButtonActions() {
         newTeamButton.setOnAction(this::newTeamButtonAction);
         mainMenuButton.setOnAction(this::mainMenuButtonAction);
