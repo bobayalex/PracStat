@@ -50,14 +50,16 @@ public class MainPageController implements Initializable {
     private SpeechRecognizerMain mySpeechRecognizer = new SpeechRecognizerMain();
     private MediaPlayer mediaPlayer;
     private EnglishStringToNumber stringToNumber = new EnglishStringToNumber();
+    private String teamName;
+    private String practiceName;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setUpMenuBar();
         initializeHashMap();
-        setUpGridPanes();
         teamOptionsList = handler.getAllTeams();
         teamOptions.setItems(teamOptionsList);
+//        setUpGridPanes();
     }
 
     private void setUpMenuBar() {
@@ -186,7 +188,7 @@ public class MainPageController implements Initializable {
     }
 
     private void setUpPlayerGrid() {
-        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        List<Player> players = handler.getPlayersByTeamPractice(teamName, practiceName);// teamName and practiceName should be read from mainPage element
         TextField numberField;
         TextField nameField;
         for (int i = 0; i < players.size(); i++) {
@@ -328,5 +330,16 @@ public class MainPageController implements Initializable {
 
     public String getPracticeName(){
         return practiceOptions.getValue().toString();
+    }
+
+    public String getTeamName(){
+        return teamOptions.getValue().toString();
+    }
+
+    @FXML
+    private void loadPlayersFromDropdown(){
+        teamName = getTeamName();
+        practiceName = getPracticeName();
+        setUpGridPanes();
     }
 }

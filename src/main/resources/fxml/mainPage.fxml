@@ -118,6 +118,6 @@
         <Label fx:id="statusLabel" layoutX="179.0" layoutY="741.0" />
         <Label fx:id="voiceLabel" layoutX="787.0" layoutY="686.0" />
         <ComboBox fx:id="teamOptions" layoutX="225.0" layoutY="185.0" onAction="#loadPractices" prefWidth="150.0" />
-        <ComboBox fx:id="practiceOptions" layoutX="225.0" layoutY="262.0" prefWidth="150.0" />
+        <ComboBox fx:id="practiceOptions" layoutX="225.0" layoutY="262.0" onAction="#loadPlayersFromDropdown" prefWidth="150.0" />
     </AnchorPane>
 </ScrollPane>
