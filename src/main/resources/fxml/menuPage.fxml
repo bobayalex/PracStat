@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" style="-fx-background-color: dimgray;" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.MenuPageController">
+<GridPane alignment="center" hgap="10" style="-fx-background-color: lightgrey;" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.MenuPageController">
     <columnConstraints>
         <ColumnConstraints />
     </columnConstraints>
@@ -18,7 +18,7 @@
         <RowConstraints />
     </rowConstraints>
     <children>
-        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: dimgray;" GridPane.rowIndex="1">
+        <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1080.0" prefWidth="1920.0" GridPane.rowIndex="1">
             <children>
                 <Label alignment="CENTER" layoutY="20.0" style="-fx-background-color: firebrick;" text="Welcome to PracStat" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
                     <font>
