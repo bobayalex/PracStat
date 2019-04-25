@@ -176,6 +176,9 @@ class CSVFileMaker {
         BigDecimal kills = BigDecimal.valueOf(stats.get(0));
         BigDecimal errors = BigDecimal.valueOf(stats.get(1));
         BigDecimal totalAttempts = BigDecimal.valueOf(stats.get(2));
+        if(totalAttempts.toString().equals("0") || totalAttempts.toString().equals("0.0")){
+            return "0";
+        }
         BigDecimal pct = (kills.subtract(errors)).divide(totalAttempts, 3, RoundingMode.HALF_UP);
         String pctString = pct.toString();
         return formatPCT(pctString);

@@ -13,10 +13,6 @@ import javafx.stage.WindowEvent;
 import java.util.Optional;
 
 public class Main extends Application {
-    // Dexter's TOD0
-    // get practice/team names programmatically
-    // combine branches
-    // clean up code/beautify fxml pages
 
     private static MainPageController mainPageController;
     @Override

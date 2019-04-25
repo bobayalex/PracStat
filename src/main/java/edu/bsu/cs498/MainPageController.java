@@ -69,7 +69,6 @@ public class MainPageController implements Initializable {
         initializeHashMap();
         teamOptionsList = handler.getAllTeams();
         teamOptions.setItems(teamOptionsList);
-//        setUpGridPanes();
         mainMenuButton.setOnAction(this::mainMenuButtonAction);
     }
 
@@ -116,7 +115,7 @@ public class MainPageController implements Initializable {
         alert.setTitle("Action Status");
         alert.setHeaderText(null);
         if(isSuccessful){
-            alert.setContentText("Spreadsheet was successfully generated");
+            alert.setContentText("Spreadsheet was successfully generated. It can be found in your documents folder.");
             alert.showAndWait();
         } else {
             alert.setContentText("There was a problem generating the spreadsheet. Please ensure that the file is not currently being used by another process.");
@@ -126,9 +125,6 @@ public class MainPageController implements Initializable {
 
     private void saveStatsMenuItemAction(ActionEvent event) {
         List<Integer> spinnerVals = getSpinnerValues();
-        // get both teamName and practiceName programmatically eventually
-        String teamName = "Team 1";
-        String practiceName = "Practice 1";
         boolean isSuccessful = handler.updatePlayerStats(spinnerVals, teamName, practiceName);
         displaySavePopup(isSuccessful);
     }
@@ -163,7 +159,7 @@ public class MainPageController implements Initializable {
     private List<Integer> getSpinnerValues() {
         List<Integer> spinnerVals = new ArrayList<>();
         int numStats = statNames.size();
-        List<Player> players = handler.getPlayersByTeamPractice("Team 1", "Practice 1");// teamName and practiceName should be read from mainPage element
+        List<Player> players = handler.getPlayersByTeamPractice(teamName, practiceName);
         int numPlayers = players.size();
         for (int i = 0; i < numPlayers; i++) {
             for (int j = 0; j < numStats; j++) {// there should be 12 stats
@@ -178,18 +174,18 @@ public class MainPageController implements Initializable {
         List<Player> players;
         List<String> practices;
         List<Integer> spinnerVals = getSpinnerValues();
-        // get both teamName and practiceName programmatically eventually
-        String teamName = "Team 1";
-        String practiceName = "Practice 1";
-        // file name should be teamName_practiceName_currentDate
-        String fileName = teamName + "_" + practiceName + "_" + LocalDate.now() + ".csv";
+
+        String fileName = "";
         handler.updatePlayerStats(spinnerVals, teamName, practiceName);
         if (showAvg) {
             players = handler.getPlayersInAllPractices(teamName);
             practices = handler.getPracticesByTeam(teamName);
+            fileName = teamName + "_" + practiceName + "_Average_" + LocalDate.now() + ".csv";
+
         } else {
             players = handler.getPlayersByTeamPractice(teamName, practiceName);
             practices = Collections.singletonList(practiceName);
+            fileName = teamName + "_" + practiceName + "_" + LocalDate.now() + ".csv";
         }
         List<Double> teamStats = handler.getTeamStats(teamName);
         CSVFileMaker csvFileMaker = new CSVFileMaker(players, teamName, teamStats, practices);
