@@ -29,95 +29,110 @@
                 </Menu>
             </MenuBar>
         </HBox>
-        <Label layoutX="14.0" layoutY="36.0" text="Team Name">
+        <Label fx:id="teamNameLabel" layoutX="14.0" layoutY="36.0">
             <font>
                 <Font name="System Bold" size="19.0" />
             </font>
         </Label>
-        <Label layoutX="138.0" layoutY="36.0" text="Practice Name">
+        <Label fx:id="practiceNameLabel" layoutX="138.0" layoutY="36.0">
             <font>
                 <Font name="System Bold" size="19.0" />
             </font>
         </Label>
-        <Label layoutX="33.0" layoutY="80.0" prefHeight="17.0" prefWidth="71.0" text="Player Num">
+        <Label layoutX="33.0" layoutY="111.0" prefHeight="17.0" prefWidth="71.0" text="Player Num">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="133.0" layoutY="80.0" prefHeight="17.0" prefWidth="78.0" text="Player Name">
+        <Label layoutX="133.0" layoutY="111.0" prefHeight="17.0" prefWidth="78.0" text="Player Name">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <GridPane fx:id="playerGrid" gridLinesVisible="true" layoutX="22.0" layoutY="100.0" prefWidth="200.0">
+        <GridPane fx:id="playerGrid" gridLinesVisible="true" layoutX="22.0" layoutY="131.0" prefWidth="200.0">
         </GridPane>
-        <GridPane fx:id="statGrid" gridLinesVisible="true" layoutX="435.0" layoutY="100.0" prefHeight="535.0" prefWidth="854.0">
+        <GridPane fx:id="statGrid" gridLinesVisible="true" layoutX="435.0" layoutY="131.0" prefHeight="535.0" prefWidth="854.0">
         </GridPane>
 
-        <Label layoutX="460.0" layoutY="80.0" prefHeight="17.0" prefWidth="15.0" text="K">
+        <Label layoutX="460.0" layoutY="111.0" prefHeight="17.0" prefWidth="15.0" text="K">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="530.0" layoutY="80.0" prefHeight="17.0" prefWidth="15.0" text="E">
+        <Label layoutX="530.0" layoutY="111.0" prefHeight="17.0" prefWidth="15.0" text="E">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="596.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="TA">
+        <Label layoutX="596.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="TA">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="664.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="Ast">
+        <Label layoutX="664.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="Ast">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="737.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="SA">
+        <Label layoutX="737.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="SA">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="809.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="SE">
+        <Label layoutX="809.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="SE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="880.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="RE">
+        <Label layoutX="880.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="RE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="949.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="Dig">
+        <Label layoutX="949.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="Dig">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="1022.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="BS">
+        <Label layoutX="1022.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="BS">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="1091.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="BA">
+        <Label layoutX="1091.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="BA">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="1163.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="BE">
+        <Label layoutX="1163.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="BE">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Label layoutX="1238.0" layoutY="80.0" prefHeight="17.0" prefWidth="23.0" text="BH">
+        <Label layoutX="1238.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="BH">
             <font>
                 <Font name="System Bold" size="12.0" />
             </font>
         </Label>
-        <Button fx:id="speechRecBtn" layoutX="25.0" layoutY="676.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Click to Start Speech Recognition" />
-        <Label fx:id="statusLabel" layoutX="179.0" layoutY="741.0" />
-        <Label fx:id="voiceLabel" layoutX="787.0" layoutY="686.0" />
-        <ComboBox fx:id="teamOptions" layoutX="225.0" layoutY="185.0" onAction="#loadPractices" prefWidth="150.0" />
-        <ComboBox fx:id="practiceOptions" layoutX="225.0" layoutY="262.0" onAction="#loadPlayersFromDropdown" prefWidth="150.0" />
+        <Button fx:id="speechRecBtn" layoutX="14.0" layoutY="69.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Click to Start Speech Recognition" />
+        <Label fx:id="statusLabel" layoutX="236.0" layoutY="76.0" prefHeight="17.0" prefWidth="13.0" />
+        <Label fx:id="voiceLabel" layoutX="308.0" layoutY="77.0" prefHeight="17.0" prefWidth="24.0" />
+        <ComboBox fx:id="teamOptions" layoutX="300.0" layoutY="59.0" onAction="#loadPractices" prefWidth="150.0" />
+        <ComboBox fx:id="practiceOptions" layoutX="475.0" layoutY="59.0" onAction="#loadPlayersFromDropdown" prefWidth="150.0" />
+        <Button fx:id="mainMenuButton" layoutX="654.0" layoutY="56.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="83.0" text="Main Menu" AnchorPane.leftAnchor="654.0" AnchorPane.rightAnchor="763.0" AnchorPane.topAnchor="56.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label layoutX="336.0" layoutY="36.0" prefHeight="17.0" prefWidth="78.0" text="Select Team">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="508.0" layoutY="36.0" prefHeight="17.0" prefWidth="85.0" text="Select Practice">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+
     </AnchorPane>
 </ScrollPane>

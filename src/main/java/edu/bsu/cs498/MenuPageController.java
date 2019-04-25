@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -85,12 +86,25 @@ public class MenuPageController {
     }
 
     private void viewStatsButtonAction(javafx.event.ActionEvent event) {
-        //Page does not exist yet
+        boolean hasClearance = promptForPassword();
+        if(hasClearance){
+            try { switchRootMainPage(event);}
+            catch (IOException e){}
+        }
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {
         Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.getScene().setRoot(updatedRoot);
+    }
+
+    // this is a special case so that the css can be loaded for the main page
+    private void switchRootMainPage(ActionEvent event) throws IOException {
+        Parent updatedRoot = FXMLLoader.load(getClass().getResource("/fxml/mainPage.fxml"));
+        Scene currentScene = ((Node) event.getSource()).getScene();
+        currentScene.getStylesheets().add("css/mainpage.css");
+        Stage currentStage = (Stage) currentScene.getWindow();
         currentStage.getScene().setRoot(updatedRoot);
     }
 

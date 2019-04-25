@@ -5,21 +5,31 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class MainPageController implements Initializable {
+    @FXML
+    private Label teamNameLabel;
+    @FXML
+    private Label practiceNameLabel;
+    @FXML
+    private Button mainMenuButton;
     @FXML
     private GridPane playerGrid;
     @FXML
@@ -60,6 +70,12 @@ public class MainPageController implements Initializable {
         teamOptionsList = handler.getAllTeams();
         teamOptions.setItems(teamOptionsList);
 //        setUpGridPanes();
+        mainMenuButton.setOnAction(this::mainMenuButtonAction);
+    }
+
+    private void mainMenuButtonAction(ActionEvent event) {
+        try {switchRoot(event, "/fxml/menuPage.fxml");}
+        catch (IOException e) {e.printStackTrace();}
     }
 
     private void setUpMenuBar() {
@@ -329,10 +345,16 @@ public class MainPageController implements Initializable {
     }
 
     public String getPracticeName(){
+        if(practiceOptions.getValue() == null){
+            return "";
+        }
         return practiceOptions.getValue().toString();
     }
 
     public String getTeamName(){
+        if(teamOptions.getValue() == null){
+            return "";
+        }
         return teamOptions.getValue().toString();
     }
 
@@ -340,6 +362,20 @@ public class MainPageController implements Initializable {
     private void loadPlayersFromDropdown(){
         teamName = getTeamName();
         practiceName = getPracticeName();
-        setUpGridPanes();
+        if(teamName.equals("") || practiceName.equals("")){
+            return;
+        } else if(!teamName.equals("") && !practiceName.equals("")){
+            playerGrid.getChildren().clear();
+            statGrid.getChildren().clear();
+            teamNameLabel.setText(teamName);
+            practiceNameLabel.setText(practiceName);
+            setUpGridPanes();
+        }
+    }
+
+    private void switchRoot(ActionEvent event, String resourceName) throws IOException {
+        Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.getScene().setRoot(updatedRoot);
     }
 }
