@@ -235,44 +235,90 @@ public class SpeechRecognizerMain {
 
         System.out.println("array length = " + array.length);
 
-        // return if user said only one word
         if (array.length == 1) {
             System.out.println("User only said one word (or less)!");
             updateVoiceRecStatus("User only said one word (or less)!");
             return;
         }
-        else if (array.length == 2) {
-            playerNum = stringToNumber.convert(array[0]);
-            System.out.println(mainPageController1.getPlayerRow(array[0]));
-            stat = array[1];
-            if (playerNum == -1) {
-                System.out.println("User didn't say a player number to start command!");
-                updateVoiceRecStatus("User didn't say a player number to start command!");
-            }
-        }
-        else if (array.length == 3) {
-            playerNum = stringToNumber.convert(array[0]);
-            System.out.println(mainPageController1.getPlayerRow(array[0]));
-            stat = array[1] + " " + array[2];
-            if (playerNum == -1) {
-                System.out.println("User didn't say a player number to start command!");
-                updateVoiceRecStatus("User didn't say a player number to start command!");
-            }
-        }
-        else {
-            System.out.println("User said too many words!");
-            updateVoiceRecStatus("User said too many words!");
-            return;
-        }
 
-        System.out.println("The playerNumber int = " + playerNum);
-        System.out.println("The stat String = " + stat);
-        System.out.println("The user said: " + speech);
-        updateVoiceRecStatus("The user said: " + speech);
-        if (getStatColumn(stat) > -1 && playerNum > -1 && mainPageController1.getPlayerRow(array[0]) > -1) {
-            mainPageController1.incrementSpinner(mainPageController1.getPlayerRow(array[0]), getStatColumn(stat));
-            if (getStatColumn(stat) == 0 || getStatColumn(stat) == 1) {
-                mainPageController1.incrementSpinner(mainPageController1.getPlayerRow(array[0]), 2);
+        if (array.length >= 2) {
+            if (!(array[1].equals("one") || array[1].equals("two") || array[1].equals("three") || array[1].equals("four")
+                    || array[1].equals("five") || array[1].equals("six") || array[1].equals("seven") || array[1].equals("eight")
+                    || array[1].equals("nine"))) {
+                // return if user said only one word
+                if (array.length == 2) {
+                    playerNum = stringToNumber.convert(array[0]);
+                    System.out.println(mainPageController1.getPlayerRow(array[0]));
+                    stat = array[1];
+                    if (playerNum == -1) {
+                        System.out.println("User didn't say a player number to start command!");
+                        updateVoiceRecStatus("User didn't say a player number to start command!");
+                    }
+                }
+                else if (array.length == 3) {
+                    playerNum = stringToNumber.convert(array[0]);
+                    System.out.println(mainPageController1.getPlayerRow(array[0]));
+                    stat = array[1] + " " + array[2];
+                    if (playerNum == -1) {
+                        System.out.println("User didn't say a player number to start command!");
+                        updateVoiceRecStatus("User didn't say a player number to start command!");
+                    }
+                }
+                else {
+                    System.out.println("User said too many words!");
+                    updateVoiceRecStatus("User said too many words!");
+                    return;
+                }
+
+                System.out.println("The playerNumber int = " + playerNum);
+                System.out.println("The stat String = " + stat);
+                System.out.println("The user said: " + speech);
+                updateVoiceRecStatus("The user said: " + speech);
+                if (getStatColumn(stat) > -1 && playerNum > -1 && mainPageController1.getPlayerRow(array[0]) > -1) {
+                    mainPageController1.incrementSpinner(mainPageController1.getPlayerRow(array[0]), getStatColumn(stat));
+                    if (getStatColumn(stat) == 0 || getStatColumn(stat) == 1) {
+                        mainPageController1.incrementSpinner(mainPageController1.getPlayerRow(array[0]), 2);
+                    }
+                }
+            }
+            else if (array[1].equals("one") || array[1].equals("two") || array[1].equals("three") || array[1].equals("four")
+                    || array[1].equals("five") || array[1].equals("six") || array[1].equals("seven") || array[1].equals("eight")
+                    || array[1].equals("nine")) {
+                if (array[0].equals("twenty") || array[0].equals("thirty") || array[0].equals("forty") || array[0].equals("fifty")
+                        || array[0].equals("sixty") || array[0].equals("seventy")) {
+                    if (array.length == 2) {
+                        System.out.println("User didn't say a stat command!");
+                        updateVoiceRecStatus("User didn't say a stat command!");
+                    }
+                    else if (array.length == 3) {
+                        String str = array[0] + " " + array[1];
+                        System.out.println("str is: " + str);
+                        playerNum = stringToNumber.convert(str);
+                        System.out.println(mainPageController1.getPlayerRow(str));
+                        stat = array[2];
+                    }
+                    else if (array.length == 4) {
+                        String str = array[0] + " " + array[1];
+                        System.out.println("str is: " + str);
+                        playerNum = stringToNumber.convert(str);
+                        System.out.println(mainPageController1.getPlayerRow(str));
+                        stat = array[2] + " " + array[3];
+                    }
+                    else {
+                        System.out.println("User said too many words!");
+                        updateVoiceRecStatus("User said too many words!");
+                    }
+                }
+                System.out.println("The playerNumber int = " + playerNum);
+                System.out.println("The stat String = " + stat);
+                System.out.println("The user said: " + speech);
+                updateVoiceRecStatus("The user said: " + speech);
+                if (getStatColumn(stat) > -1 && playerNum > -1 && mainPageController1.getPlayerRow(array[0] + " " + array[1]) > -1) {
+                    mainPageController1.incrementSpinner(mainPageController1.getPlayerRow(array[0] + " " + array[1]), getStatColumn(stat));
+                    if (getStatColumn(stat) == 0 || getStatColumn(stat) == 1) {
+                        mainPageController1.incrementSpinner(mainPageController1.getPlayerRow(array[0] + " " + array[1]), 2);
+                    }
+                }
             }
         }
     }

@@ -7,6 +7,7 @@
 grammar grammar;
 
 public <number> = ( zero | one | two | three | four | five | six | seven | eight | nine | ten
-                   | eleven | twelve | thirteen | fourteen | fifteen | sixteen | seventeen | eighteen | nineteen | twenty );
-public <actions> = ( attack | error | kill | block | assist | dig | receive | pass | ace | solo | serve | service | lift | double | contact )*;
+                   | eleven | twelve | thirteen | fourteen | fifteen | sixteen | seventeen | eighteen | nineteen | twenty
+                   | thirty | forty | fifty | sixty | seventy )*;
+public <actions> = ( attack | error | kill | block | assist | dig | receive | ace | solo | serve | service | lift | double | contact )*;
 public <statistic> = <number>{1} <actions>{1};
