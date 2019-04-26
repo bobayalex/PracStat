@@ -110,9 +110,15 @@ public class EditTeamController {
 
     public void addNewPlayer(){
         if (missingInfo() == false) {
-            PlayerData newPlayerData = new PlayerData(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
-            reader.addPlayer(teamOptions.getValue().toString(), newPlayerData, reader.getTeamPlayersNode(reader.getTeamNode(teamOptions.getValue().toString())));
-            refreshPage();
+            if (Integer.parseInt(playerNumberInput.getText()) > 79) {
+                popupMessage("Error", "Player Number must be less than 80");
+                return;
+            }
+            else {
+                PlayerData newPlayerData = new PlayerData(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
+                reader.addPlayer(teamOptions.getValue().toString(), newPlayerData, reader.getTeamPlayersNode(reader.getTeamNode(teamOptions.getValue().toString())));
+                refreshPage();
+            }
         } else {popupMessage("Error", "Error adding player. Please make sure all necessary information has been entered.");}
     }
 

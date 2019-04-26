@@ -37,8 +37,8 @@ public class NewTeamController {
 
     public void addPlayer(){
         try{
-            if (Integer.parseInt(playerNumberInput.getText()) > 100){
-            popupMessage("Error", "Player Number must be 100 or below");
+            if (Integer.parseInt(playerNumberInput.getText()) > 79){
+            popupMessage("Error", "Player Number must be less than 80");
             return;
             }
             if (playerNameInput.getText().length() < 3){
