@@ -49,6 +49,7 @@ public class NewPracticeController {
             String playerPosition = playerInfo[2];
             CheckBox cbox = new CheckBox(playerName + "," + playerNumber + "," + playerPosition);
             cbox.setId(playerName + "," + playerNumber + "," + playerPosition);
+            cbox.setSelected(true);
             playerListVBox.getChildren().add(cbox);
         }
         scroll.setContent(playerListVBox);
