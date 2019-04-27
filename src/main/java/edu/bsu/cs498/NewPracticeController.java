@@ -82,6 +82,10 @@ public class NewPracticeController {
             return;
         }
         String practiceName = practiceNameInput.getText();
+        if (practiceName.contains("/") || practiceName.contains("\\")) {
+            popupMessage("Error", "Practice name cannot contain forward or backward slashes");
+            return;
+        }
         ObservableList<PlayerData> selectedPlayersData = getSelectedPlayers();
         reader.createPractice(teamOptionsSelection.getValue().toString(), practiceName, selectedPlayersData);
         try {switchRootMainCont(event, "/fxml/mainPage.fxml");}
