@@ -59,6 +59,10 @@ public class NewTeamController {
 
     private void createTeamButtonAction(ActionEvent event){
         if (teamInfoEntered()){
+            if (teamNameInput.getText().contains("/") || teamNameInput.getText().contains("\\")) {
+                popupMessage("Error", "Team name cannot contain forward or backward slashes");
+                return;
+            }
             try {Team newTeam = new Team(teamNameInput.getText(), playerDataList);
                 popupMessage("Message",newTeam.getTeamName() + " has been created.");
             }catch (IllegalArgumentException e){popupMessage("Error", "Team already exists");}
