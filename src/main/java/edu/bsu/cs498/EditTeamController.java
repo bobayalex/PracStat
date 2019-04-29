@@ -15,6 +15,9 @@ import java.io.IOException;
 
 public class EditTeamController {
     @FXML private Button mainMenuButton;
+    @FXML private Button deletePlayerButton;
+    @FXML private Button addPlayerButton;
+    @FXML private Button submitEditButton;
     @FXML private TableView<PlayerData> playerDataTable;
     @FXML private TableColumn<Player, String> nameColumn;
     @FXML private TableColumn<Player, String> numberColumn;
@@ -100,7 +103,7 @@ public class EditTeamController {
     }
 
     public void addNewPlayer(){
-        if (!missingInfo() && isAPlayerSelected()) {
+        if (!missingInfo()) {
             if (Integer.parseInt(playerNumberInput.getText()) > 79) {
                 popupMessage("Error", "Player Number must be less than 80");
                 return;
@@ -141,6 +144,21 @@ public class EditTeamController {
 
     private void setButtonActions() {
         mainMenuButton.setOnAction(this::mainMenuButtonAction);
+        submitEditButton.setOnAction(this::submitEditButtonAction);
+        addPlayerButton.setOnAction(this::addPlayerButtonAction);
+        deletePlayerButton.setOnAction(this::deletePlayerButtonAction);
+    }
+
+    private void deletePlayerButtonAction(ActionEvent event) {
+        deletePlayer();
+    }
+
+    private void addPlayerButtonAction(ActionEvent event) {
+        addNewPlayer();
+    }
+
+    private void submitEditButtonAction(ActionEvent event) {
+        editPlayer();
     }
 
     private void mainMenuButtonAction(ActionEvent event) {

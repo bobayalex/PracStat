@@ -85,11 +85,8 @@ public class MenuPageController {
     }
 
     private void viewPracticeButtonAction(javafx.event.ActionEvent event) {
-        boolean hasClearance = promptForPassword();
-        if(hasClearance){
-            try { switchRootMainPage(event);}
-            catch (IOException e){}
-        }
+        try { switchRootMainPage(event);}
+        catch (IOException e){}
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {
