@@ -15,7 +15,10 @@ import java.io.IOException;
 import java.util.ListIterator;
 
 public class EditTeamController {
+    @FXML private Button submitEditButton;
     @FXML private Button mainMenuButton;
+    @FXML private Button addPlayerButton;
+    @FXML private Button deletePlayerButton;
     @FXML private TableView<PlayerData> playerDataTable;
     @FXML private TableColumn<Player, String> nameColumn;
     @FXML private TableColumn<Player, String> numberColumn;
@@ -141,6 +144,21 @@ public class EditTeamController {
 
     private void setButtonActions() {
         mainMenuButton.setOnAction(this::mainMenuButtonAction);
+        submitEditButton.setOnAction(this::submitEditButtonAction);
+        addPlayerButton.setOnAction(this::addPlayerButtonAction);
+        deletePlayerButton.setOnAction(this::deletePlayerButtonAction);
+    }
+
+    private void deletePlayerButtonAction(ActionEvent event) {
+        deletePlayer();
+    }
+
+    private void addPlayerButtonAction(ActionEvent event) {
+        addNewPlayer();
+    }
+
+    private void submitEditButtonAction(ActionEvent event) {
+        editPlayer();
     }
 
     private void mainMenuButtonAction(ActionEvent event) {
