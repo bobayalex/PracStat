@@ -12,7 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ListIterator;
 
 public class EditTeamController {
     @FXML private Button mainMenuButton;
@@ -108,7 +107,7 @@ public class EditTeamController {
             }
             else {
                 PlayerData newPlayerData = new PlayerData(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
-                reader.addPlayer(teamOptions.getValue().toString(), newPlayerData, reader.getTeamPlayersNode(reader.getTeamNode(teamOptions.getValue().toString())));
+                reader.addPlayer(teamOptions.getValue().toString(), newPlayerData, reader.getTeamPlayersNode(reader.getTeamNode(teamOptions.getValue().toString())), true);
                 refreshPage();
             }
         } else {popupMessage("Error", "Error adding player. Please make sure all necessary information has been entered.");}

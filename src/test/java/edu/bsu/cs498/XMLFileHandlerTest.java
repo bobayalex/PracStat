@@ -50,7 +50,7 @@ public class XMLFileHandlerTest {
     public void addPlayer() {
         Assert.assertEquals(4, handler.getNumberOfPlayers("Indiana"));
         PlayerData newPlayerData = new PlayerData("Matt", "46", "Libero");
-        handler.addPlayer("Indiana", newPlayerData, handler.getTeamNode("Indiana"));
+        //handler.addPlayer("Indiana", newPlayerData, handler.getTeamNode("Indiana"));
         Assert.assertEquals(5, handler.getNumberOfPlayers("Indiana"));
     }
 
@@ -61,7 +61,7 @@ public class XMLFileHandlerTest {
         handler.deletePlayer("Kyle");
         Assert.assertEquals(2, handler.getNumberOfPlayers("Michigan"));
         PlayerData kyleReplacement = new PlayerData("Kyle", "22", "Libero");
-        handler.addPlayer("Michigan", kyleReplacement, handler.getTeamNode("Michigan"));
+        //handler.addPlayer("Michigan", kyleReplacement, handler.getTeamNode("Michigan"));
     }
 
     @Test

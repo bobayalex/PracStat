@@ -333,7 +333,7 @@ class XMLFileHandler {
         Node teamRoot = createTeamNode(teamName);
         Node playersNode = teamRoot.getChildNodes().item(1).getFirstChild().getChildNodes().item(1);
         for (int i=0; i<playerDataList.size(); i++){
-            addPlayer(teamName, playerDataList.get(i), playersNode);
+            addPlayer(teamName, playerDataList.get(i), playersNode, true);
         }
         Node statisticsNode = doc.createElement("TeamStats");
         Node killsNode = doc.createElement("Kills");
@@ -369,9 +369,11 @@ class XMLFileHandler {
         updateXML(doc);
     }
 
-    public void addPlayer(String teamName, PlayerData playerData, Node playersNode){
+    public void addPlayer(String teamName, PlayerData playerData, Node playersNode, boolean isSeasonStats){
         Element playerNode = doc.createElement("Player");
-        playerNode.setAttribute("id", teamName);
+        if (isSeasonStats){
+            playerNode.setAttribute("id", teamName + "Season");
+        }else{playerNode.setAttribute("id", teamName);}
         Node playerNameNode = doc.createElement("PlayerName");
         Node playerNumberNode = doc.createElement("PlayerNumber");
         Node playerPositionNode = doc.createElement("PlayerPosition");
@@ -422,7 +424,7 @@ class XMLFileHandler {
         practiceNameNode.appendChild(doc.createTextNode(practiceName));
         Node playersNode = doc.createElement("Players");
         for (int i=0; i<participatingPlayersData.size(); i++){
-            addPlayer(teamName, participatingPlayersData.get(i), playersNode);
+            addPlayer(teamName, participatingPlayersData.get(i), playersNode, false);
         }
         practiceNode.appendChild(practiceNameNode);
         practiceNode.appendChild(playersNode);
@@ -504,7 +506,9 @@ class XMLFileHandler {
     public NodeList getAllPlayerNodes(String teamName){ //Returns nodelist of parent player nodes
         NodeList playerNodes = null;
         XPath xPath = XPathFactory.newInstance().newXPath();
-        try{XPathExpression expr = xPath.compile("//*[@id='" + teamName + "']");
+        try{XPathExpression expr = xPath.compile("//*[@id='" + teamName + "Season" + "']");
+            //Data/Team/Practices/Practice/Players/
+            //
             Object result = expr.evaluate(doc, XPathConstants.NODESET);
             playerNodes = (NodeList) result;
         }catch (XPathExpressionException e){ }
