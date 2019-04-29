@@ -46,9 +46,8 @@ public class EditTeamController {
         playerStringList.clear();
         playerOptionsList.clear();
         playerStringList = reader.getAllPlayersString(teamOptions.getValue().toString());
-        ListIterator<String> teamIterator = playerStringList.listIterator();
-        while (teamIterator.hasNext()){
-            playerInfo = teamIterator.next().split(",");
+        for (String aPlayerStringList : playerStringList) {
+            playerInfo = aPlayerStringList.split(",");
             String playerName = playerInfo[0];
             String playerNumber = playerInfo[1];
             String playerPosition = playerInfo[2];
@@ -75,19 +74,12 @@ public class EditTeamController {
         }
     }
 
-    public boolean isAPlayerSelected(){
-        if (playerSelection.getValue() == null){return false;}
-        return true;
+    private boolean isAPlayerSelected(){
+        return playerSelection.getValue() != null;
     }
 
-    public boolean missingInfo(){
-        if (playerNameInput.getText().length() == 0){
-            return true;
-        } if (playerNumberInput.getText().length() == 0){
-            return true;
-        } if (positionOptions.getValue() == null){
-            return true;
-        }else{return false;}
+    private boolean missingInfo() {
+        return playerNameInput.getText().length() == 0 || playerNumberInput.getText().length() == 0 || positionOptions.getValue() == null;
     }
 
     public void editPlayer(){
@@ -99,7 +91,7 @@ public class EditTeamController {
             popupMessage("Error", "Player Name must be at least 3 characters");
             return;
         }
-        if (missingInfo() == false && isAPlayerSelected() == true){
+        if (!missingInfo() && isAPlayerSelected()){
             String playerInfo = playerSelection.getValue().toString();
             String[] playerInfoSplit = playerInfo.split(",");
             String playerName = playerInfoSplit[0];
@@ -109,10 +101,9 @@ public class EditTeamController {
     }
 
     public void addNewPlayer(){
-        if (missingInfo() == false) {
+        if (!missingInfo()) {
             if (Integer.parseInt(playerNumberInput.getText()) > 79) {
                 popupMessage("Error", "Player Number must be less than 80");
-                return;
             }
             else {
                 PlayerData newPlayerData = new PlayerData(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
@@ -133,7 +124,7 @@ public class EditTeamController {
             refreshPage();}
     }
 
-    public void refreshPage(){
+    private void refreshPage(){
         playerNameInput.clear();
         playerNumberInput.clear();
         positionOptions.setValue(null);
