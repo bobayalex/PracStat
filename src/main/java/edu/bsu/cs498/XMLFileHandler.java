@@ -270,21 +270,60 @@ class XMLFileHandler {
             // each player should have 12 stats, process spinnerVals 12 elements at a time
             Node playersNode = getPlayersNode(teamName, practiceName);
             NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
+            Node seasonStats = getSeasonStatsNode(teamName);// seasonStats is a practice Node
+            List<Node> foundNode = new ArrayList<>();
             for (int i = 0; i < playerList.getLength(); i++) {
                 Node currentPlayerNode = playerList.item(i);
                 if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
                     NodeList statNodes = getStatNodes(currentPlayerNode);
                     updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
+
+                    getSeasonStatsFromNode(seasonStats, foundNode);
+                    statNodes = foundNode.get(0).getChildNodes();
+                    updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
                 }
             }
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
+    private void getSeasonStatsFromNode(Node node, List<Node> foundNode) {
+        if(foundNode.size() > 0){
+            return;
+        }
+        NodeList children = node.getChildNodes();
+        for (int j = 0; j < children.getLength(); j++) {
+            Node currentNode = children.item(j);
+            if (currentNode.getNodeName().equals("PlayerStats")) {
+                foundNode.add(currentNode);
+            }
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                getSeasonStatsFromNode(currentNode, foundNode);
+            }
+        }
+    }
+
+    private Node getSeasonStatsNode(String teamName) {
+        List<Node> elements = getAllNodes();
+        Node practices = getPracticesNode(elements, teamName);
+        NodeList children = practices.getChildNodes();
+        Node currentNode = null;
+        for (int i = 0; i < children.getLength(); i++) {
+            currentNode = children.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE && currentNode.getNodeName().equals("Practice")) {
+                return currentNode;
+            }
+        }
+        return currentNode;
+    }
+
+
     private void updateNodes(NodeList statNodes, List<Integer> spinnerVals) {
         // statNodes could contain non-elements
+        System.out.println(spinnerVals.size());
         for (int i = 0; i < statNodes.getLength(); i++) {
             Node currentNode = statNodes.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -311,7 +350,7 @@ class XMLFileHandler {
         return null;
     }
 
-    private Node createTeamNode(String teamName){
+    private Node createTeamNode(String teamName) {
         Element teamRoot = doc.createElement("Team");
         Node teamNameNode = doc.createElement("TeamName");
         Node practicesNode = doc.createElement("Practices");
@@ -328,11 +367,11 @@ class XMLFileHandler {
         return teamRoot;
     }
 
-    public void addTeam(String teamName, ObservableList<PlayerData> playerDataList){
+    public void addTeam(String teamName, ObservableList<PlayerData> playerDataList) {
         Element root = doc.getDocumentElement();
         Node teamRoot = createTeamNode(teamName);
         Node playersNode = teamRoot.getChildNodes().item(1).getFirstChild().getChildNodes().item(1);
-        for (int i=0; i<playerDataList.size(); i++){
+        for (int i = 0; i < playerDataList.size(); i++) {
             addPlayer(teamName, playerDataList.get(i), playersNode);
         }
         Node statisticsNode = doc.createElement("TeamStats");
@@ -361,7 +400,7 @@ class XMLFileHandler {
         statisticsNode.appendChild(blockingErrorsNode);
         statisticsNode.appendChild(ballHandlingErrors);
         NodeList teamStatsNodes = statisticsNode.getChildNodes();
-        for (int i = 0; i<teamStatsNodes.getLength(); i++){
+        for (int i = 0; i < teamStatsNodes.getLength(); i++) {
             teamStatsNodes.item(i).appendChild(doc.createTextNode("0"));
         }
         teamRoot.appendChild(statisticsNode);
@@ -369,7 +408,7 @@ class XMLFileHandler {
         updateXML(doc);
     }
 
-    public void addPlayer(String teamName, PlayerData playerData, Node playersNode){
+    public void addPlayer(String teamName, PlayerData playerData, Node playersNode) {
         Element playerNode = doc.createElement("Player");
         playerNode.setAttribute("id", teamName);
         Node playerNameNode = doc.createElement("PlayerName");
@@ -401,7 +440,7 @@ class XMLFileHandler {
         playerStatisticsNode.appendChild(blockingErrorsNode);
         playerStatisticsNode.appendChild(ballHandlingErrors);
         NodeList playerStatsNodes = playerStatisticsNode.getChildNodes();
-        for (int i = 0; i<playerStatsNodes.getLength(); i++){
+        for (int i = 0; i < playerStatsNodes.getLength(); i++) {
             playerStatsNodes.item(i).appendChild(doc.createTextNode("0"));
         }
         playerNode.appendChild(playerNameNode);
@@ -415,13 +454,14 @@ class XMLFileHandler {
         updateXML(doc);
     }
 
-    public void createPractice(String teamName, String practiceName, ObservableList<PlayerData> participatingPlayersData){
+    public void createPractice(String teamName, String
+            practiceName, ObservableList<PlayerData> participatingPlayersData) {
         Node practicesNode = getPracticesNode(getTeamNode(teamName));
         Node practiceNode = doc.createElement("Practice");
         Node practiceNameNode = doc.createElement("PracticeName");
         practiceNameNode.appendChild(doc.createTextNode(practiceName));
         Node playersNode = doc.createElement("Players");
-        for (int i=0; i<participatingPlayersData.size(); i++){
+        for (int i = 0; i < participatingPlayersData.size(); i++) {
             addPlayer(teamName, participatingPlayersData.get(i), playersNode);
         }
         practiceNode.appendChild(practiceNameNode);
@@ -430,88 +470,105 @@ class XMLFileHandler {
         updateXML(doc);
     }
 
-    public void editPlayer(String oldName, String newName, String newNumber, String newPosition){
+    public void editPlayer(String oldName, String newName, String newNumber, String newPosition) {
         XPath xPath = XPathFactory.newInstance().newXPath();
         Node selectedPlayer = null;
         Node selectedName;
-        try{XPathExpression expr = xPath.compile("//*[text()='" + oldName + "']");
+        try {
+            XPathExpression expr = xPath.compile("//*[text()='" + oldName + "']");
             Object result = expr.evaluate(doc, XPathConstants.NODE);
             selectedName = (Node) result;
             selectedPlayer = selectedName.getParentNode();
-        }catch (XPathExpressionException e){}
+        } catch (XPathExpressionException e) {
+        }
         NodeList playerInfo = selectedPlayer.getChildNodes();
-        for (int i = 0; i < playerInfo.getLength(); i++){
+        for (int i = 0; i < playerInfo.getLength(); i++) {
             Node node = playerInfo.item(i);
-            if ("PlayerName".equals(node.getNodeName())){node.setTextContent(newName);}
-            if ("PlayerNumber".equals(node.getNodeName())){node.setTextContent(newNumber);}
-            if ("PlayerPosition".equals(node.getNodeName())){node.setTextContent(newPosition);}
+            if ("PlayerName".equals(node.getNodeName())) {
+                node.setTextContent(newName);
+            }
+            if ("PlayerNumber".equals(node.getNodeName())) {
+                node.setTextContent(newNumber);
+            }
+            if ("PlayerPosition".equals(node.getNodeName())) {
+                node.setTextContent(newPosition);
+            }
         }
         updateXML(doc);
     }
 
-    public void deletePlayer(String playerName){
+    public void deletePlayer(String playerName) {
         Node selectedPlayer = getIndividualPlayerNode(playerName);
         selectedPlayer.getParentNode().removeChild(selectedPlayer);
         updateXML(doc);
     }
 
-    public int getNumberOfPlayers(String teamName){
+    public int getNumberOfPlayers(String teamName) {
         return getAllPlayerNodes(teamName).getLength();
     }
 
-    public Node getTeamNode(String teamName){
+    public Node getTeamNode(String teamName) {
         Node teamNode = null;
         Node teamNameNode;
         XPath xPath = XPathFactory.newInstance().newXPath();
-        try{XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + teamName + "')]]");
+        try {
+            XPathExpression expr = xPath.compile("//*[text()[contains(.,'" + teamName + "')]]");
             Object result = expr.evaluate(doc, XPathConstants.NODE);
             teamNameNode = (Node) result;
-            if (teamNameNode == null){teamNode = createTeamNode(teamName);}
-            else {teamNode = teamNameNode.getParentNode();}
-        }catch (XPathExpressionException e){}
+            if (teamNameNode == null) {
+                teamNode = createTeamNode(teamName);
+            } else {
+                teamNode = teamNameNode.getParentNode();
+            }
+        } catch (XPathExpressionException e) {
+        }
         return teamNode;
     }
 
-    public Node getTeamPlayersNode(Node teamNode){ //Returns "Players" Node given "Team" Parent
+    public Node getTeamPlayersNode(Node teamNode) { //Returns "Players" Node given "Team" Parent
         Node teamPlayersNode = null;
         NodeList teamNodeChildren = teamNode.getChildNodes();
         NodeList practiceNodeChildren = teamNodeChildren.item(3).getChildNodes().item(1).getChildNodes();
-        for (int i = 0; i<practiceNodeChildren.getLength(); i++){
-            if (practiceNodeChildren.item(i).getNodeName().equals("Players")){
+        for (int i = 0; i < practiceNodeChildren.getLength(); i++) {
+            if (practiceNodeChildren.item(i).getNodeName().equals("Players")) {
                 teamPlayersNode = practiceNodeChildren.item(i);
             }
         }
         return teamPlayersNode;
     }
 
-    public Node getPracticesNode(Node teamNode){
+    public Node getPracticesNode(Node teamNode) {
         NodeList teamNodeChildren = teamNode.getChildNodes();
         return teamNodeChildren.item(3);
     }
 
-    public Node getIndividualPlayerNode(String playerName){ //Returns parent player node, Name, Number, Position and PlayerStatistics nodes are children
+    public Node getIndividualPlayerNode(String playerName) { //Returns parent player node, Name, Number, Position and PlayerStatistics nodes are children
         Node playerNode = null;
         Node playerNameNode;
         XPath xPath = XPathFactory.newInstance().newXPath();
-        try{XPathExpression expr = xPath.compile("//*[text()='" + playerName + "']");
+        try {
+            XPathExpression expr = xPath.compile("//*[text()='" + playerName + "']");
             Object result = expr.evaluate(doc, XPathConstants.NODE);
             playerNameNode = (Node) result;
             playerNode = playerNameNode.getParentNode();
-        }catch (XPathExpressionException e){}
+        } catch (XPathExpressionException e) {
+        }
         return playerNode;
     }
 
-    public NodeList getAllPlayerNodes(String teamName){ //Returns nodelist of parent player nodes
+    public NodeList getAllPlayerNodes(String teamName) { //Returns nodelist of parent player nodes
         NodeList playerNodes = null;
         XPath xPath = XPathFactory.newInstance().newXPath();
-        try{XPathExpression expr = xPath.compile("//*[@id='" + teamName + "']");
+        try {
+            XPathExpression expr = xPath.compile("//*[@id='" + teamName + "']");
             Object result = expr.evaluate(doc, XPathConstants.NODESET);
             playerNodes = (NodeList) result;
-        }catch (XPathExpressionException e){ }
+        } catch (XPathExpressionException e) {
+        }
         return playerNodes;
     }
 
-    public ObservableList<String> getAllPlayersString(String teamName){ //Used to populate FXML dropdown boxes and lists
+    public ObservableList<String> getAllPlayersString(String teamName) { //Used to populate FXML dropdown boxes and lists
         String playerName = "";
         String playerNumber = "";
         String playerPosition = "";
@@ -534,20 +591,25 @@ class XMLFileHandler {
                 }
             }
             String playerInfo = playerName + "," + playerNumber + "," + playerPosition;
-            for (String str : playerList) {if (str.contains(playerInfo)) {duplicate = true;}}
-            if (duplicate == false){playerList.add(playerInfo);}
+            for (String str : playerList) {
+                if (str.contains(playerInfo)) {
+                    duplicate = true;
+                }
+            }
+            if (duplicate == false) {
+                playerList.add(playerInfo);
+            }
         }
         return playerList;
     }
 
-    public ObservableList<String> getPracticesByTeamObservable(String teamName){
+    public ObservableList<String> getPracticesByTeamObservable(String teamName) {
         ObservableList<String> practiceList = FXCollections.observableArrayList(getPracticesByTeam(teamName));
         return practiceList;
     }
 
 
-
-    public ObservableList<String> getAllTeams(){ //Used to populate FXML dropdown boxes
+    public ObservableList<String> getAllTeams() { //Used to populate FXML dropdown boxes
         ObservableList<String> teamList = FXCollections.observableArrayList();
         NodeList teams = doc.getElementsByTagName("TeamName");
         for (int i = 0; i < teams.getLength(); i++) {
@@ -558,20 +620,23 @@ class XMLFileHandler {
         return teamList;
     }
 
-    public boolean doesTeamExist(String teamName){
+    public boolean doesTeamExist(String teamName) {
         Node teamNameNode;
         XPath xPath = XPathFactory.newInstance().newXPath();
-        try{
+        try {
             XPathExpression expr = xPath.compile("//*[text()='" + teamName + "']");
             Object result = expr.evaluate(doc, XPathConstants.NODE);
             teamNameNode = (Node) result;
-            if (teamNameNode == null){return false;}
-        }catch (XPathExpressionException e){}
+            if (teamNameNode == null) {
+                return false;
+            }
+        } catch (XPathExpressionException e) {
+        }
         return true;
     }
 
-    private void updateXML(Document doc){
-        try{
+    private void updateXML(Document doc) {
+        try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -579,8 +644,9 @@ class XMLFileHandler {
             Result output = new StreamResult(configFile);
             Source input = new DOMSource(doc);
             transformer.transform(input, output);
+        } catch (TransformerException e) {
+            System.out.println("Error");
         }
-        catch(TransformerException e){System.out.println("Error");}
 
     }
 

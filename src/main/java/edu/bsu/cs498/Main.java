@@ -13,7 +13,9 @@ import javafx.stage.WindowEvent;
 import java.util.Optional;
 
 public class Main extends Application {
-
+    // TOD0 only allow season stats if all players in current practice are on the team from branch: final-merge-alex
+    // combine XMLFilehandler from alex's branch
+    // test all screnns that I can
     private static MainPageController mainPageController;
     @Override
     public void start(Stage primaryStage) throws Exception{
