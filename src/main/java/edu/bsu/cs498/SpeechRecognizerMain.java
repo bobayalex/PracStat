@@ -248,7 +248,7 @@ public class SpeechRecognizerMain {
                 // return if user said only one word
                 if (array.length == 2) {
                     playerNum = stringToNumber.convert(array[0]);
-                    System.out.println(mainPageController1.getPlayerRow(array[0]));
+                    //System.out.println(mainPageController1.getPlayerRow(array[0]));
                     stat = array[1];
                     if (playerNum == -1) {
                         System.out.println("User didn't say a player number to start command!");
@@ -326,6 +326,8 @@ public class SpeechRecognizerMain {
     private void updateVoiceRecStatus(String str) {
         Platform.runLater(new Runnable() {
             @Override public void run() {
+                System.out.println("STR = " + str);
+                System.out.println(mainPageController1);
                 mainPageController1.setVoiceLabelText(str);
             }
         });
