@@ -29,7 +29,7 @@
                     <children>
                         <Button fx:id="newTeamButton" minHeight="57.0" minWidth="200.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="New Team" textAlignment="CENTER" />
                         <Button fx:id="editTeamButton" minHeight="57.0" minWidth="200.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="Edit Team" />
-                        <Button fx:id="newPracticeButton" minHeight="57.0" minWidth="200.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="New Practice" />
+                        <Button fx:id="newPracticeButton" minHeight="57.0" minWidth="200.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="Start Practice" />
                         <Button fx:id="viewStatsButton" minHeight="57.0" minWidth="200.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="200.0" text="View Practices" />
                     </children>
                 </VBox>
