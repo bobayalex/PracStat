@@ -43,7 +43,7 @@ public class StartPageController implements Initializable {
     private void startButtonAction(ActionEvent event) {
         String nextPage = "/fxml/menuPage.fxml";
         try { switchRoot(event, nextPage);}
-        catch (IOException e){}
+        catch (IOException e){e.printStackTrace();}
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {

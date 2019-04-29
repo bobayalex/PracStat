@@ -18,7 +18,7 @@ public class MenuPageController {
     @FXML private Button newTeamButton;
     @FXML private Button editTeamButton;
     @FXML private Button newPracticeButton;
-    @FXML private Button viewStatsButton;
+    @FXML private Button viewPracticeButton;
 
     public void initialize(){
         setButtonActions();
@@ -28,7 +28,7 @@ public class MenuPageController {
         newTeamButton.setOnAction(this::newTeamButtonAction);
         editTeamButton.setOnAction(this::editTeamButtonAction);
         newPracticeButton.setOnAction(this::newPracticeButtonAction);
-        viewStatsButton.setOnAction(this::viewStatsButtonAction);
+        viewPracticeButton.setOnAction(this::viewPracticeButtonAction);
     }
 
     private void newTeamButtonAction(javafx.event.ActionEvent event) {
@@ -85,7 +85,7 @@ public class MenuPageController {
         return isCorrect.get();
     }
 
-    private void viewStatsButtonAction(javafx.event.ActionEvent event) {
+    private void viewPracticeButtonAction(javafx.event.ActionEvent event) {
         boolean hasClearance = promptForPassword();
         if(hasClearance){
             try { switchRootMainPage(event);}
@@ -101,7 +101,7 @@ public class MenuPageController {
 
     // this is a special case so that the css can be loaded for the main page
     private void switchRootMainPage(ActionEvent event) throws IOException {
-        Parent updatedRoot = FXMLLoader.load(getClass().getResource("/fxml/mainPage.fxml"));
+        Parent updatedRoot = FXMLLoader.load(getClass().getResource("/fxml/viewPractice.fxml"));
         Scene currentScene = ((Node) event.getSource()).getScene();
         currentScene.getStylesheets().add("css/mainpage.css");
         Stage currentStage = (Stage) currentScene.getWindow();
