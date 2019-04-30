@@ -13,8 +13,9 @@ import javafx.stage.WindowEvent;
 import java.util.Optional;
 
 public class Main extends Application {
-    // TOD0 only allow season stats if all players in current practice are on the team
-    // test all screens that I can
+    // notes:
+    // season stats will only be updated if all players are in a practice, update stats is designed to only be clicked once per practice
+    // after clicking create team, the team name field and the chart listing added players need to be cleared
     private static MainPageController mainPageController;
     @Override
     public void start(Stage primaryStage) throws Exception{

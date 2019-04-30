@@ -272,53 +272,50 @@ class XMLFileHandler {
             Node playersNode = getPlayersNode(teamName, practiceName);
             NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
             Node seasonStats = getSeasonStatsNode(teamName);// seasonStats is a practice Node
-            List<Node> foundNode = new ArrayList<>();
+            List<Node> seasonStatNodes = new ArrayList<>();
             for (int i = 0; i < playerList.getLength(); i++) {
                 Node currentPlayerNode = playerList.item(i);
                 if (currentPlayerNode.getNodeType() == Node.ELEMENT_NODE) { // elements = players
                     NodeList statNodes = getStatNodes(currentPlayerNode);
                     updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
-
-                    // problem: getSeasonStatsFromNode only ever returns the first player's stats
-                    getSeasonStatsFromNode(seasonStats, foundNode);
-                    statNodes = foundNode.get(0).getChildNodes();
+                }
+            }
+            int numPlayersInPractice = getPlayersByTeamPractice(teamName, practiceName).size();
+            int totalNumPlayers = getNumberOfPlayers(teamName);
+            if(numPlayersInPractice == totalNumPlayers){
+                getSeasonStatsFromNode(seasonStats, seasonStatNodes);
+                for (int j = 0; j < totalNumPlayers; j++) {
+                    NodeList statNodes = seasonStatNodes.get(j).getChildNodes();// seasonStatNodes should always have more elements than the number of players
                     updateSeasonNodes(Objects.requireNonNull(statNodes), spinnerValsCopy);
                 }
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
 
     private void updateSeasonNodes(NodeList statNodes, List<Integer> spinnerVals) {
-        // statNodes could contain non-elements
-        for(int i = 0; i < statNodes.getLength(); i++){
+        // statNodes likely contains non-element nodes
+        for (int i = 0; i < statNodes.getLength(); i++) {
             Node currentNode = statNodes.item(i);
-            if(currentNode.getNodeType() == Node.ELEMENT_NODE){
-                System.out.println(currentNode.getNodeName() + "\t" + currentNode.getTextContent());
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                if (currentNode.getTextContent().equals("")) {
+                    currentNode.setTextContent("0");
+                }
+                String currentValue = currentNode.getTextContent();
+                if (!currentValue.equals(String.valueOf(spinnerVals.get(0)))) {
+                    int valueToAdd = spinnerVals.get(0);
+                    currentNode.setTextContent(String.valueOf(Integer.parseInt(currentValue) + valueToAdd));
+                }
+                spinnerVals.remove(0);
             }
         }
-//        for (int i = 0; i < statNodes.getLength(); i++) {
-//            Node currentNode = statNodes.item(i);
-//            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-//                if (currentNode.getTextContent().equals("")) {
-//                    currentNode.setTextContent("0");
-//                }
-//                if (!currentNode.getTextContent().equals(String.valueOf(spinnerVals.get(0)))) {
-//                    String currentValue = currentNode.getTextContent();
-//                    currentNode.setTextContent(String.valueOf(Integer.parseInt(currentValue) + spinnerVals.get(0)));
-//                }
-//                System.out.println(currentNode.getTextContent() + "\t" + spinnerVals.get(0));
-//                spinnerVals.remove(0);
-//            }
-//        }
-//        updateXML(doc);
+        updateXML(doc);
     }
 
     private void getSeasonStatsFromNode(Node node, List<Node> foundNode) {
-        if (foundNode.size() > 0) {
+        if (foundNode.size() > 1) {
             return;
         }
         NodeList children = node.getChildNodes();
