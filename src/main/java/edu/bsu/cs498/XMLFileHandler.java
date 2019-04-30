@@ -268,6 +268,7 @@ class XMLFileHandler {
     boolean updatePlayerStats(List<Integer> spinnerVals, String teamName, String practiceName) {
         try {
             // each player should have 12 stats, process spinnerVals 12 elements at a time
+            List<Integer> spinnerValsCopy = new ArrayList<>(spinnerVals);
             Node playersNode = getPlayersNode(teamName, practiceName);
             NodeList playerList = playersNode.getChildNodes(); // this also contains non-element nodes
             Node seasonStats = getSeasonStatsNode(teamName);// seasonStats is a practice Node
@@ -278,9 +279,10 @@ class XMLFileHandler {
                     NodeList statNodes = getStatNodes(currentPlayerNode);
                     updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
 
+                    // problem: getSeasonStatsFromNode only ever returns the first player's stats
                     getSeasonStatsFromNode(seasonStats, foundNode);
                     statNodes = foundNode.get(0).getChildNodes();
-                    updateNodes(Objects.requireNonNull(statNodes), spinnerVals);
+                    updateSeasonNodes(Objects.requireNonNull(statNodes), spinnerValsCopy);
                 }
             }
             return true;
@@ -288,6 +290,31 @@ class XMLFileHandler {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void updateSeasonNodes(NodeList statNodes, List<Integer> spinnerVals) {
+        // statNodes could contain non-elements
+        for(int i = 0; i < statNodes.getLength(); i++){
+            Node currentNode = statNodes.item(i);
+            if(currentNode.getNodeType() == Node.ELEMENT_NODE){
+                System.out.println(currentNode.getNodeName() + "\t" + currentNode.getTextContent());
+            }
+        }
+//        for (int i = 0; i < statNodes.getLength(); i++) {
+//            Node currentNode = statNodes.item(i);
+//            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+//                if (currentNode.getTextContent().equals("")) {
+//                    currentNode.setTextContent("0");
+//                }
+//                if (!currentNode.getTextContent().equals(String.valueOf(spinnerVals.get(0)))) {
+//                    String currentValue = currentNode.getTextContent();
+//                    currentNode.setTextContent(String.valueOf(Integer.parseInt(currentValue) + spinnerVals.get(0)));
+//                }
+//                System.out.println(currentNode.getTextContent() + "\t" + spinnerVals.get(0));
+//                spinnerVals.remove(0);
+//            }
+//        }
+//        updateXML(doc);
     }
 
     private void getSeasonStatsFromNode(Node node, List<Node> foundNode) {
@@ -326,7 +353,6 @@ class XMLFileHandler {
         for (int i = 0; i < statNodes.getLength(); i++) {
             Node currentNode = statNodes.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-                System.out.println(spinnerVals.size());
                 if (currentNode.getTextContent().equals("")) {
                     currentNode.setTextContent("0");
                 }
