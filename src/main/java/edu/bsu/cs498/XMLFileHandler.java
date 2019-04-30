@@ -17,7 +17,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.URL;
 import java.util.*;
 
@@ -281,7 +280,7 @@ class XMLFileHandler {
             int numPlayersInPractice = getPlayersByTeamPractice(teamName, practiceName).size();
             int totalNumPlayers = getNumberOfPlayers(teamName);
             if (numPlayersInPractice == totalNumPlayers) {
-                getSeasonStatsFromNode(seasonStats, seasonStatNodes);
+                getSeasonStatsFromNode(seasonStats, seasonStatNodes, totalNumPlayers);
                 for (int j = 0; j < totalNumPlayers; j++) {
                     NodeList statNodes = seasonStatNodes.get(j).getChildNodes();// seasonStatNodes should always have more elements than the number of players
                     updateSeasonNodes(Objects.requireNonNull(statNodes), spinnerValsCopy);
@@ -312,8 +311,8 @@ class XMLFileHandler {
         updateXML(doc);
     }
 
-    private void getSeasonStatsFromNode(Node node, List<Node> foundNode) {
-        if (foundNode.size() > 1) {
+    private void getSeasonStatsFromNode(Node node, List<Node> foundNode, int totalNumPlayers) {
+        if (foundNode.size() == totalNumPlayers ) {
             return;
         }
         NodeList children = node.getChildNodes();
@@ -323,7 +322,7 @@ class XMLFileHandler {
                 foundNode.add(currentNode);
             }
             if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-                getSeasonStatsFromNode(currentNode, foundNode);
+                getSeasonStatsFromNode(currentNode, foundNode, totalNumPlayers);
             }
         }
     }

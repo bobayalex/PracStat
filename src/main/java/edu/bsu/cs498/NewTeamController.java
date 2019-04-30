@@ -65,6 +65,9 @@ public class NewTeamController {
             }
             try {Team newTeam = new Team(teamNameInput.getText(), playerDataList);
                 popupMessage("Message",newTeam.getTeamName() + " has been created.");
+                playerDataList.clear();
+                playerDataTable.setItems(playerDataList);
+                output.setText("");
             }catch (IllegalArgumentException e){popupMessage("Error", "Team already exists");}
         } else {popupMessage("Error","Error adding team");}
     }
