@@ -4,24 +4,18 @@ import javafx.collections.ObservableList;
 
 public class Team {
     private String teamName;
-    private ObservableList<PlayerData> playerDataList;
-    private XMLFileHandler reader = new XMLFileHandler();
 
-    public String getTeamName(){
+    String getTeamName(){
         return (teamName);
     }
 
-    public ObservableList<PlayerData> getPlayersData(){
-        return playerDataList;
-    }
-
     public Team(String teamName, ObservableList<PlayerData> playerDataList) {
+        XMLFileHandler reader = new XMLFileHandler();
         if (reader.doesTeamExist(teamName)){
             System.out.println("Team already exists");
             throw new IllegalArgumentException();
         }else{
             this.teamName = teamName;
-            this.playerDataList = playerDataList;
             reader.addTeam(teamName, playerDataList);
         }
     }

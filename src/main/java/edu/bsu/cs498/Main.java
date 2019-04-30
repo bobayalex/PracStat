@@ -16,9 +16,8 @@ public class Main extends Application {
     // notes:
     // season stats will only be updated if all players are in a practice, update stats is designed to only be clicked once per practice
     // after clicking create team, the team name field and the chart listing added players need to be cleared
-    private static MainPageController mainPageController;
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         String fxmlPath = "/fxml/startPage.fxml";
         Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
         Scene scene = new Scene(root);
@@ -29,8 +28,6 @@ public class Main extends Application {
         primaryStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowAction);
         primaryStage.getIcons().add(new Image("images/pracstat_logo.png"));
         primaryStage.show();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainPage.fxml"));
-        mainPageController = loader.getController();
     }
 
     private void closeWindowAction(WindowEvent windowEvent) {

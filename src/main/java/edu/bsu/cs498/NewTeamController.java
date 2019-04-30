@@ -54,10 +54,10 @@ public class NewTeamController {
                 playerNumberInput.clear();
                 positionOptions.setValue(null);
             } else {popupMessage("Error", "Error adding player");}
-        } catch (NumberFormatException e){}
+        } catch (NumberFormatException ignored){}
     }
 
-    private void createTeamButtonAction(ActionEvent event){
+    private void createTeamButtonAction(){
         if (teamInfoEntered()){
             if (teamNameInput.getText().contains("/") || teamNameInput.getText().contains("\\")) {
                 popupMessage("Error", "Team name cannot contain forward or backward slashes");
@@ -70,19 +70,15 @@ public class NewTeamController {
     }
 
     private boolean playerInfoEntered(){
-        if (playerNameInput.getText().equals("") | playerNumberInput.getText().equals("")){
-            return false;
-        } return true;
+        return !(playerNameInput.getText().equals("") | playerNumberInput.getText().equals(""));
     }
 
     private boolean teamInfoEntered(){
-        if (teamNameInput.getText().equals("")){
-            return false;
-        } return true;
+        return !teamNameInput.getText().equals("");
     }
     private void setButtonActions() {
         mainMenuButton.setOnAction(this::mainMenuButtonAction);
-        createTeamButton.setOnAction(this::createTeamButtonAction);
+        createTeamButton.setOnAction(event -> createTeamButtonAction());
     }
 
     private void mainMenuButtonAction(ActionEvent event) {

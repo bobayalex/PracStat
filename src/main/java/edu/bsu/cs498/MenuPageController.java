@@ -23,7 +23,7 @@ public class MenuPageController {
         setButtonActions();
     }
 
-    public void setButtonActions(){
+    private void setButtonActions(){
         newTeamButton.setOnAction(this::newTeamButtonAction);
         editTeamButton.setOnAction(this::editTeamButtonAction);
         newPracticeButton.setOnAction(this::newPracticeButtonAction);
@@ -34,7 +34,7 @@ public class MenuPageController {
         boolean hasClearance = promptForPassword();
         if(hasClearance){
             try { switchRoot(event, "/fxml/newTeam.fxml");}
-            catch (IOException e){}
+            catch (IOException ignored){}
         }
     }
 
@@ -42,7 +42,7 @@ public class MenuPageController {
         boolean hasClearance = promptForPassword();
         if(hasClearance){
             try { switchRoot(event, "/fxml/editTeam.fxml");}
-            catch (IOException e){}
+            catch (IOException ignored){}
         }
     }
 
@@ -50,7 +50,7 @@ public class MenuPageController {
         boolean hasClearance = promptForPassword();
         if(hasClearance){
             try { switchRoot(event, "/fxml/newPractice.fxml");}
-            catch (IOException e){}
+            catch (IOException ignored){}
         }
     }
 
@@ -65,7 +65,7 @@ public class MenuPageController {
         grid.add(new Label("Password:"), 0, 1);
         grid.add(passwordField, 1, 1);
         dialog.getDialogPane().setContent(grid);
-        Platform.runLater(() -> passwordField.requestFocus());
+        Platform.runLater(passwordField::requestFocus);
         Button button = (Button) dialog.getDialogPane().lookupButton(dialog.getDialogPane().getButtonTypes().get(0));
         button.setOnAction(event -> {
             String pass = passwordField.getText();
@@ -86,7 +86,7 @@ public class MenuPageController {
 
     private void viewPracticeButtonAction(javafx.event.ActionEvent event) {
         try { switchRootMainPage(event);}
-        catch (IOException e){}
+        catch (IOException ignored){}
     }
 
     private void switchRoot(ActionEvent event, String resourceName) throws IOException {

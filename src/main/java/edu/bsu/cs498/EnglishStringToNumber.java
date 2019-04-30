@@ -2,9 +2,8 @@ package edu.bsu.cs498;
 
 /**
  * This class is used to convert words to numbers
- *
  */
-public class EnglishStringToNumber {
+class EnglishStringToNumber {
 
     /**
      * English Word Representation to integer
@@ -12,7 +11,7 @@ public class EnglishStringToNumber {
      * @param word
      * @return
      */
-    public int convert(String word) {
+    int convert(String word) {
         int wordnum = 0;
         String[] arrinwords = word.split(" ");
         int arrinwordsLength = arrinwords.length;
@@ -166,7 +165,7 @@ public class EnglishStringToNumber {
             case "thousand":
                 num = 1000;
                 break;
-		/*
+        /*
 		 * default: num = "Invalid month"; break
 		 */
         }

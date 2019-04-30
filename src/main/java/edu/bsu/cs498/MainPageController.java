@@ -1,7 +1,6 @@
 package edu.bsu.cs498;
 
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,17 +45,18 @@ public class MainPageController implements Initializable {
     private MenuItem saveStatsMenuItem;
     @FXML
     private MenuItem aboutMenuItem;
-
-    @FXML Button speechRecBtn;
-    @FXML Label statusLabel;
-    @FXML Label voiceLabel;
-    @FXML private ComboBox teamOptions;
-    @FXML private ComboBox practiceOptions;
-    private ObservableList<String> teamOptionsList = FXCollections.observableArrayList();
-    private ObservableList<String> teamPracticesList = FXCollections.observableArrayList();
+    @FXML
+    private Button speechRecBtn;
+    @FXML
+    private Label statusLabel;
+    @FXML
+    private Label voiceLabel;
+    @FXML
+    private ComboBox teamOptions;
+    @FXML
+    private ComboBox practiceOptions;
     private XMLFileHandler handler = new XMLFileHandler();
     private List<String> statNames = Arrays.asList("Kills", "Errors", "Total Attempts", "Assists", "Service Aces", "Service Errors", "Reception Errors", "Digs", "Solo Blocks", "Block Assists", "Blocking Errors", "Ball Handling Errors");
-    private HashMap<Integer, String> spinnerIDs = new HashMap<>();
     private SpeechRecognizerMain mySpeechRecognizer = new SpeechRecognizerMain();
     private MediaPlayer mediaPlayer;
     private EnglishStringToNumber stringToNumber = new EnglishStringToNumber();
@@ -66,26 +66,28 @@ public class MainPageController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setUpMenuBar();
-        initializeHashMap();
-        teamOptionsList = handler.getAllTeams();
+        ObservableList<String> teamOptionsList = handler.getAllTeams();
         teamOptions.setItems(teamOptionsList);
         mainMenuButton.setOnAction(this::mainMenuButtonAction);
     }
 
     private void mainMenuButtonAction(ActionEvent event) {
-        try {switchRoot(event, "/fxml/menuPage.fxml");}
-        catch (IOException e) {e.printStackTrace();}
+        try {
+            switchRoot(event);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setUpMenuBar() {
-        closeMenuItem.setOnAction(this::closeMenuItemAction);
-        genCSVMenuItem.setOnAction(this::genCSVMenuItemAction);
-        genAvgCSVMenuItem.setOnAction(this::genAvgCSVMenuItemAction);
-        saveStatsMenuItem.setOnAction(this::saveStatsMenuItemAction);
-        aboutMenuItem.setOnAction(this::aboutMenuItemAction);
+        closeMenuItem.setOnAction(event1 -> closeMenuItemAction());
+        genCSVMenuItem.setOnAction(event -> genCSVMenuItemAction());
+        genAvgCSVMenuItem.setOnAction(event -> genAvgCSVMenuItemAction());
+        saveStatsMenuItem.setOnAction(event -> saveStatsMenuItemAction());
+        aboutMenuItem.setOnAction(event -> aboutMenuItemAction());
     }
 
-    private void closeMenuItemAction(ActionEvent event) {
+    private void closeMenuItemAction() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm Exit");
         alert.setHeaderText(null);
@@ -100,21 +102,21 @@ public class MainPageController implements Initializable {
         }
     }
 
-    private void genCSVMenuItemAction(ActionEvent event) {
+    private void genCSVMenuItemAction() {
         boolean isSuccessful = exportStatistics(false);
         displayGenerationPopup(isSuccessful);
     }
 
-    private void genAvgCSVMenuItemAction(ActionEvent event) {
+    private void genAvgCSVMenuItemAction() {
         boolean isSuccessful = exportStatistics(true);
         displayGenerationPopup(isSuccessful);
     }
 
-    private void displayGenerationPopup(boolean isSuccessful){
+    private void displayGenerationPopup(boolean isSuccessful) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Action Status");
         alert.setHeaderText(null);
-        if(isSuccessful){
+        if (isSuccessful) {
             alert.setContentText("Spreadsheet was successfully generated. It can be found in your documents folder.");
             alert.showAndWait();
         } else {
@@ -123,7 +125,7 @@ public class MainPageController implements Initializable {
         }
     }
 
-    private void saveStatsMenuItemAction(ActionEvent event) {
+    private void saveStatsMenuItemAction() {
         List<Integer> spinnerVals = getSpinnerValues();
         boolean isSuccessful = handler.updatePlayerStats(spinnerVals, teamName, practiceName);
         displaySavePopup(isSuccessful);
@@ -133,7 +135,7 @@ public class MainPageController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Action Status");
         alert.setHeaderText(null);
-        if(isSuccessful){
+        if (isSuccessful) {
             alert.setContentText("Stats have successfully been saved");
             alert.showAndWait();
         } else {
@@ -142,18 +144,12 @@ public class MainPageController implements Initializable {
         }
     }
 
-    private void aboutMenuItemAction(ActionEvent event){
+    private void aboutMenuItemAction() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText("PracStat version 1.0");
         alert.setContentText("Created by W.E.B. Enterprises");
         alert.showAndWait();
-    }
-
-    private void initializeHashMap() {
-        for (int i = 0; i < statNames.size(); i++) {
-            spinnerIDs.put(i, statNames.get(i));
-        }
     }
 
     private List<Integer> getSpinnerValues() {
@@ -175,7 +171,7 @@ public class MainPageController implements Initializable {
         List<String> practices;
         List<Integer> spinnerVals = getSpinnerValues();
 
-        String fileName = "";
+        String fileName;
         handler.updatePlayerStats(spinnerVals, teamName, practiceName);
         if (showAvg) {
             players = handler.getPlayersInAllPractices(teamName);
@@ -249,7 +245,7 @@ public class MainPageController implements Initializable {
         URL chimeURL = this.getClass().getResource("/sounds/chime.mp3");
         Media sound = new Media(new File(chimeURL.getPath()).toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
-        if(!mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
+        if (!mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
             statusLabel.setText("Loading Speech Recognizer...");
             Platform.runLater(() -> {
                 mySpeechRecognizer.SpeechRecognizerMain();
@@ -258,15 +254,13 @@ public class MainPageController implements Initializable {
                 statusLabel.setText("You can start to speak...");
                 mediaPlayer.play();
             });
-        }
-        else if(mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
-            if(!mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
+        } else if (mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
+            if (!mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
                 mySpeechRecognizer.ignoreSpeechRecognitionResults();
                 System.out.println("ignoring speech recognition results");
                 speechRecBtn.setStyle("-fx-background-color: Red");
                 statusLabel.setText("Ignoring speech recognition results...");
-            }
-            else if(mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
+            } else if (mySpeechRecognizer.getIgnoreSpeechRecognitionResults()) {
                 mySpeechRecognizer.stopIgnoreSpeechRecognitionResults();
                 System.out.println("listening to speech recognition results");
                 speechRecBtn.setStyle("-fx-background-color: Green");
@@ -277,16 +271,14 @@ public class MainPageController implements Initializable {
     }
 
     @FXML
-    public int getPlayerRow(String playerNum) {
+    int getPlayerRow(String playerNum) {
         int row = -1;
         for (int i = 0; i < playerGrid.getChildren().size(); i++) {
             Node child1 = playerGrid.getChildren().get(i);
             if (child1 instanceof TextField) {
                 TextField tfield = (TextField) child1;
-                //System.out.println("tfield text = " + tfield.getText());
-                if (tfield.getText().length() <=2 && Integer.parseInt(tfield.getText()) == stringToNumber.convert(playerNum)) {
-                    row = playerGrid.getRowIndex(child1);
-                    //System.out.println("row = " + row);
+                if (tfield.getText().length() <= 2 && Integer.parseInt(tfield.getText()) == stringToNumber.convert(playerNum)) {
+                    row = GridPane.getRowIndex(child1);
                 }
             }
         }
@@ -294,19 +286,14 @@ public class MainPageController implements Initializable {
     }
 
     //Use this method to get a specific spinner and increment it by 1
-    public void incrementSpinner(int row, int col) throws InterruptedException {
+    void incrementSpinner(int row, int col) throws InterruptedException {
         Spinner spinner = getSpinner(row, col);
-        //getSpinner(row, col).getValueFactory().increment(1);
-        spinner.getValueFactory().increment(1);
-        //spinner.getStyleClass().clear();
-        //spinner.getStyleClass().removeIf(style -> style.equals("spinner incremented tonormal"));
-        System.out.println("The OLD style class is: " + spinner.getStyleClass());
-        spinner.getStyleClass().add("incremented");
-        System.out.println("The NEW style class is: " + spinner.getStyleClass());
-        TimeUnit.SECONDS.sleep(1);
-        //spinner.getStyleClass().add("tonormal");
-        spinner.getStyleClass().remove("incremented");
-        System.out.println("The go-back style class is: " + spinner.getStyleClass());
+        if (spinner != null) {
+            spinner.getValueFactory().increment(1);
+            spinner.getStyleClass().add("incremented");
+            TimeUnit.SECONDS.sleep(1);
+            spinner.getStyleClass().remove("incremented");
+        }
     }
 
     // Value factory.
@@ -328,39 +315,36 @@ public class MainPageController implements Initializable {
             Spinner<Integer> newInt = statSpinners.get(newIdx);
             this.setValue(newInt.getValue());
         }
-
     };
 
-    public void setVoiceLabelText(String str) {
+    void setVoiceLabelText(String str) {
         voiceLabel.setText(str);
     }
 
-    public void loadPractices(){
-        teamPracticesList = handler.getPracticesByTeamObservable(teamOptions.getValue().toString());
+    public void loadPractices() {
+        ObservableList<String> teamPracticesList = handler.getPracticesByTeamObservable(teamOptions.getValue().toString());
         practiceOptions.setItems(teamPracticesList);
     }
 
-    public String getPracticeName(){
-        if(practiceOptions.getValue() == null){
+    private String getPracticeName() {
+        if (practiceOptions.getValue() == null) {
             return "";
         }
         return practiceOptions.getValue().toString();
     }
 
-    public String getTeamName(){
-        if(teamOptions.getValue() == null){
+    private String getTeamName() {
+        if (teamOptions.getValue() == null) {
             return "";
         }
         return teamOptions.getValue().toString();
     }
 
     @FXML
-    private void loadPlayersFromDropdown(){
+    private void loadPlayersFromDropdown() {
         teamName = getTeamName();
         practiceName = getPracticeName();
-        if(teamName.equals("") || practiceName.equals("")){
-            return;
-        } else if(!teamName.equals("") && !practiceName.equals("")){
+        if (!teamName.equals("") && !practiceName.equals("")) {
             playerGrid.getChildren().clear();
             statGrid.getChildren().clear();
             teamNameLabel.setText(teamName);
@@ -369,8 +353,8 @@ public class MainPageController implements Initializable {
         }
     }
 
-    private void switchRoot(ActionEvent event, String resourceName) throws IOException {
-        Parent updatedRoot = FXMLLoader.load(getClass().getResource(resourceName));
+    private void switchRoot(ActionEvent event) throws IOException {
+        Parent updatedRoot = FXMLLoader.load(getClass().getResource("/fxml/menuPage.fxml"));
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.getScene().setRoot(updatedRoot);
     }
