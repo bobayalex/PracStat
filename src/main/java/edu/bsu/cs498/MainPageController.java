@@ -242,8 +242,9 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void handleButtonAction() {
-        URL chimeURL = this.getClass().getResource("/sounds/chime.mp3");
-        Media sound = new Media(new File(chimeURL.getPath()).toURI().toString());
+        File jarFile = new File(XMLFileHandler.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        File chime = new File(jarFile.getParentFile(), "/chime.mp3");
+        Media sound = new Media(chime.toURI().toString());
         mediaPlayer = new MediaPlayer(sound);
         if (!mySpeechRecognizer.getSpeechRecognizerThreadRunning()) {
             statusLabel.setText("Loading Speech Recognizer...");

@@ -13,9 +13,6 @@ import javafx.stage.WindowEvent;
 import java.util.Optional;
 
 public class Main extends Application {
-    // notes:
-    // season stats will only be updated if all players are in a practice, update stats is designed to only be clicked once per practice
-    // after clicking create team, the team name field and the chart listing added players need to be cleared
     @Override
     public void start(Stage primaryStage) throws Exception {
         String fxmlPath = "/fxml/startPage.fxml";

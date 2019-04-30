@@ -17,12 +17,11 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 class XMLFileHandler {
-    private URL url = getClass().getResource("/config/config.xml");
-    private File configFile = new File(url.getPath());
+    private File jarFile = new File(XMLFileHandler.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+    private File configFile = new File(jarFile.getParentFile(), "/config.xml");
     private DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
     private Document doc;
 
