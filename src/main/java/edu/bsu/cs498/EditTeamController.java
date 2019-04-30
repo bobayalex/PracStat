@@ -110,7 +110,7 @@ public class EditTeamController {
             }
             else {
                 PlayerData newPlayerData = new PlayerData(playerNameInput.getText(), playerNumberInput.getText(), positionOptions.getValue().toString());
-                reader.addPlayer(teamOptions.getValue().toString(), newPlayerData, reader.getTeamPlayersNode(reader.getTeamNode(teamOptions.getValue().toString())));
+                reader.addPlayer(teamOptions.getValue().toString(), newPlayerData, reader.getTeamPlayersNode(reader.getTeamNode(teamOptions.getValue().toString())), true);
                 refreshPage();
             }
         } else {popupMessage("Error", "Error adding player. Please make sure all necessary information has been entered.");}

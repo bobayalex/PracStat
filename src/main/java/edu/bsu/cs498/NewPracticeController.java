@@ -23,6 +23,7 @@ public class NewPracticeController {
     @FXML private Button newTeamButton;
     @FXML private Button mainMenuButton;
     @FXML private Button createPracticeButton;
+    @FXML private Button continuePracticeButton;
     @FXML private ScrollPane scroll;
     @FXML private TextField practiceNameInput;
     private ObservableList<String> playerStringList = FXCollections.observableArrayList();
@@ -60,6 +61,7 @@ public class NewPracticeController {
         newTeamButton.setOnAction(this::newTeamButtonAction);
         mainMenuButton.setOnAction(this::mainMenuButtonAction);
         createPracticeButton.setOnAction(this::createPracticeButtonAction);
+        continuePracticeButton.setOnAction(this::continuePracticeButtonAction);
     }
 
     private void newTeamButtonAction(ActionEvent event) {
@@ -88,6 +90,11 @@ public class NewPracticeController {
         }
         ObservableList<PlayerData> selectedPlayersData = getSelectedPlayers();
         reader.createPractice(teamOptionsSelection.getValue().toString(), practiceName, selectedPlayersData);
+        try {switchRootMainCont(event, "/fxml/mainPage.fxml");}
+        catch (IOException e) {e.printStackTrace();}
+    }
+
+    private void continuePracticeButtonAction(ActionEvent event){
         try {switchRootMainCont(event, "/fxml/mainPage.fxml");}
         catch (IOException e) {e.printStackTrace();}
     }
@@ -141,4 +148,3 @@ public class NewPracticeController {
         }else{return false;}
     }
 }
-
