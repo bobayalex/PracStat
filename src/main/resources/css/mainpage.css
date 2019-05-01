@@ -1,0 +1,13 @@
+.spinner{
+    -fx-body-color: #00e600;
+    -fx-background-color: gray;
+}
+.spinner .increment-arrow-button .increment-arrow {
+    -fx-background-color: green;
+}
+.spinner .decrement-arrow-button .decrement-arrow {
+    -fx-background-color: green;
+}
+.incremented .text-field {
+    -fx-background-color: red;
+}

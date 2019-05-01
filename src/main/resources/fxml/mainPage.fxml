@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane hbarPolicy="NEVER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" stylesheets="@../css/vertical_separator.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.bsu.cs498.MainPageController">
+    <AnchorPane prefWidth="1455.0">
+        <HBox prefHeight="25.0" prefWidth="1500.0">
+            <MenuBar prefHeight="25.0" prefWidth="168.0" HBox.hgrow="ALWAYS">
+                <Menu mnemonicParsing="false" text="File">
+                    <MenuItem fx:id="genCSVMenuItem" mnemonicParsing="false" text="Generate Spreadsheet" />
+                    <MenuItem fx:id="genAvgCSVMenuItem" mnemonicParsing="false" text="Generate Average Spreadsheet" />
+                    <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Close" />
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <MenuItem fx:id="saveStatsMenuItem" mnemonicParsing="false" text="Save Stats" />
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
+                </Menu>
+            </MenuBar>
+        </HBox>
+        <Label fx:id="teamNameLabel" layoutX="14.0" layoutY="36.0">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <Label fx:id="practiceNameLabel" layoutX="138.0" layoutY="36.0">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <Label layoutX="33.0" layoutY="113.0" prefHeight="17.0" prefWidth="71.0" text="Player Num">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="133.0" layoutY="113.0" prefHeight="17.0" prefWidth="78.0" text="Player Name">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <GridPane fx:id="playerGrid" gridLinesVisible="true" layoutX="22.0" layoutY="131.0" prefWidth="200.0">
+        </GridPane>
+        <GridPane fx:id="statGrid" gridLinesVisible="true" layoutX="435.0" layoutY="131.0" prefHeight="535.0" prefWidth="854.0">
+        </GridPane>
+
+        <Label layoutX="460.0" layoutY="111.0" prefHeight="17.0" prefWidth="15.0" text="K">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="530.0" layoutY="111.0" prefHeight="17.0" prefWidth="15.0" text="E">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="596.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="TA">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="664.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="Ast">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="737.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="SA">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="809.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="SE">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="880.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="RE">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="949.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="Dig">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="1022.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="BS">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="1091.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="BA">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="1163.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="BE">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Label layoutX="1238.0" layoutY="111.0" prefHeight="17.0" prefWidth="23.0" text="BH">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Button fx:id="speechRecBtn" layoutX="14.0" layoutY="69.0" mnemonicParsing="false" onAction="#handleButtonAction" text="Click to Start Speech Recognition" />
+        <Label fx:id="statusLabel" layoutX="754.0" layoutY="56.0" />
+        <Label fx:id="voiceLabel" layoutX="1054.0" layoutY="56.0" />
+        <ComboBox fx:id="teamOptions" layoutX="300.0" layoutY="59.0" onAction="#loadPractices" prefWidth="150.0" />
+        <ComboBox fx:id="practiceOptions" layoutX="475.0" layoutY="59.0" onAction="#loadPlayersFromDropdown" prefWidth="150.0" />
+        <Button fx:id="mainMenuButton" layoutX="654.0" layoutY="56.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="83.0" text="Main Menu" AnchorPane.leftAnchor="654.0" AnchorPane.rightAnchor="763.0" AnchorPane.topAnchor="56.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Label layoutX="336.0" layoutY="36.0" prefHeight="17.0" prefWidth="78.0" text="Select Team">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="508.0" layoutY="36.0" prefHeight="17.0" prefWidth="85.0" text="Select Practice">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+
+    </AnchorPane>
+</ScrollPane>
